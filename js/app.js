@@ -427,7 +427,7 @@ function fakeLogin(){
     syncPageInert();
     document.getElementById('mainContent').focus({preventScroll:true});
     // Preserve the live-region login announcement without visually covering the first tool card.
-    const loginStatus = document.getElementById('toast');
+    const loginStatus = document.getElementById('loginAnnouncement');
     if(loginStatus) loginStatus.textContent = '가상 SSO 로그인 완료 · 직무별 라이선스를 불러왔습니다.';
   });
 }
