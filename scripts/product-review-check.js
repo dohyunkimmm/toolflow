@@ -25,7 +25,7 @@ test('필수·선택 구분과 실제 카드 시작 버튼 문구가 현재 목�
 });
 test('완료 필터는 미완료 카드를 숨기고 키보드 접근에서도 제외한다',()=>{
  const {run,context}=setup();
- const cards=['completed','request','approval'].map(status=>({dataset:{status},classList:{toggle(){}},hidden:false,inert:false}));
+ const cards=['completed','request','approval'].map((status,index)=>({dataset:{status,name:['Slack','Notion','Figma'][index]},classList:{toggle(){}},hidden:false,inert:false}));
  context.document.querySelectorAll=()=>cards;
  run("selectedFilter='done'; applyFilters()");
  assert.deepEqual(cards.map(c=>c.hidden),[false,true,true]);
