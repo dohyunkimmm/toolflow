@@ -4,7 +4,7 @@
 
 **신규 입사자가 직무별 업무 도구를 확인하고, 라이선스 신청부터 승인·지급 완료까지 체험하는 온보딩 포털 프로토타입입니다.**
 
-[Demo](https://onboardos-rho.vercel.app/) · [GitHub](https://github.com/dohyunkimmm/toolflow) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
+[Demo](https://onboardos-rho.vercel.app/) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
 
 > **Portfolio release — v18.0.0 / P6 product-review candidate.**
 >
