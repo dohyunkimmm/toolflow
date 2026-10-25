@@ -27,8 +27,6 @@ body .login-panel{background:#f8fafd!important;border-color:#e8eaed;box-shadow:n
 body .login-account{background:#fff!important;border-color:#dadce0;}
 body .login-account-mail{font-size:14px;color:#202124;}
 body .login-account-label,body .login-note,body .login-meta,body .login-eyebrow{font-size:14px;color:#5f6368;}
-body .scenario-item{font-size:15px;color:#5f6368;}
-body .scenario-check{background:#e8f0fe;color:#185abc;border-color:#d2e3fc;}
 body .google-btn{background:#1a73e8!important;color:#fff!important;box-shadow:none;border:1px solid #1a73e8;min-height:48px;font-size:15px;border-radius:8px;}
 body .reviewer-entry{position:static;transform:none;margin:0 auto;background:transparent!important;border:0;box-shadow:none;font-size:14px;}
 body .reviewer-entry a,body .reviewer-entry a:first-of-type{color:#185abc;}
@@ -46,10 +44,8 @@ body .role-picker{background:transparent!important;}
 body .task-overview .role-picker{padding:0;margin-top:16px;border-top:1px solid #e8eaed;}
 body .task-overview .role-picker>summary{cursor:pointer;padding:12px 0 0;color:#5f6368;font-size:14px;}
 body .preview-scroll-note,body .demo-tracker-label{color:#5f6368;font-size:14px;}
-body .task-overview .demo-preview-note{display:none;}
 body .role-tab,body .filter-chip,body .top-btn,body .btn-secondary,body .ghost-btn,body .jsm-btn{background:#fff!important;color:#3c4043!important;border:1px solid #dadce0!important;box-shadow:none!important;}
 body .role-tab.active,body .filter-chip.active{background:#e8f0fe!important;color:#185abc!important;border-color:#a8c7fa!important;}
-body .role-tab.exception:not(.active){color:#8a4b00!important;}
 body .task-overview #progressHint{margin:16px 0 0!important;padding:12px 16px!important;background:#f8fafd!important;border:1px solid #e8eaed!important;color:#3c4043!important;}
 body .task-overview #progressHint .demo-step-kicker{color:#185abc!important;-webkit-text-fill-color:#185abc;background:#e8f0fe;font-size:14px;}
 body .hint-cta,body .btn-primary,body .primary-btn,body #roleGrid .cta,body #statusBtn{background:#1a73e8!important;color:#fff!important;border:1px solid #1a73e8!important;box-shadow:none!important;border-radius:8px;}
@@ -75,7 +71,6 @@ body .requirement-pill.required{color:#185abc!important;background:#e8f0fe!impor
 body .status-request,body .status-pending,body .sla-health-warn{color:#8a4b00!important;background:#fef7e0!important;border-color:#f9e3aa!important;}
 body .status-auto,body .status-approved,body .status-completed,body .sla-health-good,body .sla-health-done{color:#137333!important;background:#e6f4ea!important;border-color:#ceead6!important;}
 body .status-approval,body .status-rejected,body .sla-health-over,body .sla-health-paused{color:#b3261e!important;background:#fce8e6!important;border-color:#fad2cf!important;}
-body .employee-timing{background:#f1f3f4!important;color:#5f6368!important;}
 body .cta,body .hint-cta,body .top-btn,body .filter-chip,body .btn-primary,body .btn-secondary,body .ghost-btn{font-size:14px!important;font-weight:600!important;line-height:1.4!important;min-height:44px;}
 body .request-backdrop,body .action-modal-backdrop,body .drawer-backdrop{background:#20212466!important;backdrop-filter:none!important;}
 body .request-modal,body .action-modal,body .drawer{background:#fff!important;color:#202124!important;border-color:#dadce0!important;box-shadow:0 16px 60px #20212426!important;}
@@ -106,8 +101,6 @@ body .progress-wrap,body .progress-bar{background:#f8fafd!important;}
 body .progress-step,body .progress-step.done{opacity:1!important;}
 body .progress-step .step-label{color:#5f6368!important;}
 body .progress-step.current .step-label{color:#185abc!important;}
-body .complete-box h3{color:#202124;}
-body .notion-cta{background:#e8f0fe!important;color:#185abc!important;box-shadow:none!important;border-color:#d2e3fc!important;}
 body .empty-state{background:#f8fafd!important;color:#5f6368!important;border-color:#dadce0!important;}
 body .empty-state b,body footer .help b{color:#202124!important;}
 body footer{border-color:#e8eaed!important;}
@@ -140,7 +133,6 @@ body .task-overview .role-picker>summary::-webkit-details-marker{display:none;}
 body .task-overview .role-picker>summary::after{content:'⌄';}
 body .task-overview .role-picker[open]>summary::after{content:'⌃';}
 body #currentRoleLabel{color:#185abc;background:#e8f0fe;border-radius:6px;padding:3px 8px;font-weight:600;}
-body .task-overview .demo-preview-note{display:block;margin-top:10px;color:#5f6368;font-size:13px;}
 body details.common-first>.common-summary h2{font-size:20px;color:#202124;}
 @media(min-width:960px){
  body .task-overview{position:relative;}
@@ -150,15 +142,10 @@ body details.common-first>.common-summary h2{font-size:20px;color:#202124;}
  body .task-overview .role-picker[open]{width:500px;max-width:calc(100% - 48px);padding:16px;background:#fff!important;border:1px solid #dadce0;border-radius:12px;box-shadow:0 8px 24px #20212420;}
  body .task-overview .role-picker[open]>summary{margin-left:auto;}
 }
-
-body .common-tools-link{color:#185abc;text-decoration:underline;text-underline-offset:3px;font-weight:600;}
 body #commonTools{scroll-margin-top:100px;}
 
 body #commonGrid .card-title{font-size:16px!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;line-height:1.4!important;}
 @media(max-width:768px){body #commonGrid .card-top{flex-wrap:wrap!important;}body #commonGrid .card-top>div:last-child{flex-basis:100%;}body #commonGrid .card-title{-webkit-line-clamp:unset!important;}}
-
-/* Keep the employee catalog ahead of explanatory demo content. */
-body #roleGrid .card-cat{display:none!important;}
 body .walkthrough{margin-top:20px;padding:12px 20px;background:#fff;border:1px solid #dadce0;border-radius:12px;color:#5f6368;font-size:14px;}
 body .walkthrough>summary{cursor:pointer;min-height:24px;}
 body .walkthrough #progressHint{margin-top:12px;padding:12px;background:#f8fafd;border:1px solid #e8eaed;border-radius:8px;}
@@ -210,19 +197,13 @@ body .task-overview .role-picker[open]{position:absolute;top:12px;right:16px;}
 /* Final employee hierarchy: equal headings, clear groups and restrained metadata. */
 body .section-head h2,body details.common-first>.common-summary h2{font-size:18px!important;line-height:1.4!important;font-weight:700!important;letter-spacing:-.02em;}
 body #roleGrid .card-title,body #commonGrid .card-title{font-size:16px!important;line-height:1.45!important;font-weight:600!important;letter-spacing:-.01em;}
-body .employee-timing{font-weight:500!important;}
 body .licenses.role-secondary+details.common-first{margin-top:16px!important;}
 body #commonGrid .card[data-name="Notion"] img{filter:brightness(0);}
 body #readinessSummary strong{font-weight:600;font-variant-numeric:tabular-nums;}
 body .task-overview .task-identity{font-size:14px;}
-body .common-tools-link{display:none;}
 
 body .task-overview .role-picker{position:static!important;inset:auto!important;margin:0 0 0 auto!important;padding:0!important;border:0!important;background:transparent!important;max-width:100%;}
-body .task-overview .role-tabs{display:flex!important;flex-wrap:wrap;gap:6px;margin:0!important;padding:0!important;overflow:visible;}
-body .task-overview .role-tab{font-size:14px!important;font-weight:500;min-height:40px;padding:8px 12px;border-radius:8px;white-space:nowrap;}
 @media(max-width:959px){body .task-overview .role-picker{margin-left:0!important;width:100%;}}
-
-body .task-overview .role-tabs{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;}
 
 /* The off-screen keyboard shortcut must not leave a shadow on the page. */
 body .skip-link:not(:focus){box-shadow:none;}
