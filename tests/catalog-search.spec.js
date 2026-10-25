@@ -5,46 +5,15 @@ async function login(page){
  await expect(page.locator('#loginScreen')).toBeHidden();
 }
 const visible='.card:not(.is-hidden)';
-test('keyword, work type, requirement and status compose, tags clear independently',async({page})=>{
+test('available shared cards remain actionable as guidance and never create requests',async({page})=>{
  await login(page);
- await expect(page.getByRole('heading',{name:'업무 도구 찾기',exact:true})).toBeVisible();
- await page.getByRole('searchbox',{name:'라이선스 검색'}).fill('문서');
- await page.getByLabel('업무 유형',{exact:true}).selectOption('documents');
- await page.getByLabel('필수/선택',{exact:true}).selectOption('required');
- await page.getByRole('button',{name:'해야 할 일',exact:true}).click();
- await expect(page.locator(visible)).toHaveCount(1);
- await expect(page.locator(visible)).toHaveAttribute('data-name','한글(HWP)');
- await expect(page.locator('#catalogResultCount')).toHaveText('검색 결과 1개');
- await page.getByRole('button',{name:'구분 · 필수 해제',exact:true}).click();
- await expect(page.locator(visible)).toHaveCount(3);
- await expect(page.getByLabel('업무 유형',{exact:true})).toHaveValue('documents');
- await page.getByRole('button',{name:'초기화',exact:true}).click();
- await expect(page.locator(visible)).toHaveCount(9);
- await expect(page.locator('#selectedCatalogFilters')).toBeHidden();
- await expect(page.locator('#catalogResultCount')).toHaveText('검색 결과 9개');
-});
-test('provided filter keeps shared cards actionable as guidance and never creates requests',async({page})=>{
- await login(page);
- await page.getByLabel('필수/선택',{exact:true}).selectOption('provided');
+ await page.locator('#filterTabs [data-filter="done"]').click();
  await expect(page.locator(visible)).toHaveCount(5);
  await expect(page.locator(visible+' .requirement-pill.provided')).toHaveCount(5);
  await expect(page.locator(visible+' .card-owner')).toHaveCount(5);
  await page.locator('#commonGrid .card[data-name="Notion"]').getByRole('button',{name:'사용 안내',exact:true}).click();
  await expect(page.locator('#actionModalTitle')).toHaveText('Notion');
  await expect(page.locator('#requestCount')).toHaveText('0');
-});
-test('name order sorts both result groups and empty filters recover through reset',async({page})=>{
- await login(page);
- await page.getByLabel('검색 결과 정렬',{exact:true}).selectOption('name');
- for(const id of ['roleGrid','commonGrid']){
-  const names=await page.locator('#'+id+' .card').evaluateAll(els=>els.map(el=>el.dataset.name));
-  expect(names).toEqual([...names].sort((a,b)=>a.localeCompare(b,'ko',{sensitivity:'base'})));
- }
- await page.getByLabel('업무 유형',{exact:true}).selectOption('development');
- await expect(page.locator('#globalEmpty')).toBeVisible();
- await expect(page.locator('#catalogResultCount')).toHaveText('검색 결과 0개');
- await page.getByRole('button',{name:'조건 초기화',exact:true}).click();
- await expect(page.locator(visible)).toHaveCount(9);
 });
 test('three desktop columns and one mobile column use matching card geometry',async({page})=>{
  await page.setViewportSize({width:1440,height:1000});await login(page);

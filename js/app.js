@@ -441,7 +441,6 @@ function applyFilters(){
     card.hidden = !matchesFilter;
     card.inert = !matchesFilter;
   });
-  sortCatalogGrids();
   updateSectionEmptyStates();
   syncCatalogUI();
 }
@@ -449,7 +448,7 @@ function applyFilters(){
 // 상태 필터로 카드가 모두 숨겨진 섹션에 안내와 개수 표시를 맞춘다.
 function updateSectionEmptyStates(){
   const searching = !!document.getElementById('toolSearch')?.value.trim();
-  const filtering = selectedFilter !== 'all' || searching || !!document.getElementById('workTypeFilter')?.value || !!document.getElementById('requirementFilter')?.value;
+  const filtering = selectedFilter !== 'all' || searching;
   let totalVisible = 0;
   [['commonGrid','commonEmpty','commonCount'],['roleGrid','roleEmpty','roleCount']].forEach(([gridId,emptyId,countId])=>{
     const grid = document.getElementById(gridId);

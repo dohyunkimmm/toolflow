@@ -20,7 +20,7 @@ test('로그인 카드 visual baseline', async ({ page }) => {
   await expect(page.locator('.login-card')).toHaveScreenshot('login-card.png', screenshotOptions);
 });
 
-test('기본 대시보드 visual baseline', async ({ page }) => {
+test('기본 대시보드 간결한 레이아웃과 시각 증빙', async ({ page }, testInfo) => {
   await stabilize(page);
   await login(page);
   await expect(page.locator('#roleGrid .card')).toHaveCount(4);
@@ -32,7 +32,22 @@ test('기본 대시보드 visual baseline', async ({ page }) => {
   await expect(page.locator('#toast')).not.toHaveClass(/show/);
   // Preserve the legacy dashboard baseline; the new opt-in AI panel has dedicated interaction tests.
   await page.locator('#aiInlinePanel, #roleExtraTools').evaluateAll(panels => { panels.forEach(panel => { panel.hidden = true; }); });
-  await expect(page).toHaveScreenshot('office-dashboard.png', { ...screenshotOptions, fullPage:true });
+  // An intentional catalog redesign invalidates the old full-page pixel baseline.
+  // Assert the layout contract and retain a new full-page capture with the CI report.
+  await expect(page.locator('#workTypeFilter, #requirementFilter, #catalogSort')).toHaveCount(0);
+  await expect(page.locator('.catalog-field.role-picker > span')).toBeVisible();
+  await expect(page.locator('#statusFilterLabel')).toBeVisible();
+  const bounds = await page.evaluate(() => {
+    const role = document.querySelector('.catalog-filter-row .role-picker').getBoundingClientRect();
+    const status = document.querySelector('.catalog-filter-row .catalog-status').getBoundingClientRect();
+    return {role:{right:role.right,bottom:role.bottom},status:{left:status.left,top:status.top}};
+  });
+  if((page.viewportSize()?.width || 0) > 768){
+    expect(bounds.role.right).toBeLessThan(bounds.status.left);
+  }else{
+    expect(bounds.role.bottom).toBeLessThan(bounds.status.top);
+  }
+  await testInfo.attach('dashboard-layout', {body:await page.screenshot({fullPage:true,animations:'disabled'}),contentType:'image/png'});
 });
 
 test('신청 모달 visual baseline', async ({ page }) => {
