@@ -90,15 +90,6 @@ main{max-width:1080px;margin:0 auto;padding:52px 28px 104px;position:relative;}
 
 /* Role picker */
 .role-picker label{display:block;font-size:12px;color:var(--slate-light);font-weight:500;margin-bottom:10px;letter-spacing:.03em;}
-.role-tabs{flex-wrap:wrap;}
-.role-tab.exception{border-style:dashed;}
-.role-tab{font-family:"Pretendard Variable",sans-serif;font-weight:500;font-size:13.5px;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease);}
-
-.role-tab:focus-visible{outline:2px solid var(--indigo-soft);outline-offset:2px;}
-.role-tab.active{border-color:transparent;}
-
-.demo-preview-note{margin-top:10px;padding:10px 12px;border:1px solid var(--line-soft);border-radius:12px;background:rgba(255,255,255,.035);font-size:12.5px;line-height:1.6;color:var(--slate);}
-.demo-preview-note b{color:var(--ink);font-weight:700;}
 
 
 /* Progress tracker */
@@ -139,7 +130,6 @@ main{max-width:1080px;margin:0 auto;padding:52px 28px 104px;position:relative;}
 .section-head{display:flex;align-items:baseline;gap:10px;}
 .section-head h2{font-family:"Pretendard Variable",sans-serif;font-size:19px;font-weight:700;margin:0;letter-spacing:-.01em;}
 .section-head .count{font-family:"Pretendard Variable",sans-serif;font-size:12px;color:var(--slate-light);}
-.section-sub{font-size:13.5px;color:var(--slate);margin:0 0 16px;line-height:1.6;}
 
 .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
 #roleGrid.balanced-four{grid-template-columns:repeat(2,minmax(0,1fr));max-width:none;width:100%;margin-inline:0;}
@@ -153,7 +143,6 @@ main{max-width:1080px;margin:0 auto;padding:52px 28px 104px;position:relative;}
 
 .mono-chip{width:100%;height:100%;border-radius:8px;background:var(--grad-brand);border:0;color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Pretendard Variable",sans-serif;font-weight:800;font-size:10px;flex:0 0 auto;letter-spacing:.01em;}
 .card-title{font-weight:600;font-size:14.5px;line-height:1.3;color:var(--ink);}
-.card-cat{font-size:11.5px;color:var(--slate-light);margin-top:2px;}
 
 .card-owner{font-size:12.5px;color:var(--slate);margin-bottom:10px;}
 .card-owner b{color:var(--ink);font-weight:500;}
@@ -243,7 +232,6 @@ a.top-btn{text-decoration:none;display:inline-flex;align-items:center;}
 .google-btn:disabled{cursor:wait;opacity:.72;transform:none;}
 .google-btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px -10px rgba(168,85,247,.75);}
 .login-loader{display:none;margin-top:18px;font-size:13px;color:var(--slate);}
-.login-meta{margin-top:16px;font-size:12px;line-height:1.7;color:var(--slate);letter-spacing:.01em;}
 .login-note{font-size:12px;color:var(--slate);line-height:1.6;margin-top:12px;}
 .loader-bar{height:6px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden;margin-top:10px;}
 .loader-bar span{display:block;width:0;height:100%;background:var(--grad-brand);border-radius:999px;animation:loadbar 1.1s ease forwards;}
@@ -338,7 +326,6 @@ a.top-btn{text-decoration:none;display:inline-flex;align-items:center;}
   main{padding:32px 16px 80px;}
   .badge-wrap{padding:28px 22px 24px;}
   .name-input{font-size:21px;}
-  .role-tab.exception{margin-left:0;}
   .progress-bar{padding:16px 8px;overflow-x:visible;}
   .progress-step{min-width:0;}
   .step-circle{width:26px;height:26px;font-size:10px;}
@@ -357,31 +344,6 @@ a.top-btn{text-decoration:none;display:inline-flex;align-items:center;}
 
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--indigo-soft);outline-offset:2px;}
 .login-card:focus,.request-modal:focus,.action-modal:focus,.drawer:focus{outline:none;}
-
-/* Completion handoff */
-.complete-box{
-  
-  
-  border-radius:20px;
-  border:1px solid rgba(110,231,183,.25);
-  
-}
-.complete-box h3{
-  margin:0 0 10px;
-  font-size:18px;
-}
-.notion-cta{
-  display:inline-flex;
-  margin-top:16px;
-  padding:11px 14px;
-  border-radius:12px;
-  text-decoration:none;
-  color:#fff;
-  font-weight:700;
-  font-size:13px;
-  background:var(--grad-action);
-  box-shadow:0 10px 24px -10px rgba(99,102,241,.6);
-}
 
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}}
 
@@ -403,8 +365,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 #commonGrid .status-pill{background:rgba(110,231,183,.10);}
 #roleGrid{scroll-margin-top:96px;}
 #commonGrid{scroll-margin-top:96px;}
-.complete-box{border-color:rgba(129,140,248,.22);background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(168,85,247,.055));transition:border-color .25s var(--ease),background .25s var(--ease),box-shadow .25s var(--ease);}
-.complete-box.is-complete{border-color:rgba(110,231,183,.30);background:linear-gradient(135deg,rgba(110,231,183,.09),rgba(99,102,241,.08));box-shadow:0 16px 40px -30px rgba(110,231,183,.45);}
 @media (max-width:768px){
   main{padding-inline:20px;}
 }
@@ -425,9 +385,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   }
   .section-head h2{font-size:18px;line-height:1.35;}
   .section-head .count{font-size:11.5px;line-height:1.45;}
-  .section-sub{margin-bottom:14px;}
-  .complete-box{padding:20px;}
-  .notion-cta{width:100%;justify-content:center;text-align:center;line-height:1.45;}
 }
 @media (min-width:360px) and (max-width:560px){
   #commonGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
@@ -436,7 +393,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   #commonGrid .logo-chip{width:38px;height:38px;border-radius:10px;padding:5px;}
   #commonGrid .mono-chip{width:100%;height:100%;border-radius:7px;font-size:9.5px;}
   #commonGrid .card-title{font-size:13px;line-height:1.25;}
-  #commonGrid .card-cat{font-size:10.5px;}
   #commonGrid .card-bottom{gap:6px;align-items:flex-end;}
   #commonGrid .status-pill{font-size:10px;padding:4px 8px;}
 }
@@ -449,9 +405,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .licenses{margin-top:var(--space-7);}
 .tools-bar{margin:var(--space-6) 0 var(--space-5);}
 .section-head{margin-bottom:var(--space-2);}
-.section-sub{margin-bottom:var(--space-4);}
 .card-grid{gap:var(--space-4);}
-.complete-box{margin-top:var(--space-6);}
 footer{margin-top:var(--space-7);}
 .top-actions{position:relative;}
 .more-btn{display:none;}
@@ -471,7 +425,6 @@ footer{margin-top:var(--space-7);}
 
 /* ---- Final product polish: admin workflow, SLA health & audit trail ---- */
 .card-status-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0;}
-.sla-pill{display:inline-flex;align-items:center;justify-content:center;min-height:22px;padding:3px 8px;border-radius:999px;border:1px solid rgba(129,140,248,.22);background:rgba(99,102,241,.10);color:var(--indigo-soft);font-size:10px;font-weight:800;letter-spacing:.025em;white-space:nowrap;vertical-align:middle;}
 .sla-detail{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap;}
 .request-sla{display:flex;align-items:center;gap:6px;margin:6px 0 2px;color:var(--slate);flex-wrap:wrap;}
 .sla-target{font-size:11.5px;color:var(--slate-light);}
@@ -516,11 +469,7 @@ footer{margin-top:var(--space-7);}
 #commonGrid .card-top{margin-bottom:14px;}
 #commonGrid .card-bottom{justify-content:flex-start;}
 #commonGrid .card-owner,#commonGrid .cta{display:none;}
-.complete-box{padding:22px 24px;}
-.complete-box #demoCompleteLead{margin:0;color:var(--slate);font-size:13.5px;line-height:1.7;}
-.complete-box .notion-cta{margin-top:14px;}
 @media (max-width:560px){
-  .complete-box{padding:20px;}
 }
 
 
@@ -532,12 +481,6 @@ footer{margin-top:var(--space-7);}
 .overview-panel .progress-wrap{margin:0 -32px;border-top:1px solid var(--line-soft);background:rgba(255,255,255,.018);padding:15px 32px 16px;}
 .overview-panel .progress-bar{margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;}
 .overview-panel .progress-hint{margin-top:11px;padding-top:11px;}
-
-.role-tabs{display:inline-flex;max-width:100%;gap:2px;padding:4px;border:1px solid var(--line-soft);border-radius:12px;background:rgba(255,255,255,.028);}
-.role-tab{border:0;border-radius:8px;padding:8px 13px;background:transparent;box-shadow:none;transform:none;color:var(--slate);}
-.role-tab:hover{border-color:transparent;background:rgba(255,255,255,.055);transform:none;color:var(--ink);}
-.role-tab.active{background:rgba(255,255,255,.095);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(192,132,252,.24),0 5px 14px -12px rgba(168,85,247,.55);}
-.role-tab.exception{margin-left:4px;border-left:1px solid var(--line-soft);border-radius:0 8px 8px 0;padding-left:14px;color:var(--slate-light);}
 
 .logo-chip{width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.075);padding:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.025);}
 .logo-chip img{width:100%;height:100%;object-fit:contain;border-radius:0;display:block;}
@@ -551,10 +494,6 @@ footer{margin-top:var(--space-7);}
   .overview-panel .badge-top{padding-bottom:18px;}
   .overview-panel .role-picker{padding-bottom:18px;}
   .overview-panel .progress-wrap{margin:0 -20px;padding:16px 14px 18px;}
-  .role-tabs{display:flex;width:100%;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
-  .role-tabs::-webkit-scrollbar{display:none;}
-  .role-tab{flex:0 0 auto;padding:8px 11px;}
-  .role-tab.exception{margin-left:2px;}
   #commonGrid .logo-chip{width:36px;height:36px;padding:5px;}
 }
 
@@ -604,7 +543,6 @@ footer{margin-top:var(--space-7);}
   -webkit-box-orient:vertical;
   overflow:hidden;
 }
-#commonGrid .card-cat{display:none;}
 #commonGrid .card-bottom{margin-top:auto;}
 #commonGrid .status-pill{
   font-size:9.5px;
@@ -637,7 +575,6 @@ footer{margin-top:var(--space-7);}
   .overview-panel .role-picker{padding-bottom:16px;}
   .overview-panel .progress-wrap{padding:14px 14px 15px;}
   .overview-panel .progress-hint{margin-top:10px;padding-top:10px;}
-  .demo-preview-note{margin-top:9px;padding:9px 11px;line-height:1.55;}
   .tools-bar{margin:22px 0 16px;}
   .licenses.role-secondary{margin-top:28px;}
 }
@@ -677,46 +614,11 @@ footer{margin-top:var(--space-7);}
   font-weight:500;
 }
 
-/* 4) Completion handoff: quiet before completion, reward the finished state. */
-.complete-box:not(.is-complete){
-  border-color:var(--line);
-  background:rgba(255,255,255,.025);
-  box-shadow:none;
-}
-.complete-box:not(.is-complete) .notion-cta{
-  color:var(--ink-soft);
-  background:rgba(255,255,255,.055);
-  border:1px solid var(--line);
-  box-shadow:none;
-}
-.complete-box:not(.is-complete) .notion-cta:hover{
-  color:#fff;
-  border-color:rgba(192,132,252,.38);
-  background:rgba(168,85,247,.10);
-}
-.complete-box.is-complete{
-  border-color:rgba(110,231,183,.38);
-  background:linear-gradient(135deg,rgba(110,231,183,.10),rgba(99,102,241,.085));
-  box-shadow:0 18px 44px -28px rgba(110,231,183,.50);
-}
-.complete-box.is-complete .notion-cta{
-  color:#fff;
-  border:0;
-  background:var(--grad-action);
-  box-shadow:0 10px 24px -10px rgba(99,102,241,.60);
-}
-
 @media (max-width:560px){
   #commonGrid .card-top{min-height:38px;}
   #commonGrid .card-top>div:last-child{min-height:30px;}
   #roleGrid .card-action .cta{min-width:72px;}
 }
-
-/* ---- v1.4.10 login human-QA polish ---- */
-/* Keep the review/approval state semantically intact when Korean line wrapping gets tight. */
-.keep-together{white-space:nowrap;}
-/* Tighten the left-side closing rhythm without adding more content. */
-.login-meta{margin-top:12px;}
 /* The hero reads slightly top-heavy on desktop; move the whole card down by a restrained amount. */
 @media (min-width:769px) and (min-height:560px){
   .login-card{transform:translateY(10px);}
