@@ -167,7 +167,8 @@ test('follow-up QA: compact desktop panel and short mobile fold remain usable',a
     expect(mobile.placeholderWidth).toBeLessThan(mobile.inputWidth);
     expect(mobile.cardScroll).toBeLessThanOrEqual(mobile.cardClient+1);
     if(width<=560){
-      expect(mobile.cardMinHeight).toBe('0px');
+      expect(parseFloat(mobile.cardMinHeight)).toBeGreaterThanOrEqual(160);
+      expect(parseFloat(mobile.cardMinHeight)).toBeLessThanOrEqual(180);
       expect(mobile.headerHeight).toBeLessThanOrEqual(85);
       expect(mobile.cardTop).toBeLessThan(height);
     }
