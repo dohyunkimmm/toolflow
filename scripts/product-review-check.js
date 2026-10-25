@@ -11,8 +11,8 @@ function setup(){
    return nodes.get(id);
  };
  const context=vm.createContext({console,Date,Set,Map,setTimeout:()=>0,clearTimeout(){},requestAnimationFrame:fn=>fn(),window:{},sessionStorage:{setItem(){},removeItem(){},getItem(){return null;}},document:{getElementById:node,querySelectorAll:()=>[],querySelector:()=>null},trackEvent(){},activateOverlay(){},deactivateOverlay(){},focusCurrentOverlay(){},overlayReturnFocus:new Map(),syncPageInert(){}});
- const app=read('app.js');
- for(const file of ['data.js','js/state.js','js/product-readiness.js']) vm.runInContext(read(file),context);
+ const app=read('js/app.js');
+ for(const file of ['js/data.js','js/state.js','js/product-readiness.js']) vm.runInContext(read(file),context);
  vm.runInContext(app.slice(0,app.indexOf('// 모바일 더보기')),context);
  return {node,context,run:code=>vm.runInContext(code,context)};
 }
@@ -30,7 +30,7 @@ test('완료 필터는 미완료 카드를 숨기고 키보드 접근에서도 �
  run("selectedFilter='done'; applyFilters()");
  assert.deepEqual(cards.map(c=>c.hidden),[false,true,true]);
  assert.deepEqual(cards.map(c=>c.inert),[false,true,true]);
- assert.match(read('product-readiness.css'),/\.card\.is-hidden[^}]*display:none!important/);
+ assert.match(read('css/product-readiness.css'),/\.card\.is-hidden[^}]*display:none!important/);
 });
 test('선택 도구 지급 완료가 필수 도구 준비 완료로 오인되지 않는다',()=>{
  const {run,node}=setup();
@@ -71,5 +71,5 @@ test('업무 우선 순서와 모바일 직무 선택·대비 스타일을 유�
  assert.ok(html.indexOf('task-overview')<html.indexOf('licenses role-secondary'));
  assert.ok(html.indexOf('licenses role-secondary')<html.indexOf('licenses common-first'));
  assert.match(html,/<details class="licenses common-first">/);
- assert.match(read('product-readiness.css'),/role-tabs\{flex-wrap:wrap/);
+ assert.match(read('css/product-readiness.css'),/role-tabs\{flex-wrap:wrap/);
 });

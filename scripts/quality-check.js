@@ -10,7 +10,7 @@ const { collectPublicAssets } = require('./public-assets');
 const read = p => fs.readFileSync(p, 'utf8');
 const fail = message => { console.error(`QUALITY GATE FAILED: ${message}`); process.exit(1); };
 
-const runtimeFiles = ['index.html','app.js','js/a11y.js','js/analytics.js','js/events.js','js/ai-recommendation.js'];
+const runtimeFiles = ['index.html','js/app.js','js/a11y.js','js/analytics.js','js/events.js','js/ai-recommendation.js'];
 for(const file of runtimeFiles){
   const text = read(file);
   if(/\son[a-z]+\s*=/i.test(text)) fail(`${file} still contains an inline event handler`);
@@ -54,14 +54,14 @@ for(const ref of fontRefs){
 
 const sandbox = {};
 vm.createContext(sandbox);
-vm.runInContext(read('data.js') + '\n;globalThis.__catalog={commonLicenses,roles};', sandbox);
+vm.runInContext(read('js/data.js') + '\n;globalThis.__catalog={commonLicenses,roles};', sandbox);
 const { commonLicenses, roles } = sandbox.__catalog;
 const cards = [...commonLicenses, ...Object.values(roles).flatMap(role => [...(role.cards || []),...(role.extras || [])])];
 if(cards.length !== 43) fail(`expected 43 licenses, found ${cards.length}`);
 const publicCatalogCount = `공통 ${commonLicenses.length}개 + 직무별 ${cards.length-commonLicenses.length}개 = 총 ${cards.length}개`;
 for(const file of ['README.md','docs/DEMO_WALKTHROUGH.md']){
   const publicText = read(file);
-  if(!publicText.includes(publicCatalogCount)) fail(`${file} catalog count is not synchronized with data.js: ${publicCatalogCount}`);
+  if(!publicText.includes(publicCatalogCount)) fail(`${file} catalog count is not synchronized with js/data.js: ${publicCatalogCount}`);
   if(/21개\s*(도구|SaaS)|공통\s*6종/.test(publicText)) fail(`${file} still advertises an outdated catalog count`);
 }
 const names = new Set();

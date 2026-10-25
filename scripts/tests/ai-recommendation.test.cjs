@@ -59,7 +59,7 @@ test('unknown, duplicate and cross-role model results fail closed',()=>{
 });
 
 test('expanded catalog has at least five additional tools per job and category filtering metadata',()=>{
-  const {commonLicenses,roles,recommendationCases,detectRecommendationCase}=require('../../data');
+  const {commonLicenses,roles,recommendationCases,detectRecommendationCase}=require('../../js/data');
   const ids=[...commonLicenses];
   for(const role of ['design','dev','data','office']){
     assert.ok((roles[role].extras||[]).length>=5);
@@ -234,7 +234,7 @@ test('forwarded IP is trusted only behind Vercel and stored as an opaque key',()
 });
 test('corrupt and inherited session roles recover to a valid catalog',()=>{
   const vm=require('node:vm'),fs=require('node:fs');
-  const {roles}=require('../../data');
+  const {roles}=require('../../js/data');
   for(const role of ['constructor','toString','__proto__','missing',null,{},'dev']){
     const saved={schemaVersion:4,currentRole:role,loggedIn:true,requestStateByRole:{}};
     const ctx={roles,sessionStorage:{getItem:k=>k==='onboard-os:v4'?JSON.stringify(saved):null,setItem(){},removeItem(){}}};

@@ -20,7 +20,7 @@ jobs:
       - name: Fast quality gate
         run: |
           npm run quality
-          node --check app.js
+          node --check js/app.js
           node --check js/a11y.js
           node --check js/analytics.js
           node --check js/events.js

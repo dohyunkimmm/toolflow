@@ -29,9 +29,9 @@ async function rect(locator){
 test('[X1] execution hierarchy layer loads after the canonical visual system', async ({page}) => {
   await stabilize(page);
   const order = await page.evaluate(() => Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(link => link.getAttribute('href')));
-  expect(order).toContain('visual-system.css');
-  expect(order).toContain('execution-hierarchy.css');
-  expect(order.indexOf('execution-hierarchy.css')).toBeGreaterThan(order.indexOf('visual-system.css'));
+  expect(order).toContain('css/visual-system.css');
+  expect(order).toContain('css/execution-hierarchy.css');
+  expect(order.indexOf('css/execution-hierarchy.css')).toBeGreaterThan(order.indexOf('css/visual-system.css'));
 });
 
 test('[X2] request modal promotes SLA and expected delivery above secondary metadata', async ({page}) => {

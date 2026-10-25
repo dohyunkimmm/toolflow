@@ -22,9 +22,9 @@ function requestRaw(path, encoding) {
 }
 
 test('QA static assets support Brotli, gzip, and identity with identical decoded bytes', async () => {
-  const expected = fs.readFileSync('app.js');
+  const expected = fs.readFileSync('js/app.js');
   for (const [accept, encoding] of [['br', 'br'], ['gzip', 'gzip'], ['identity', undefined]]) {
-    const response = await requestRaw('/app.js', accept);
+    const response = await requestRaw('/js/app.js', accept);
     expect(response.status).toBe(200);
     expect(response.headers['content-encoding']).toBe(encoding);
     expect(response.headers['vary']).toBe('Accept-Encoding');
