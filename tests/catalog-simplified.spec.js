@@ -116,3 +116,62 @@ test('visual QA: five viewports preserve hierarchy, contrast and touch targets',
   }
   await expect(page.locator('#toast')).not.toHaveClass(/show/);
 });
+
+test('follow-up QA: compact desktop panel and short mobile fold remain usable',async({page})=>{
+  await page.setViewportSize({width:1440,height:900});
+  await login(page);
+  const desktop=await page.evaluate(()=>{
+    const box=sel=>document.querySelector(sel).getBoundingClientRect();
+    const panel=box('.catalog-controls'),main=box('#mainContent');
+    const search=box('.catalog-search-row'),filters=box('.catalog-filter-row');
+    return {
+      panelWidth:panel.width,
+      outerLeft:panel.left-main.left,
+      outerRight:main.right-panel.right,
+      searchRight:search.right,
+      filtersRight:filters.right,
+      panelRight:panel.right,
+      roleHeight:box('#roleSelect').height,
+      resetHeight:box('.catalog-reset').height,
+      badgeSize:parseFloat(getComputedStyle(document.querySelector('#roleGrid .requirement-pill')).fontSize)
+    };
+  });
+  expect(desktop.panelWidth).toBeLessThanOrEqual(890);
+  expect(Math.abs(desktop.outerLeft-desktop.outerRight)).toBeLessThanOrEqual(2);
+  expect(desktop.searchRight).toBeLessThanOrEqual(desktop.panelRight-20);
+  expect(desktop.filtersRight).toBeLessThanOrEqual(desktop.panelRight-20);
+  expect(desktop.roleHeight).toBeGreaterThanOrEqual(44);
+  expect(desktop.resetHeight).toBeGreaterThanOrEqual(40);
+  expect(desktop.badgeSize).toBeGreaterThanOrEqual(12);
+
+  for(const [width,height] of [[320,568],[390,667],[768,880]]){
+    await page.setViewportSize({width,height});
+    const mobile=await page.evaluate(()=>{
+      const rect=sel=>document.querySelector(sel).getBoundingClientRect();
+      const input=document.querySelector('#toolSearch'),style=getComputedStyle(input);
+      const canvas=document.createElement('canvas');
+      const ctx=canvas.getContext('2d');
+      ctx.font=style.font;
+      return {
+        scroll:document.documentElement.scrollWidth,viewport:innerWidth,
+        cardTop:rect('#roleGrid .card').top,
+        cardMinHeight:getComputedStyle(document.querySelector('#roleGrid .card')).minHeight,
+        cardScroll:document.querySelector('#roleGrid .card').scrollHeight,
+        cardClient:document.querySelector('#roleGrid .card').clientHeight,
+        placeholderWidth:ctx.measureText(input.placeholder).width,
+        inputWidth:rect('#toolSearch').width,
+        headerHeight:rect('.topbar').height
+      };
+    });
+    expect(mobile.scroll).toBeLessThanOrEqual(mobile.viewport);
+    expect(mobile.placeholderWidth).toBeLessThan(mobile.inputWidth);
+    expect(mobile.cardScroll).toBeLessThanOrEqual(mobile.cardClient+1);
+    if(width<=560){
+      expect(mobile.cardMinHeight).toBe('0px');
+      expect(mobile.headerHeight).toBeLessThanOrEqual(85);
+      expect(mobile.cardTop).toBeLessThan(height);
+    }
+  }
+  await page.locator('#filterTabs [data-filter="todo"]').click();
+  await expect(page.locator('#catalogResultCount')).toContainText('4');
+});
