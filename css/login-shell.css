@@ -105,6 +105,8 @@ body.login-open,body.overlay-open{overflow:hidden;}
 @media (min-width:769px) and (min-height:560px){.login-card{transform:translateY(10px);}
 }
 [hidden]{display:none!important;}
+/* Screen-reader-only SSO status never produces an accidental visual popover. */
+.login-announcement{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;}
 .login-loader.is-visible{display:block;}
 
 #loginScreen .login-card > div:first-child,
