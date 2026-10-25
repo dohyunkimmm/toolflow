@@ -2,6 +2,12 @@
 
 > 운영·보호·검증 기록입니다. 날짜와 SHA가 기재된 검증은 **해당 당시 사실**이며 이후 배포가 있다면 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain) 및 [Vercel 프로젝트](https://vercel.com/dohyunkimm/toolflow)로 재확인합니다. 제품 소개는 [README](../README.md), 변경 이력은 [CHANGELOG](../CHANGELOG.md)를 우선합니다.
 
+## 2026-10-26 후속 검증 현황
+
+- 2026-10-25 병합된 [PR #165](https://github.com/dohyunkimmm/toolflow/pull/165)의 `main` 커밋 `1e8299139d15d3f17c388b2f90595f2c1f6a78da`에 대해 [E2E](https://github.com/dohyunkimmm/toolflow/actions/runs/40206705617)와 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/40206705644)가 **성공**했습니다.
+- 이는 해당 커밋의 GitHub Actions 결과이며, 최신 Vercel Production 소스가 동일 커밋이라는 별도 검증은 포함하지 않습니다. 아래 2026-10-25 운영 커밋 `3592408` 확인 기록은 당시의 Production 검증 이력으로 유지합니다.
+- 이후 클렌징 PR의 검증 상태는 개별 PR 체크를 확인해야 합니다. `release.json`의 `candidate` 상태는 변경하지 않습니다.
+
 ## 최근 확인 상태 — 2026-10-25
 
 - **대표 도메인:** [https://toolflow-dohyunkimmm.vercel.app/](https://toolflow-dohyunkimmm.vercel.app/). Vercel `toolflow` 프로젝트에 연결된 운영 도메인 중 대표 URL입니다. 이전 OnboardOS 연결 제거 기록은 과거 변경 이력입니다.
