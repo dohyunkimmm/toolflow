@@ -7,12 +7,12 @@ const read=file=>fs.readFileSync(file,'utf8');
 function setup(){
  const nodes=new Map();
  const node=id=>{
-   if(!nodes.has(id)) nodes.set(id,{id,value:'',textContent:'',innerHTML:'',hidden:false,dataset:{},inert:false,focus(){},setAttribute(){},removeAttribute(){},classList:{add(){},remove(){},toggle(){},contains(){return false;}},querySelectorAll(){return [];},closest(){return null;}});
+   if(!nodes.has(id)) nodes.set(id,{id,value:'',textContent:'',innerHTML:'',hidden:false,dataset:{},inert:false,checked:false,focus(){},setAttribute(){},removeAttribute(){},replaceChildren(){},append(){},appendChild(){},dispatchEvent(){},classList:{add(){},remove(){},toggle(){},contains(){return false;}},querySelectorAll(){return [];},closest(){return null;}});
    return nodes.get(id);
  };
- const context=vm.createContext({console,Date,Set,Map,setTimeout:()=>0,clearTimeout(){},requestAnimationFrame:fn=>fn(),window:{},sessionStorage:{setItem(){},removeItem(){},getItem(){return null;}},document:{getElementById:node,querySelectorAll:()=>[],querySelector:()=>null},trackEvent(){},activateOverlay(){},deactivateOverlay(){},focusCurrentOverlay(){},overlayReturnFocus:new Map(),syncPageInert(){}});
+ const context=vm.createContext({console,Date,Set,Map,setTimeout:()=>0,clearTimeout(){},requestAnimationFrame:fn=>fn(),window:{},sessionStorage:{setItem(){},removeItem(){},getItem(){return null;}},document:{getElementById:id=>id==='recommendationDraftReviewed'?(nodes.get(id)||null):node(id),querySelectorAll:()=>[],querySelector:selector=>selector.startsWith('#filterTabs')?{textContent:'완료'}:null,addEventListener(){},createElement:()=>({dataset:{},setAttribute(){},append(){},type:'',className:''}),createTextNode:text=>({textContent:text})},trackEvent(){},activateOverlay(){},deactivateOverlay(){},focusCurrentOverlay(){},overlayReturnFocus:new Map(),syncPageInert(){}});
  const app=read('js/app.js');
- for(const file of ['js/data.js','js/state.js','js/product-readiness.js']) vm.runInContext(read(file),context);
+ for(const file of ['js/data.js','js/state.js','js/product-readiness.js','js/catalog.js']) vm.runInContext(read(file),context);
  vm.runInContext(app.slice(0,app.indexOf('// 모바일 더보기')),context);
  return {node,context,run:code=>vm.runInContext(code,context)};
 }
