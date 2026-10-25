@@ -335,7 +335,7 @@ body #mainContent #commonGrid .card .cta:focus-visible{
 
 /* Follow-up QA: keep the compact discovery controls visually self-contained. */
 @media(min-width:1024px){
-  body .catalog-controls{max-width:890px;margin-inline:auto;}
+  body .catalog-controls{max-width:890px;margin-inline:0 auto;}
 }
 body .catalog-field select{height:44px;min-height:44px;}
 body .catalog-reset{min-height:40px;}
@@ -361,4 +361,86 @@ body #mainContent .card .status-pill{font-size:12px!important;}
   body .catalog-controls{padding:10px;}
   body .catalog-search-row.tools-bar{margin-bottom:8px;}
   body .catalog-filter-row{row-gap:6px;}
+}
+
+/* Final alignment: the title, search, filters and card grid share one left edge. */
+body .topbar .status-label-short{display:none;}
+
+/* Reviewer actions use the same single-line header as the employee view. */
+@media(max-width:560px){
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])){
+    flex-wrap:nowrap!important;
+    justify-content:space-between!important;
+    gap:6px!important;
+    padding-inline:10px!important;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .logo{
+    flex:0 0 auto;
+    font-size:18px;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions{
+    display:flex;
+    width:auto!important;
+    flex:0 1 auto!important;
+    min-width:0;
+    justify-content:flex-end!important;
+    flex-wrap:nowrap!important;
+    gap:4px;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions .top-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+    min-height:44px;
+    padding-inline:7px;
+    font-size:12px;
+    white-space:nowrap;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions #resetBtn{
+    display:none!important;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions [data-action="open-onboarding-help"]{
+    width:44px;
+    padding-inline:0;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions [data-action="open-onboarding-help"] .help-label{
+    display:none;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions [data-action="open-onboarding-help"]>.tossface-icon{
+    margin-right:0;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions .more-btn{
+    min-width:42px;
+  }
+}
+@media(max-width:360px){
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])){
+    padding-inline:8px!important;
+    gap:3px!important;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .logo{
+    font-size:17px;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions{
+    gap:2px;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) #statusBtn .status-label-full{
+    display:none;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) #statusBtn .status-label-short{
+    display:inline;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions .top-btn{
+    padding-inline:5px;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions [data-action="open-onboarding-help"]{
+    width:40px;
+  }
+  body:not(.login-open) .topbar:has(.top-actions [data-reviewer-only]:not([hidden])) .top-actions .more-btn{
+    min-width:40px;
+  }
 }
