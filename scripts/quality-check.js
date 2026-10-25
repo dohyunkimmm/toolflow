@@ -20,9 +20,10 @@ for(const file of runtimeFiles){
 }
 
 const readme = read('README.md');
-const expectedNavigation = '[Demo](https://onboardos-rho.vercel.app/) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)';
+const expectedNavigation = '[Demo](https://toolflow-dohyunkimmm.vercel.app/) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)';
 const readmeNavigation = readme.split('\n').find(line => line.startsWith('[Demo](')) || '';
 if(readmeNavigation !== expectedNavigation) fail('README must link to the Demo and external Case Study, without a redundant GitHub self-link');
+if(!read('index.html').includes('<link href="https://toolflow-dohyunkimmm.vercel.app/" rel="canonical"/>')) fail('SEO canonical URL must match the ToolFlow production domain');
 if(/\[(?:직접 체험|2[–-]3분 체험 안내)\]\(|docs\/DEMO_WALKTHROUGH\.md/.test(readme)) fail('README still exposes an unrequested 2–3 minute walkthrough or stale demo label');
 if(/^##\s+\d{4}-\d{2}-\d{2}\b/m.test(readme) || /Portfolio release —|\/pull\/\d+|\[릴리스 이력\]\(|\[\d{4}-\d{2}-\d{2} 제품 검토\]\(/.test(readme)) fail('README must stay product-focused; dated release and PR history belong in CHANGELOG');
 

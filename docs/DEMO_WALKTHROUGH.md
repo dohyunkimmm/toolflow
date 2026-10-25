@@ -2,7 +2,7 @@
 
 채용 담당자와 리뷰어가 **현재 서비스**의 핵심 기능을 짧게 살펴볼 수 있는 안내입니다. 동영상 대신 실제 프로토타입에서 직접 시연하는 경로만 제공합니다.
 
-[서비스 직접 체험](https://onboardos-rho.vercel.app/) · [관리자 체험](https://onboardos-rho.vercel.app/?review=1) · [설계 사례](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
+[서비스 직접 체험](https://toolflow-dohyunkimmm.vercel.app/) · [관리자 체험](https://toolflow-dohyunkimmm.vercel.app/?review=1) · [설계 사례](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
 
 ## 약 2–3분 직접 체험
 
@@ -18,7 +18,7 @@
 1. Microsoft Office 등 신청 가능한 도구에서 **신청하기**를 선택합니다.
 2. 신청 목적·사용 기간·필요한 권한을 확인하고 제출합니다.
 3. **신청현황**에서 체험용 신청번호와 처리 단계를 확인합니다.
-4. [관리자 체험](https://onboardos-rho.vercel.app/?review=1)에서 해당 신청의 검토·승인·지급 완료를 처리합니다.
+4. [관리자 체험](https://toolflow-dohyunkimmm.vercel.app/?review=1)에서 해당 신청의 검토·승인·지급 완료를 처리합니다.
 5. 직원 화면으로 돌아와 동일 신청의 지급 완료 상태를 확인합니다.
 
 ### 3. 반려·재신청과 예외 처리 — 약 40초

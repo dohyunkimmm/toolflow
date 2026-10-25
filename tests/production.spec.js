@@ -78,7 +78,7 @@ test('실제 Production에서 핵심 Flow·CSP·asset·release provenance·conso
     };
   });
   const loginBeforeBrandFont = await readLoginMetrics();
-  expect(loginBeforeBrandFont.fontFamily.toLowerCase()).toContain('system-ui');
+  expect(loginBeforeBrandFont.fontFamily.toLowerCase()).toContain('pretendard');
 
   // Isolate the deferred font activation from the login-screen exit transition so
   // mobile layout changes are not misclassified as a font-metric regression.

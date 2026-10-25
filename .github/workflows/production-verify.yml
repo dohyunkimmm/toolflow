@@ -32,13 +32,13 @@ jobs:
           python3 -m json.tool vercel.json >/dev/null
       - name: Production source integrity
         env:
-          PRODUCTION_URL: https://onboardos-rho.vercel.app
+          PRODUCTION_URL: https://toolflow-dohyunkimmm.vercel.app
         run: node scripts/asset-integrity.js "$PRODUCTION_URL"
       - name: Install Chromium + WebKit
         run: npx playwright install --with-deps chromium webkit
       - name: Production Desktop Chromium + iPhone WebKit browser smoke
         env:
-          PRODUCTION_URL: https://onboardos-rho.vercel.app
+          PRODUCTION_URL: https://toolflow-dohyunkimmm.vercel.app
         run: npm run test:production
       - name: Upload Production integrity evidence
         if: always()
