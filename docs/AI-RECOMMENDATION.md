@@ -21,7 +21,7 @@
 
 ## 실행 설정
 
-기존 정적 화면에 Vercel Node.js Function `api/recommend.js`를 추가했다. 브라우저는 같은 출처의 `/api/recommend`만 호출한다. 서버는 `data.js`의 동일한 카탈로그를 직접 읽고 Gemini Generate Content API의 JSON Schema 출력을 검증한다. 별도 패키지 설치는 필요 없다.
+기존 정적 화면에 Vercel Node.js Function `api/recommend.js`를 추가했다. 브라우저는 같은 출처의 `/api/recommend`만 호출한다. 서버는 `js/data.js`의 동일한 카탈로그를 직접 읽고 Gemini Generate Content API의 JSON Schema 출력을 검증한다. 별도 패키지 설치는 필요 없다.
 
 서버 환경변수:
 

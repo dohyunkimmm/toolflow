@@ -13,7 +13,7 @@ test('실제 Production에서 핵심 Flow·CSP·asset·release provenance·conso
   page.on('console', msg => { if(msg.type() === 'error') consoleErrors.push(msg.text()); });
   page.on('response', response => {
     const pathname = new URL(response.url()).pathname;
-    if(['/styles.css','/login-font-lock.css','/data.js','/js/state.js','/js/analytics.js','/js/a11y.js','/app.js','/js/events.js'].includes(pathname)) assetStatus.set(pathname, response.status());
+    if(['/css/styles.css','/css/login-font-lock.css','/js/data.js','/js/state.js','/js/analytics.js','/js/a11y.js','/js/app.js','/js/events.js'].includes(pathname)) assetStatus.set(pathname, response.status());
   });
   await page.route('**/vitals.vercel-analytics.com/**', route => route.fulfill({status:204, body:''}));
   await page.route('**/_vercel/insights/event**', route => route.fulfill({status:204, body:''}));
@@ -62,7 +62,7 @@ test('실제 Production에서 핵심 Flow·CSP·asset·release provenance·conso
   }
 
   await expect(page.getByRole('button', {name:'Google SSO로 시작하기'})).toBeVisible();
-  for(const asset of ['/styles.css','/login-font-lock.css','/data.js','/js/state.js','/js/analytics.js','/js/a11y.js','/app.js','/js/events.js']) expect(assetStatus.get(asset), asset).toBe(200);
+  for(const asset of ['/css/styles.css','/css/login-font-lock.css','/js/data.js','/js/state.js','/js/analytics.js','/js/a11y.js','/js/app.js','/js/events.js']) expect(assetStatus.get(asset), asset).toBe(200);
 
   const loginTitle = page.locator('#loginTitle');
   const readLoginMetrics = () => loginTitle.evaluate(el => {

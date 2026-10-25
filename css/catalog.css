@@ -168,12 +168,12 @@ body .catalog-ai>.tossface-icon{width:18px;height:18px;}
 body .catalog-reset>.tossface-icon{width:14px;height:14px;}
 body .top-btn>.tossface-icon{width:16px;height:16px;margin-right:5px;}
 body .jsm-btn>.tossface-icon{width:17px;height:17px;margin-right:6px;}
-body #mainContent .card .status-pill::before{content:""!important;display:inline-block;width:12px;height:12px;margin-right:4px;background:center/contain no-repeat url('icons/tossface/u1F4DD.svg');}
-body #mainContent .card .status-auto::before,body #mainContent .card .status-completed::before{background-image:url('icons/tossface/u2705.svg');}
-body #mainContent .card .status-approval::before{background-image:url('icons/tossface/u1F512.svg');}
-body #mainContent .card .status-pending::before{background-image:url('icons/tossface/u23F3.svg');}
-body #mainContent .card .status-approved::before{background-image:url('icons/tossface/u1F4E6.svg');}
-body #mainContent .card .status-rejected::before{background-image:url('icons/tossface/u1F504.svg');}
+body #mainContent .card .status-pill::before{content:""!important;display:inline-block;width:12px;height:12px;margin-right:4px;background:center/contain no-repeat url('../icons/tossface/u1F4DD.svg');}
+body #mainContent .card .status-auto::before,body #mainContent .card .status-completed::before{background-image:url('../icons/tossface/u2705.svg');}
+body #mainContent .card .status-approval::before{background-image:url('../icons/tossface/u1F512.svg');}
+body #mainContent .card .status-pending::before{background-image:url('../icons/tossface/u23F3.svg');}
+body #mainContent .card .status-approved::before{background-image:url('../icons/tossface/u1F4E6.svg');}
+body #mainContent .card .status-rejected::before{background-image:url('../icons/tossface/u1F504.svg');}
 @media(max-width:1023px){body .catalog-filter-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}}
 @media(max-width:768px){
  body:not(.login-open) #mainContent{padding-top:20px;}
