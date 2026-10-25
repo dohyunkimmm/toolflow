@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-25 — 디자인 QA 마무리 및 최신 운영 검증
+
+- [PR #160](https://github.com/dohyunkimmm/toolflow/pull/160): 카드 메타 정보·제목·신청 버튼·검색 플레이스홀더 대비 및 가독성, 필터 영역과 모바일 헤더·로그인 완료 토스트를 보정.
+- [PR #161](https://github.com/dohyunkimmm/toolflow/pull/161): 짧은 모바일 화면의 상단 밀도와 최소 160px 카드 높이, 보조 배지·선택 요소·상태 필터의 읽기/터치 영역을 정리. 320×568px·390×667px 등 회귀 검사 추가.
+- [PR #162](https://github.com/dohyunkimmm/toolflow/pull/162): 데스크톱 제목·검색·필터·카드의 왼쪽 기준선을 통일하고, 320/390px 검토자 모드 헤더를 한 줄로 조정. 도움말·신청현황 버튼의 접근성 이름 유지, 겹침·첫 카드 노출 검사 추가.
+- **최신 운영 확인 (2026-10-25):** `main` SHA `3592408346b1679b6cf2fb8e3bd1111a8b163212`, [Vercel Production](https://toolflow-dohyunkimmm.vercel.app/) `READY`, [병합 후 E2E 13/13 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40193714768) (Chromium·iPhone WebKit 운영 Smoke 및 배포 무결성 포함). 과거 커밋의 13/13 기록과 별개의 검증입니다.
+- **QA 점수 해석:** '10/10'은 정의한 디자인·기능·반응형 검증 항목을 모두 통과했다는 뜻이며 객관적 미적 완성도 10점이나 실제 사용자 효과 입증은 아닙니다. `release.json`의 `v18.0.0 / P6 / candidate`는 그대로 유지하고 실제 기업 SSO·JSM·라이선스 발급은 미연동입니다.
+
 ## 2026-10-25 — 카탈로그 조건 영역 간소화
 
 - 타이포그래피·비주얼·균형 QA: 카드 제목·담당·처리 시간 크기를 통일하고 신청 버튼 44px·상태 필터 44px 터치 영역을 확보. 데스크톱 필터를 840px 이내로 정렬, 320px 검색 안내를 짧게 수정, 모바일 헤더를 압축하고 첫 카드를 가리는 중복 로그인 완료 토스트를 제거. 기존 기능·AI 추천 강조는 유지했습니다.
