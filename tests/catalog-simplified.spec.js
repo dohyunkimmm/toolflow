@@ -128,6 +128,10 @@ test('follow-up QA: compact desktop panel and short mobile fold remain usable',a
       panelWidth:panel.width,
       outerLeft:panel.left-main.left,
       outerRight:main.right-panel.right,
+      headingLeft:box('.catalog-heading').left,
+      cardsLeft:box('#roleGrid').left,
+      searchLeft:search.left,
+      filtersLeft:filters.left,
       searchRight:search.right,
       filtersRight:filters.right,
       panelRight:panel.right,
@@ -137,7 +141,11 @@ test('follow-up QA: compact desktop panel and short mobile fold remain usable',a
     };
   });
   expect(desktop.panelWidth).toBeLessThanOrEqual(890);
-  expect(Math.abs(desktop.outerLeft-desktop.outerRight)).toBeLessThanOrEqual(2);
+  expect(Math.abs(desktop.outerLeft)).toBeLessThanOrEqual(2);
+  expect(desktop.outerRight).toBeGreaterThanOrEqual(200);
+  expect(Math.abs(desktop.searchLeft-desktop.cardsLeft)).toBeLessThanOrEqual(2);
+  expect(Math.abs(desktop.filtersLeft-desktop.cardsLeft)).toBeLessThanOrEqual(2);
+  expect(Math.abs(desktop.headingLeft-desktop.cardsLeft)).toBeLessThanOrEqual(2);
   expect(desktop.searchRight).toBeLessThanOrEqual(desktop.panelRight-20);
   expect(desktop.filtersRight).toBeLessThanOrEqual(desktop.panelRight-20);
   expect(desktop.roleHeight).toBeGreaterThanOrEqual(44);
@@ -175,4 +183,40 @@ test('follow-up QA: compact desktop panel and short mobile fold remain usable',a
   }
   await page.locator('#filterTabs [data-filter="todo"]').click();
   await expect(page.locator('#catalogResultCount')).toContainText('4');
+});
+
+test('reviewer header keeps one accessible row on 320px and 390px',async({page},testInfo)=>{
+  await page.goto('/?review=1');
+  await page.getByRole('button',{name:'Google SSO로 시작하기'}).click();
+  await expect(page.locator('#loginScreen')).toBeHidden();
+  await expect(page.locator('#adminBtn')).toBeVisible();
+  await expect(page.getByRole('button',{name:'도움말',exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'신청현황',exact:true})).toBeVisible();
+  for(const [width,height] of [[320,568],[390,667]]){
+    await page.setViewportSize({width,height});
+    const m=await page.evaluate(()=>{
+      const rect=sel=>document.querySelector(sel).getBoundingClientRect();
+      const visible=[...document.querySelectorAll('.top-actions .top-btn')]
+        .filter(e=>getComputedStyle(e).display!=='none' && !e.hidden);
+      const actions=rect('.top-actions'),logo=rect('.topbar .logo'),topbar=rect('.topbar');
+      return {
+        vw:innerWidth,documentWidth:document.documentElement.scrollWidth,
+        headerHeight:topbar.height,logoRight:logo.right,actionsLeft:actions.left,
+        actionRight:actions.right,actionButtons:visible.map(el=>el.getBoundingClientRect().toJSON()),
+        compactLabel:getComputedStyle(document.querySelector('#statusBtn .status-label-short')).display,
+        firstCardTop:rect('#roleGrid .card').top
+      };
+    });
+    expect(m.documentWidth).toBeLessThanOrEqual(m.vw);
+    expect(m.headerHeight).toBeLessThanOrEqual(82);
+    expect(m.logoRight).toBeLessThanOrEqual(m.actionsLeft);
+    expect(m.actionRight).toBeLessThanOrEqual(m.vw);
+    expect(m.actionButtons.length).toBe(4);
+    expect(m.actionButtons.every(r=>r.height>=44 && r.left>=0 && r.right<=m.vw)).toBeTruthy();
+    expect(m.compactLabel==='none').toBe(width>360);
+    expect(m.firstCardTop).toBeLessThan(height);
+    await testInfo.attach('reviewer-header-'+width,{body:await page.screenshot({animations:'disabled'}),contentType:'image/png'});
+  }
+  await page.getByRole('button',{name:'도움말',exact:true}).click();
+  await expect(page.locator('#onboardingHelp')).toBeVisible();
 });
