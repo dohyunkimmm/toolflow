@@ -246,3 +246,89 @@ body .catalog-ai>.tossface-icon{width:21px;height:21px;}
  body .catalog-ai{min-width:0;min-height:48px;gap:6px;padding:0 10px;font-size:14px;}
  body .catalog-ai>.tossface-icon{width:19px;height:19px;}
 }
+
+/* Typography and composition QA — place final layout tokens after legacy variants. */
+body .catalog-description{font-size:14px;line-height:1.55;color:#596579;}
+body .catalog-controls #toolSearch::placeholder{color:#566477!important;opacity:1!important;}
+body .catalog-filter-row{
+  max-width:840px;
+  grid-template-columns:minmax(180px,240px) minmax(0,1fr);
+  column-gap:16px;
+  align-items:end;
+}
+body .catalog-filter-row .catalog-status .filter-tabs{
+  width:100%;
+  max-width:560px!important;
+  height:44px;
+  gap:7px;
+}
+body .catalog-filter-row .catalog-status .filter-chip{
+  min-height:44px!important;
+  height:44px!important;
+  padding:7px 9px;
+  font-size:13px!important;
+  font-weight:600;
+}
+body .catalog-controls .catalog-field>span{font-size:13px!important;color:#4b5563!important;}
+body #mainContent .card .card-title{font-size:15.5px!important;line-height:1.45!important;font-weight:680!important;}
+body #mainContent .card .card-purpose{font-size:13.5px!important;line-height:1.55!important;}
+body #mainContent .card .card-owner,body #mainContent .card .card-timing{
+  font-size:12.5px!important;
+  line-height:1.55!important;
+  color:#596579!important;
+}
+body #mainContent .catalog-meta-dot{font-size:12px;color:#596579;}
+body #mainContent .card .requirement-pill,body #mainContent .card .status-pill{
+  font-size:11.5px!important;
+  min-height:24px;
+  padding:3px 7px;
+  line-height:1.5;
+}
+body #mainContent #roleGrid .card .cta,
+body #mainContent #commonGrid .card .cta,
+body #mainContent #roleGrid .card[data-status="auto"] .cta{
+  min-width:90px;
+  min-height:44px!important;
+  padding:9px 12px;
+  font-size:13.5px!important;
+  border-radius:7px!important;
+}
+body #mainContent #roleGrid .card .cta:focus-visible,
+body #mainContent #commonGrid .card .cta:focus-visible{
+  outline:3px solid #a9c7fa;
+  outline-offset:2px;
+}
+@media(max-width:768px){
+  body .catalog-filter-row{
+    max-width:none;
+    grid-template-columns:minmax(0,1fr);
+    row-gap:14px;
+  }
+  body .catalog-filter-row .catalog-status{grid-column:1/-1;}
+  body .catalog-filter-row .catalog-status .filter-tabs{max-width:none!important;gap:5px;}
+  body .catalog-filter-row .catalog-status .filter-chip{font-size:12px!important;padding:7px 4px;}
+}
+@media(max-width:560px){
+  body:not(.login-open) .topbar{
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap;
+    align-items:center!important;
+    justify-content:space-between;
+    gap:8px;
+    min-height:64px;
+    padding:10px 16px!important;
+  }
+  body:not(.login-open) .topbar .logo{margin:0;}
+  body:not(.login-open) .topbar .top-actions{
+    width:auto!important;
+    flex:0 1 auto;
+    justify-content:flex-end;
+    flex-wrap:nowrap!important;
+    gap:7px;
+    overflow:visible;
+  }
+  body:not(.login-open) .topbar .top-actions .top-btn{min-height:44px;}
+  body:not(.login-open) .topbar:has([data-reviewer-only]:not([hidden])){flex-wrap:wrap;}
+  body:not(.login-open) .topbar:has([data-reviewer-only]:not([hidden])) .top-actions{width:100%!important;justify-content:flex-start;flex-wrap:wrap!important;}
+}
