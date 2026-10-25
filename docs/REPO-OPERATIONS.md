@@ -1,20 +1,26 @@
 # ToolFlow — 저장소 운영·보호·서명 현황
 
-> 이 문서는 과거의 운영·보호·검증 사실을 기록한 이력 문서입니다. **현재 배포 SHA와 CI 성공 여부는 아래 GitHub Actions 및 Vercel 대시보드에서 직접 확인해야 합니다.** 제품 기능·릴리스 이력은 [README](../README.md)·[CHANGELOG](../CHANGELOG.md)를 우선합니다. 이 문서는 운영 보호 상태와 남은 검증의 사실 기록입니다.
+> 운영·보호·검증 기록입니다. 날짜와 SHA가 기재된 검증은 **해당 당시 사실**이며 이후 배포가 있다면 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain) 및 [Vercel 프로젝트](https://vercel.com/dohyunkimm/toolflow)로 재확인합니다. 제품 소개는 [README](../README.md), 변경 이력은 [CHANGELOG](../CHANGELOG.md)를 우선합니다.
+
+## 최근 확인 상태 — 2026-10-25
+
+- **대표 도메인:** [https://toolflow-dohyunkimmm.vercel.app/](https://toolflow-dohyunkimmm.vercel.app/). Vercel `toolflow` 프로젝트에서 유일하게 확인된 연결 도메인이며, 이전 OnboardOS 도메인 연결은 제거되었습니다.
+- **당시 검증된 운영 커밋:** `e4872c5f94f7ccbf219892604949a7c8cadb24b3`, Vercel Production `READY`, [main E2E 13/13 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40158839656), [Documentation sync 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40158839644). 이후 실행의 상태는 별도 확인해야 합니다.
+- **릴리스 상태:** `v18.0.0 / P6 / candidate` 유지. 가상 로그인·티켓·지급 검증은 실제 회사 시스템 연동을 증명하지 않습니다.
 
 ## 2026-10-24 Production 검증 (당시 기록)
 
 - [PR #144](https://github.com/dohyunkimmm/toolflow/pull/144): AI·협업·PM·기타 20개 확장(내부 카탈로그 43개), 업무 케이스 기반 직군 외 도구 추천과 IT 예외 요청 분기, 입력 최소 글자 제한 제거.
 - [PR #145](https://github.com/dohyunkimmm/toolflow/pull/145): 신규입사자 첫 화면의 인라인 추천·케이스 선택·확장 목록·어두운 강조 배경 제거. 기존 핵심 카탈로그 23개 중심 화면 복구. ‘AI 추천’ 버튼 모달에서 기본 3개를 먼저 제시, 선택 입력 뒤 사용자가 요청할 때만 Gemini 호출.
-- **당시 운영 소스 SHA:** `32876f1a9ccd538879c215badd38d5a968aee495`. [운영 사이트](https://toolflow-dohyunkimmm.vercel.app/)를 가리키는 Vercel Production 배포 **READY** 확인. 해당 커밋의 GitHub Actions **14/14 성공** (Chromium·Firefox/WebKit, 보안, 복구, 접근성, 데스크톱/모바일 Lighthouse, Production 데스크톱/모바일 Smoke·배포 무결성 및 증빙 포함).
+- **당시 운영 소스 SHA:** `32876f1a9ccd538879c215badd38d5a968aee495`. 그 당시 Vercel Production 배포 **READY** 확인. 현재 배포 기준은 위 '최근 확인 상태'를 참고. 해당 커밋의 GitHub Actions **14/14 성공** (Chromium·Firefox/WebKit, 보안, 복구, 접근성, 데스크톱/모바일 Lighthouse, Production 데스크톱/모바일 Smoke·배포 무결성 및 증빙 포함).
 - **해석 한계:** 테스트는 모의 로그인·모의 티켓·모의 지급 흐름 및 Gemini 모의 공급자 테스트를 검증한다. 실제 Gemini 응답 품질, 회사 인증, 실제 JSM 연동·라이선스 발급을 입증하지 않는다. `release.json` v18.0.0/P6 `candidate` 유지.
 - GitHub [최신 main 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain), [배포 이력](https://vercel.com/dohyunkimm/toolflow). 기존 `protect-main` 필수 PR·검사 정책, `Require signed commits` 미활성 상태에 대한 과거 기록은 별도 변경 없음.
 
-## 완료 / 검증됨
+## 이전 운영·보호 검증 기록
 
-| 항목 | 현재 상태 | 근거 |
+| 항목 | 검증 당시 상태 | 근거 |
 | --- | --- | --- |
-| 최신 검증 기준 | 문서 동기화 포함 `main` SHA `13f85148d890a84f19c653ae669351fca99130e3`에서 E2E·문서 검증 모두 성공. Production 실행 코드는 `5f4d0e5` 배포 | [성공한 E2E](https://github.com/dohyunkimmm/toolflow/actions/runs/39969874660) |
+| 이전 검증 기준 | 당시 `main` SHA `13f85148d890a84f19c653ae669351fca99130e3`에서 E2E·문서 검증 성공. 당시 Production은 `5f4d0e5` 배포로 현재와 다름 | [당시 E2E](https://github.com/dohyunkimmm/toolflow/actions/runs/39969874660) |
 | 의존성·QA | Playwright 1.64.1, `actions/upload-artifact` 7.0.2, axe-core 4.14 및 setup-node 7.1.0. 버튼 accessible name·focus-within 회귀 복원 | [#111](https://github.com/dohyunkimmm/toolflow/pull/111), [#108](https://github.com/dohyunkimmm/toolflow/pull/108), [#115](https://github.com/dohyunkimmm/toolflow/pull/115) |
 | 기본 브랜치 보호 | [`protect-main` #24772212](https://github.com/dohyunkimmm/toolflow/settings/rules/24772212) **active**: PR 필수, 삭제/강제 푸시 금지, 최신 브랜치 strict 필수 CI, **Require linear history 활성** | GitHub ruleset 조회 |
 | 중복 보호 정리 | 오래된 [`main` #22980900](https://github.com/dohyunkimmm/toolflow/settings/rules/22980900)은 **disabled**, 삭제하지 않아 되돌리기 가능 | [#114](https://github.com/dohyunkimmm/toolflow/issues/114) |
@@ -33,7 +39,7 @@
 
 ## 2026-10-22 동기화 추가 확인
 
-- [운영 문서 동기화 PR #118](https://github.com/dohyunkimmm/toolflow/pull/118)을 squash merge했고 최신 검증 대상 SHA `a9f0a94`에서 E2E 및 Documentation sync 워크플로가 모두 성공했습니다.
+- [운영 문서 동기화 PR #118](https://github.com/dohyunkimmm/toolflow/pull/118)을 squash merge했고 당시 검증 대상 SHA `a9f0a94`에서 E2E 및 Documentation sync 워크플로가 모두 성공했습니다.
 - 활성 [Ruleset `protect-main` #24772212](https://github.com/dohyunkimmm/toolflow/settings/rules/24772212)는 `strict=true`, PR 필수, 삭제·강제 푸시 차단, 선형 이력 필수, Chromium/Security/Resilience 정확한 필수 검사 3개를 유지합니다. 구형 `main` #22980900은 disabled 유지.
 - `Commit signatures (informational)` 감사 워크플로는 병합돼 있지만 unsigned 상태에서도 작업을 **성공 처리**하므로 서명 정책 강제와 다릅니다. API 자동 변경 경로의 서명 해결·사용자 SSH/GPG 서명 PR 검증 결과는 아직 없습니다. **`Require signed commits`는 미활성**입니다.
 - [P1 보호 검증 이슈 #114](https://github.com/dohyunkimmm/toolflow/issues/114)는 중복 규칙·차단 검증 완료로 closed이며, 서명 강제 적용은 별도 미완료 보안 후속입니다.

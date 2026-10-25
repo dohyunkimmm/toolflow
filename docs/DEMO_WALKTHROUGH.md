@@ -1,19 +1,19 @@
-# ToolFlow Live Experience Walkthrough
+# ToolFlow — 데모 기능 점검
 
-채용 담당자와 리뷰어가 **현재 서비스**의 핵심 기능을 짧게 살펴볼 수 있는 안내입니다. 동영상 대신 실제 프로토타입에서 직접 시연하는 경로만 제공합니다.
+리뷰어와 내부 QA가 실제 프로토타입 기능을 점검할 때 사용하는 참고 문서입니다. 별도로 정해진 체험 시간이나 필수 시연 코스는 없으며 README에 이 문서를 노출하지 않습니다.
 
 [서비스 직접 체험](https://toolflow-dohyunkimmm.vercel.app/) · [관리자 체험](https://toolflow-dohyunkimmm.vercel.app/?review=1) · [설계 사례](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
 
-## 약 2–3분 직접 체험
+## 기능 점검 항목
 
-### 1. 직무 선택 및 AI 추천 — 약 30초
+### 1. 직무 선택 및 AI 추천
 
 1. **Google SSO로 시작하기**는 실제 인증이 아닌 체험용 로그인입니다.
 2. 경영지원·총무 등 직무를 선택하고 전사 공통 도구와 직무별 도구를 확인합니다.
 3. 등록된 도구의 필수·선택·준비 상태를 살펴봅니다.
 4. ‘AI 추천’ 버튼을 누르면 직군 기본 추천 3개가 간단히 나타납니다. 필요한 경우에만 업무 설명을 짧게 입력해 ‘추천 받기’를 누릅니다. Gemini 요청은 서버 설정에 따라 이용할 수 있고, 신청은 사용자가 직접 확인해야 합니다.
 
-### 2. 신청 → 관리자 검토 → 지급 완료 — 약 60초
+### 2. 신청 → 관리자 검토 → 지급 완료
 
 1. Microsoft Office 등 신청 가능한 도구에서 **신청하기**를 선택합니다.
 2. 신청 목적·사용 기간·필요한 권한을 확인하고 제출합니다.
@@ -21,7 +21,7 @@
 4. [관리자 체험](https://toolflow-dohyunkimmm.vercel.app/?review=1)에서 해당 신청의 검토·승인·지급 완료를 처리합니다.
 5. 직원 화면으로 돌아와 동일 신청의 지급 완료 상태를 확인합니다.
 
-### 3. 반려·재신청과 예외 처리 — 약 40초
+### 3. 반려·재신청과 예외 처리
 
 1. 다른 요청을 반려하고 반려 사유를 확인합니다.
 2. 보완 내용을 입력해 같은 요청을 다시 제출합니다.
@@ -35,10 +35,10 @@
 - **AI 추천** 버튼을 누르면 기본 추천 3개가 외부 AI 호출 없이 표시됩니다. 추가로 업무를 입력하고 **추천 받기**를 누를 경우에만 서버 설정에 따라 Gemini API를 호출합니다(최소 글자 제한 없음). 직군 외 도구는 자동 발급이 아니라 IT 예외 검토 요청으로 연결됩니다. 실사용 직원 정보나 회사 기밀은 입력하지 마세요.
 - SLA 표시는 시연용 예상 처리 일정입니다. 문의량 감소·업무 시간 절감 등 실제 도입 효과를 측정한 것은 아닙니다.
 
-## 2026-10-24 배포 기준
+## 배포·검증 기준
 
-- [UI 단순화 PR #145](https://github.com/dohyunkimmm/toolflow/pull/145) 병합 커밋 `32876f1`, Vercel Production READY. [main E2E](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 Production Smoke·무결성 포함 14개 검사 성공.
-- 실제 Gemini API 키로 생성된 추천의 정답률·과금·직원별 권한 지급은 검증/구현 범위가 아닙니다. 기존 v18.0.0/P6 릴리스 표기는 `candidate`입니다.
+- **2026-10-25 당시:** 운영 커밋 `e4872c5`, Vercel Production `READY`, [main E2E 13/13 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40158839656). 이후 변경은 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 확인합니다.
+- 실제 Gemini 추천 품질·과금·실사용 직원 권한 발급은 검증 범위가 아닙니다. 릴리스 상태는 `v18.0.0 / P6 / candidate`로 유지합니다.
 
 ## 설계·검증 근거
 

@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const release = JSON.parse(fs.readFileSync('release.json', 'utf8'));
+const lighthouseVersion = require('../package.json').devDependencies.lighthouse;
 const event = process.env.GITHUB_EVENT_NAME || 'local';
 const isProductionRun = event === 'push' && process.env.GITHUB_REF === 'refs/heads/main';
 const productionResult = process.env.PRODUCTION_RESULT || (isProductionRun ? 'unknown' : 'not_applicable');
@@ -21,8 +22,8 @@ const gates = [
   {area:'Design polish', gate:'Playwright D1-D8 + visual evidence', result:designPolishResult, scope:'post-login hierarchy + spacing rhythm + grid density + card surfaces + semantic status + modal polish + tablet/mobile responsiveness + login baseline scope'},
   {area:'Experience refinement', gate:'Playwright E1-E8 + responsive visual evidence', result:experienceRefinementResult, scope:'navigation hierarchy + overview composition + progress clarity + filter command surface + card scanability + modal action zone + tablet density + empty/motion states'},
   {area:'Cross-browser', gate:'Playwright', result:process.env.CROSS_BROWSER_RESULT || 'unknown', scope:'Firefox + WebKit core flow'},
-  {area:'Desktop performance', gate:'Lighthouse 13.4.1', result:process.env.LIGHTHOUSE_RESULT || 'unknown', scope:'desktop 3-run budget; every run must pass'},
-  {area:'Mobile performance', gate:'Lighthouse 13.4.1', result:process.env.MOBILE_LIGHTHOUSE_RESULT || 'unknown', scope:'mobile profile 3-run budget; every run must pass'},
+  {area:'Desktop performance', gate:`Lighthouse ${lighthouseVersion}`, result:process.env.LIGHTHOUSE_RESULT || 'unknown', scope:'desktop 3-run budget; every run must pass'},
+  {area:'Mobile performance', gate:`Lighthouse ${lighthouseVersion}`, result:process.env.MOBILE_LIGHTHOUSE_RESULT || 'unknown', scope:'mobile profile 3-run budget; every run must pass'},
   {area:'Supply chain', gate:'npm audit + PR lockfile delta', result:process.env.SUPPLY_CHAIN_RESULT || 'unknown', scope:'high+ advisories + HTTPS/integrity metadata + SHA-pinned Actions'},
   {area:'Production smoke', gate:'Playwright + Vercel status', result:isProductionRun ? productionResult : 'not_applicable', scope:'Desktop Chromium + iPhone WebKit live flow + CSP + assets + page/console errors'},
   {area:'Deployment integrity', gate:'SHA-256 + canonical manifest', result:isProductionRun ? productionResult : 'not_applicable', scope:'canonical public asset manifest · GitHub checkout ↔ Production'}
@@ -38,7 +39,6 @@ const report = {
   runId:process.env.GITHUB_RUN_ID || null,
   runUrl:repository && process.env.GITHUB_RUN_ID ? `${serverUrl}/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}` : null,
   workflowUrl:repository ? `${serverUrl}/${repository}/actions/workflows/e2e.yml?query=branch%3Amain` : null,
-  verificationMatrixUrl:repository ? `${serverUrl}/${repository}#verification-matrix` : null,
   productionUrl:'https://toolflow-dohyunkimmm.vercel.app/',
   release:{
     product:release.product,
@@ -73,7 +73,6 @@ const lines = [
   `- Event: \`${event}\``,
   report.runUrl ? `- Run: ${report.runUrl}` : null,
   report.workflowUrl ? `- Public workflow: ${report.workflowUrl}` : null,
-  report.verificationMatrixUrl ? `- Verification Matrix: ${report.verificationMatrixUrl}` : null,
   `- Production: ${report.productionUrl}`,
   '',
   '| Area | Gate | Result | Scope |',
