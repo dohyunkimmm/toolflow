@@ -57,7 +57,7 @@ test('search takes a compact share while the primary AI action is larger and cle
   expect(desktop.aiWidth).toBeGreaterThan(desktop.searchWidth*.45);
   expect(desktop.aiHeight).toBeGreaterThanOrEqual(48);
   expect(desktop.aiBackground).toBe('rgb(23, 99, 198)');
-  await expect(page.locator('#toolSearch')).toHaveAttribute('placeholder','도구명·업무 검색');
+  await expect(page.locator('#toolSearch')).toHaveAttribute('placeholder','도구 검색');
   await page.locator('#toolSearch').fill('Notion');
   await expect(page.locator('#catalogResultCount')).toContainText('1');
   await page.locator('#toolSearch').fill('');
@@ -68,4 +68,51 @@ test('search takes a compact share while the primary AI action is larger and cle
   expect(mobile.scrollWidth).toBeLessThanOrEqual(mobile.viewport);
   await page.getByRole('button',{name:'AI 추천',exact:true}).click();
   await expect(page.locator('#actionModalBackdrop')).toHaveClass(/show/);
+});
+
+test('visual QA: five viewports preserve hierarchy, contrast and touch targets',async({page})=>{
+  await login(page);
+  for(const width of [320,390,768,1024,1440]){
+    await page.setViewportSize({width,height:880});
+    const q=await page.evaluate(()=>{
+      const rect=sel=>document.querySelector(sel).getBoundingClientRect();
+      const style=sel=>getComputedStyle(document.querySelector(sel));
+      const search=rect('.tool-search'),ai=rect('.catalog-ai');
+      const filters=[...document.querySelectorAll('#filterTabs button')];
+      const cta=rect('#roleGrid .card .cta');
+      const RGB=v=>(v.match(/[\d.]+/g)||[]).slice(0,3).map(Number);
+      const luminance=v=>RGB(v).map(c=>{c/=255;return c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4);}).reduce((a,c,i)=>a+c*[.2126,.7152,.0722][i],0);
+      const contrast=(a,b)=>{let x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+      return {
+        vw:innerWidth,scroll:document.documentElement.scrollWidth,
+        aiWidth:ai.width,aiHeight:ai.height,searchWidth:search.width,
+        metaSize:parseFloat(style('#roleGrid .card .card-timing').fontSize),
+        titleSize:parseFloat(style('#roleGrid .card .card-title').fontSize),
+        ctaHeight:cta.height,ctaFont:parseFloat(style('#roleGrid .card .cta').fontSize),
+        filterFont:parseFloat(style('#filterTabs button').fontSize),
+        filterHeights:filters.map(e=>e.getBoundingClientRect().height),
+        placeholderContrast:contrast(getComputedStyle(document.querySelector('#toolSearch'),'::placeholder').color,style('.tool-search').backgroundColor),
+        role:rect('.catalog-filter-row .role-picker').toJSON(),
+        status:rect('.catalog-filter-row .catalog-status').toJSON(),
+        topbar:rect('.topbar').toJSON()
+      };
+    });
+    expect(q.scroll, `horizontal overflow at ${width}px`).toBeLessThanOrEqual(q.vw);
+    expect(q.titleSize).toBeGreaterThanOrEqual(15);
+    expect(q.metaSize).toBeGreaterThanOrEqual(12);
+    expect(q.ctaHeight).toBeGreaterThanOrEqual(44);
+    expect(q.ctaFont).toBeGreaterThanOrEqual(13);
+    expect(q.filterFont).toBeGreaterThanOrEqual(width<=768?12:13);
+    expect(q.filterHeights.every(n=>n>=44)).toBeTruthy();
+    expect(q.placeholderContrast).toBeGreaterThanOrEqual(4.5);
+    expect(q.aiHeight).toBeGreaterThanOrEqual(48);
+    if(width>768){
+      expect(q.status.left).toBeGreaterThan(q.role.right);
+      expect(q.status.right).toBeLessThanOrEqual(q.role.left+850);
+    }else{
+      expect(q.status.top).toBeGreaterThanOrEqual(q.role.bottom);
+    }
+    if(width<=560)expect(q.topbar.height).toBeLessThanOrEqual(85);
+  }
+  await expect(page.locator('#toast')).not.toHaveClass(/show/);
 });

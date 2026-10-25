@@ -416,7 +416,9 @@ function fakeLogin(){
     button.removeAttribute('aria-busy');
     syncPageInert();
     document.getElementById('mainContent').focus({preventScroll:true});
-    showToast('가상 SSO 로그인 완료 · 직무별 라이선스를 불러왔습니다.');
+    // Preserve the live-region login announcement without visually covering the first tool card.
+    const loginStatus = document.getElementById('toast');
+    if(loginStatus) loginStatus.textContent = '가상 SSO 로그인 완료 · 직무별 라이선스를 불러왔습니다.';
   });
 }
 
