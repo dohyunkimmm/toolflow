@@ -42,7 +42,7 @@ jobs:
           grep -Fq "PRODUCTION_URL: ${SITE}" .github/workflows/e2e.yml
           grep -Fq "PRODUCTION_URL: ${SITE}" .github/workflows/production-verify.yml
           grep -Fq "productionUrl:'${SITE}/'" scripts/verification-summary.js
-          if grep -Fq "onboardos-rho.vercel.app" README.md index.html docs/*.md .github/workflows/*.yml config/playwright.production.config.js scripts/verification-summary.js; then
+          if grep -Fq "onboardos-rho.vercel.app" README.md index.html docs/*.md .github/workflows/e2e.yml .github/workflows/production-verify.yml config/playwright.production.config.js scripts/verification-summary.js; then
             echo "Removed legacy domain still referenced in representative documents" >&2
             exit 1
           fi
