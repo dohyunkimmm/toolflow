@@ -101,6 +101,8 @@ test('inactive toast never flashes during login handoff at 320px, 390px and desk
     await expect(page.locator('#loginAnnouncement')).toContainText('가상 SSO 로그인 완료');
     await expect(toast).toBeHidden();
     await expect(toast).not.toHaveClass(/show/);
+    // Each viewport must start from a fresh sign-in, not a restored session.
+    await page.evaluate(()=>sessionStorage.clear());
   }
 });
 
