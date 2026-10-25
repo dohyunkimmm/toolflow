@@ -98,6 +98,7 @@ test('inactive toast never flashes during login handoff at 320px, 390px and desk
     expect(observed.frames, `RAF frames at ${width}px`).toBeGreaterThan(1);
     expect(observed.visible, `no stray toast frame at ${width}px`).toEqual([]);
     expect(observed.hidden, `toast stays hidden at ${width}px`).toBe(true);
+    await expect(page.locator('#loginAnnouncement')).toContainText('가상 SSO 로그인 완료');
     await expect(toast).toBeHidden();
     await expect(toast).not.toHaveClass(/show/);
   }
