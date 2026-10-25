@@ -416,7 +416,9 @@ function fakeLogin(){
     button.removeAttribute('aria-busy');
     syncPageInert();
     document.getElementById('mainContent').focus({preventScroll:true});
-    // The completed login state is already apparent in the dashboard; avoid covering the first card with a redundant toast.
+    // Preserve the live-region login announcement without visually covering the first tool card.
+    const loginStatus = document.getElementById('toast');
+    if(loginStatus) loginStatus.textContent = '가상 SSO 로그인 완료 · 직무별 라이선스를 불러왔습니다.';
   });
 }
 
