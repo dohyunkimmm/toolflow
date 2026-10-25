@@ -4,7 +4,7 @@
 
 **신규 입사자가 직무별 업무 도구를 확인하고, 라이선스 신청부터 승인·지급 완료까지 체험하는 온보딩 포털 프로토타입입니다.**
 
-[직접 체험](https://onboardos-rho.vercel.app/) · [2–3분 체험 안내](docs/DEMO_WALKTHROUGH.md) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
+[Demo](https://onboardos-rho.vercel.app/) · [GitHub](https://github.com/dohyunkimmm/toolflow) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
 
 > **Portfolio release — v18.0.0 / P6 product-review candidate.**
 >
@@ -59,7 +59,7 @@ npm run test:e2e
 ## 자세히 보기
 
 - [저장소 보호·커밋 서명·운영 검증 상태](docs/REPO-OPERATIONS.md) · [커밋 서명 설정](.github/COMMIT_SIGNING.md)
-- [2–3분 체험 안내](docs/DEMO_WALKTHROUGH.md) · [AI 추천 설정·제약](docs/AI-RECOMMENDATION.md) · [2026-10-08 제품 검토](docs/PRODUCT_REVIEW_2026-10-08.md)
+- [AI 추천 설정·제약](docs/AI-RECOMMENDATION.md) · [2026-10-08 제품 검토](docs/PRODUCT_REVIEW_2026-10-08.md)
 - [릴리스 이력](CHANGELOG.md) · [최신 CI 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)
 - [Production 수동 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/production-verify.yml)
 
