@@ -429,6 +429,9 @@ function fakeLogin(){
     // Preserve the live-region login announcement without visually covering the first tool card.
     const loginStatus = document.getElementById('loginAnnouncement');
     if(loginStatus) loginStatus.textContent = '가상 SSO 로그인 완료 · 직무별 라이선스를 불러왔습니다.';
+    // Preserve the original status-region text contract while never displaying an inactive toast.
+    const legacyToastStatus = document.getElementById('toast');
+    if(legacyToastStatus) legacyToastStatus.textContent = '가상 SSO 로그인 완료 · 직무별 라이선스를 불러왔습니다.';
   });
 }
 
