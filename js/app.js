@@ -243,10 +243,20 @@ function setRole(key){
 
 function showToast(message){
   const t = document.getElementById('toast');
+  if(!t) return;
+  clearTimeout(window._toastTimer);
+  clearTimeout(window._toastHideTimer);
+  // Keep the initial HTML hidden; reveal only real notifications after their CSS is active.
+  t.hidden = false;
   t.textContent = message || '목록에 없는 라이선스는 JSM 문의 요청으로 접수되어 같은 형식의 요청번호가 발급됩니다.';
   t.classList.add('show');
-  clearTimeout(window._toastTimer);
-  window._toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
+  window._toastTimer = setTimeout(()=>{
+    t.classList.remove('show');
+    // Preserve the existing fade-out, then remove the toast from layout and the a11y tree.
+    window._toastHideTimer = setTimeout(()=>{
+      if(!t.classList.contains('show')) t.hidden = true;
+    }, 260);
+  }, 2400);
 }
 
 
@@ -417,8 +427,11 @@ function fakeLogin(){
     syncPageInert();
     document.getElementById('mainContent').focus({preventScroll:true});
     // Preserve the live-region login announcement without visually covering the first tool card.
-    const loginStatus = document.getElementById('toast');
+    const loginStatus = document.getElementById('loginAnnouncement');
     if(loginStatus) loginStatus.textContent = '가상 SSO 로그인 완료 · 직무별 라이선스를 불러왔습니다.';
+    // Preserve the original status-region text contract while never displaying an inactive toast.
+    const legacyToastStatus = document.getElementById('toast');
+    if(legacyToastStatus) legacyToastStatus.textContent = '가상 SSO 로그인 완료 · 직무별 라이선스를 불러왔습니다.';
   });
 }
 
