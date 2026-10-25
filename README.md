@@ -28,6 +28,13 @@
 - Production: [운영 데모](https://onboardos-rho.vercel.app/) · 커밋 `32876f1a9ccd538879c215badd38d5a968aee495` · Vercel READY · 해당 커밋의 GitHub Actions **14개 검사 전부 성공**(Production 데스크톱/모바일 Smoke·배포 무결성 포함). GitHub [main 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 확인.
 - 테스트 통과는 **실제 직원 인증·실제 지급 연동 또는 실시간 Gemini 추천 품질의 검증을 의미하지 않습니다.** 릴리스 표기는 기존 v18.0.0/P6 `candidate` 유지.
 
+## 2026-10-25 문서·모바일 성능 동기화
+
+- **저장소·문서:** `onboardos` → `toolflow` 리네임 후 [PR #149](https://github.com/dohyunkimmm/toolflow/pull/149)에서 README 및 운영 가이드 등 GitHub 링크를 동기화하고, 관련 Notion 프로젝트 페이지 5개도 새 저장소 주소로 정리. 기존 Vercel 데모 URL은 유지.
+- **모바일 Lighthouse 개선:** [PR #150](https://github.com/dohyunkimmm/toolflow/pull/150)에서 로컬 QA 서버의 HTML·CSS·JavaScript 등 텍스트 정적 자산에 Brotli/Gzip 압축 전송을 적용해 실제 Vercel 정적 응답과 측정 조건을 일치시킴. 운영 앱의 기능 코드나 Lighthouse 기준치는 변경하지 않음.
+- **성능 검증:** 동일한 격리 테스트 환경에서 모바일 3회 측정 기준 **성능 84점 → 91~95점**, **LCP 약 4.37~4.38초 → 약 2.42~2.45초**, **전송량 약 537KB → 169KB**. [PR #150 CI](https://github.com/dohyunkimmm/toolflow/actions/runs/40153464104)에서 모바일·데스크톱 Lighthouse 및 Chromium, Firefox/WebKit, 보안·복구 등 검사 통과.
+- **병합·문서 검사:** PR #149·#150 모두 `main`에 병합됨. [Documentation Sync](https://github.com/dohyunkimmm/toolflow/actions/runs/40153755623) 통과. 위 성능 수치는 **QA 테스트 서버 기준**이며 운영 사용자 환경의 Core Web Vitals 실측치가 아님.
+
 ## 실제 연동 범위
 
 이 프로젝트는 **가상 데이터 기반 인터랙티브 프로토타입**입니다.
