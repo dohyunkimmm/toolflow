@@ -15,7 +15,7 @@
 
 ## 2026-10-24 운영 기준 (PR #144·#145)
 
-[PR #144](https://github.com/dohyunkimmm/onboardos/pull/144)에서 직군 외 업무 케이스와 43개 내부 추천 카탈로그를 확장했고, [PR #145](https://github.com/dohyunkimmm/onboardos/pull/145)에서는 첫 화면의 복잡한 자동 추천 UI·진한 배경·추가 카테고리 패널을 제거했다. 현재 **유일한 추천 진입점은 'AI 추천' 버튼**이며, 모달의 기본 3개 제안은 규칙 기반(실제 Gemini 응답으로 표시하지 않음)이다. 짧은 업무 문구나 빈 문자열도 허용하며 **'추천 받기'를 누를 때만** 서버 API를 요청한다.
+[PR #144](https://github.com/dohyunkimmm/toolflow/pull/144)에서 직군 외 업무 케이스와 43개 내부 추천 카탈로그를 확장했고, [PR #145](https://github.com/dohyunkimmm/toolflow/pull/145)에서는 첫 화면의 복잡한 자동 추천 UI·진한 배경·추가 카테고리 패널을 제거했다. 현재 **유일한 추천 진입점은 'AI 추천' 버튼**이며, 모달의 기본 3개 제안은 규칙 기반(실제 Gemini 응답으로 표시하지 않음)이다. 짧은 업무 문구나 빈 문자열도 허용하며 **'추천 받기'를 누를 때만** 서버 API를 요청한다.
 
 **운영 배포** `32876f1a9ccd538879c215badd38d5a968aee495` (Vercel READY), GitHub Actions 해당 커밋의 검사 14개 성공. 이 검증은 공급자 모의 응답·UI·보안·Production Smoke에 관한 것이며, 사용자 실제 Gemini 요청 결과/추천 적합성까지 검증한 것은 아니다. Vercel에 등록된 환경변수는 기존 값을 사용하며 키 재발급을 요구하지 않는다.
 

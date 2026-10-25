@@ -4,24 +4,24 @@
 
 ## 2026-10-24 현재 Production 검증 (최신)
 
-- [PR #144](https://github.com/dohyunkimmm/onboardos/pull/144): AI·협업·PM·기타 20개 확장(내부 카탈로그 43개), 업무 케이스 기반 직군 외 도구 추천과 IT 예외 요청 분기, 입력 최소 글자 제한 제거.
-- [PR #145](https://github.com/dohyunkimmm/onboardos/pull/145): 신규입사자 첫 화면의 인라인 추천·케이스 선택·확장 목록·어두운 강조 배경 제거. 기존 핵심 카탈로그 23개 중심 화면 복구. ‘AI 추천’ 버튼 모달에서 기본 3개를 먼저 제시, 선택 입력 뒤 사용자가 요청할 때만 Gemini 호출.
+- [PR #144](https://github.com/dohyunkimmm/toolflow/pull/144): AI·협업·PM·기타 20개 확장(내부 카탈로그 43개), 업무 케이스 기반 직군 외 도구 추천과 IT 예외 요청 분기, 입력 최소 글자 제한 제거.
+- [PR #145](https://github.com/dohyunkimmm/toolflow/pull/145): 신규입사자 첫 화면의 인라인 추천·케이스 선택·확장 목록·어두운 강조 배경 제거. 기존 핵심 카탈로그 23개 중심 화면 복구. ‘AI 추천’ 버튼 모달에서 기본 3개를 먼저 제시, 선택 입력 뒤 사용자가 요청할 때만 Gemini 호출.
 - **운영 소스 SHA:** `32876f1a9ccd538879c215badd38d5a968aee495`. [운영 사이트](https://onboardos-rho.vercel.app/)를 가리키는 Vercel Production 배포 **READY** 확인. 해당 커밋의 GitHub Actions **14/14 성공** (Chromium·Firefox/WebKit, 보안, 복구, 접근성, 데스크톱/모바일 Lighthouse, Production 데스크톱/모바일 Smoke·배포 무결성 및 증빙 포함).
 - **해석 한계:** 테스트는 모의 로그인·모의 티켓·모의 지급 흐름 및 Gemini 모의 공급자 테스트를 검증한다. 실제 Gemini 응답 품질, 회사 인증, 실제 JSM 연동·라이선스 발급을 입증하지 않는다. `release.json` v18.0.0/P6 `candidate` 유지.
-- GitHub [최신 main 검증](https://github.com/dohyunkimmm/onboardos/actions/workflows/e2e.yml?query=branch%3Amain), [배포 이력](https://vercel.com/dohyunkimm/onboard.os). 기존 `protect-main` 필수 PR·검사 정책, `Require signed commits` 미활성 상태에 대한 과거 기록은 별도 변경 없음.
+- GitHub [최신 main 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain), [배포 이력](https://vercel.com/dohyunkimm/onboard.os). 기존 `protect-main` 필수 PR·검사 정책, `Require signed commits` 미활성 상태에 대한 과거 기록은 별도 변경 없음.
 
 ## 완료 / 검증됨
 
 | 항목 | 현재 상태 | 근거 |
 | --- | --- | --- |
-| 최신 검증 기준 | 문서 동기화 포함 `main` SHA `13f85148d890a84f19c653ae669351fca99130e3`에서 E2E·문서 검증 모두 성공. Production 실행 코드는 `5f4d0e5` 배포 | [성공한 E2E](https://github.com/dohyunkimmm/onboardos/actions/runs/39969874660) |
-| 의존성·QA | Playwright 1.64.1, `actions/upload-artifact` 7.0.2, axe-core 4.14 및 setup-node 7.1.0. 버튼 accessible name·focus-within 회귀 복원 | [#111](https://github.com/dohyunkimmm/onboardos/pull/111), [#108](https://github.com/dohyunkimmm/onboardos/pull/108), [#115](https://github.com/dohyunkimmm/onboardos/pull/115) |
-| 기본 브랜치 보호 | [`protect-main` #24772212](https://github.com/dohyunkimmm/onboardos/settings/rules/24772212) **active**: PR 필수, 삭제/강제 푸시 금지, 최신 브랜치 strict 필수 CI, **Require linear history 활성** | GitHub ruleset 조회 |
-| 중복 보호 정리 | 오래된 [`main` #22980900](https://github.com/dohyunkimmm/onboardos/settings/rules/22980900)은 **disabled**, 삭제하지 않아 되돌리기 가능 | [#114](https://github.com/dohyunkimmm/onboardos/issues/114) |
-| 보호 정책 실증 | 고의 Chromium 실패 PR [#116](https://github.com/dohyunkimmm/onboardos/pull/116)의 `mergeable_state=blocked` 확인. PR은 병합 없이 종료했고 테스트 브랜치 삭제 확인 | [CI 실행](https://github.com/dohyunkimmm/onboardos/actions/runs/39687510645) |
-| 커밋 서명 준비 | 미서명 커밋을 **경고만** 하는 `Commit signatures (informational)` 워크플로 및 [서명 설정 가이드](../.github/COMMIT_SIGNING.md) 병합 | [#117](https://github.com/dohyunkimmm/onboardos/pull/117) |
-| 서명 결과 | PR #117의 API 생성 커밋 **0/4 verified**, 병합 후 GitHub가 만든 squash 커밋 `81bb7c7`은 **Verified** | [감사 CI](https://github.com/dohyunkimmm/onboardos/actions/runs/39690135981) |
-| 이전 검증 완료 main CI (10/22) | 기준 SHA `a9f0a94`의 필수 검사·Production smoke 등 14개 성공. 10/23 이후 변경의 검증을 대체하지 않음 | [당시 E2E](https://github.com/dohyunkimmm/onboardos/actions/runs/39692702095) |
+| 최신 검증 기준 | 문서 동기화 포함 `main` SHA `13f85148d890a84f19c653ae669351fca99130e3`에서 E2E·문서 검증 모두 성공. Production 실행 코드는 `5f4d0e5` 배포 | [성공한 E2E](https://github.com/dohyunkimmm/toolflow/actions/runs/39969874660) |
+| 의존성·QA | Playwright 1.64.1, `actions/upload-artifact` 7.0.2, axe-core 4.14 및 setup-node 7.1.0. 버튼 accessible name·focus-within 회귀 복원 | [#111](https://github.com/dohyunkimmm/toolflow/pull/111), [#108](https://github.com/dohyunkimmm/toolflow/pull/108), [#115](https://github.com/dohyunkimmm/toolflow/pull/115) |
+| 기본 브랜치 보호 | [`protect-main` #24772212](https://github.com/dohyunkimmm/toolflow/settings/rules/24772212) **active**: PR 필수, 삭제/강제 푸시 금지, 최신 브랜치 strict 필수 CI, **Require linear history 활성** | GitHub ruleset 조회 |
+| 중복 보호 정리 | 오래된 [`main` #22980900](https://github.com/dohyunkimmm/toolflow/settings/rules/22980900)은 **disabled**, 삭제하지 않아 되돌리기 가능 | [#114](https://github.com/dohyunkimmm/toolflow/issues/114) |
+| 보호 정책 실증 | 고의 Chromium 실패 PR [#116](https://github.com/dohyunkimmm/toolflow/pull/116)의 `mergeable_state=blocked` 확인. PR은 병합 없이 종료했고 테스트 브랜치 삭제 확인 | [CI 실행](https://github.com/dohyunkimmm/toolflow/actions/runs/39687510645) |
+| 커밋 서명 준비 | 미서명 커밋을 **경고만** 하는 `Commit signatures (informational)` 워크플로 및 [서명 설정 가이드](../.github/COMMIT_SIGNING.md) 병합 | [#117](https://github.com/dohyunkimmm/toolflow/pull/117) |
+| 서명 결과 | PR #117의 API 생성 커밋 **0/4 verified**, 병합 후 GitHub가 만든 squash 커밋 `81bb7c7`은 **Verified** | [감사 CI](https://github.com/dohyunkimmm/toolflow/actions/runs/39690135981) |
+| 이전 검증 완료 main CI (10/22) | 기준 SHA `a9f0a94`의 필수 검사·Production smoke 등 14개 성공. 10/23 이후 변경의 검증을 대체하지 않음 | [당시 E2E](https://github.com/dohyunkimmm/toolflow/actions/runs/39692702095) |
 
 ### 필수 상태 검사 (정확한 이름)
 
@@ -33,19 +33,19 @@
 
 ## 2026-10-22 동기화 추가 확인
 
-- [운영 문서 동기화 PR #118](https://github.com/dohyunkimmm/onboardos/pull/118)을 squash merge했고 최신 검증 대상 SHA `a9f0a94`에서 E2E 및 Documentation sync 워크플로가 모두 성공했습니다.
-- 활성 [Ruleset `protect-main` #24772212](https://github.com/dohyunkimmm/onboardos/settings/rules/24772212)는 `strict=true`, PR 필수, 삭제·강제 푸시 차단, 선형 이력 필수, Chromium/Security/Resilience 정확한 필수 검사 3개를 유지합니다. 구형 `main` #22980900은 disabled 유지.
+- [운영 문서 동기화 PR #118](https://github.com/dohyunkimmm/toolflow/pull/118)을 squash merge했고 최신 검증 대상 SHA `a9f0a94`에서 E2E 및 Documentation sync 워크플로가 모두 성공했습니다.
+- 활성 [Ruleset `protect-main` #24772212](https://github.com/dohyunkimmm/toolflow/settings/rules/24772212)는 `strict=true`, PR 필수, 삭제·강제 푸시 차단, 선형 이력 필수, Chromium/Security/Resilience 정확한 필수 검사 3개를 유지합니다. 구형 `main` #22980900은 disabled 유지.
 - `Commit signatures (informational)` 감사 워크플로는 병합돼 있지만 unsigned 상태에서도 작업을 **성공 처리**하므로 서명 정책 강제와 다릅니다. API 자동 변경 경로의 서명 해결·사용자 SSH/GPG 서명 PR 검증 결과는 아직 없습니다. **`Require signed commits`는 미활성**입니다.
-- [P1 보호 검증 이슈 #114](https://github.com/dohyunkimmm/onboardos/issues/114)는 중복 규칙·차단 검증 완료로 closed이며, 서명 강제 적용은 별도 미완료 보안 후속입니다.
+- [P1 보호 검증 이슈 #114](https://github.com/dohyunkimmm/toolflow/issues/114)는 중복 규칙·차단 검증 완료로 closed이며, 서명 강제 적용은 별도 미완료 보안 후속입니다.
 
 ## 2026-10-23 당시 통합·검증 및 정리 (이력)
 
-- **기능 통합:** 직원용 직무 선택·라이선스 카탈로그, AI 추천·신청 초안, 직무별 Power BI/Postman/모두싸인, 추천 API 요청 제한·세션 복구를 포함한 [PR #120–#133](https://github.com/dohyunkimmm/onboardos/pull/133)까지 `main`에 통합됨.
-- **검증 오류 보정:** [PR #134](https://github.com/dohyunkimmm/onboardos/pull/134)에서 API `api/recommend.js`의 정상적인 GET 405를 정적 소스 다운로드 실패로 취급하던 검사 오류를 수정. 매니페스트 v2는 HTTP로 SHA-256 비교하는 공개 자산과 로컬 소스 존재/릴리스 계약으로 확인하는 서버·스크립트 파일을 구분하고, API는 POST 전용 응답 계약을 별도 확인.
-- **Vercel 배포·검증 (최종 확인):** [PR #135](https://github.com/dohyunkimmm/onboardos/pull/135)의 테스트 전용 WebKit 우회를 병합한 후 Production 배포는 SHA `5f4d0e5`로 **READY**. [main E2E #39969112576](https://github.com/dohyunkimmm/onboardos/actions/runs/39969112576)와 문서 동기화 [#136](https://github.com/dohyunkimmm/onboardos/pull/136) 이후 최신 [main E2E #39969874660](https://github.com/dohyunkimmm/onboardos/actions/runs/39969874660)에서 **13개 작업 전체 성공**. 공개 정적 자산 139/139 SHA-256 무결성, POST 전용 API 계약, Production Desktop Chromium·iPhone WebKit Smoke, 릴리스 검증 증빙 모두 성공. 구형 WebKit native `<select>`의 `style-src-attr` 엔진 회귀는 기능 테스트 컨텍스트에만 `bypassCSP:true`를 사용하며, 실제 배포 CSP는 그대로 유지하고 별도 엄격 CSP 재현 및 보안 게이트를 유지함. WebKit 기능 성공을 WebKit의 CSP 강제 실행 자체를 검증한 것으로 해석하지 않음.
+- **기능 통합:** 직원용 직무 선택·라이선스 카탈로그, AI 추천·신청 초안, 직무별 Power BI/Postman/모두싸인, 추천 API 요청 제한·세션 복구를 포함한 [PR #120–#133](https://github.com/dohyunkimmm/toolflow/pull/133)까지 `main`에 통합됨.
+- **검증 오류 보정:** [PR #134](https://github.com/dohyunkimmm/toolflow/pull/134)에서 API `api/recommend.js`의 정상적인 GET 405를 정적 소스 다운로드 실패로 취급하던 검사 오류를 수정. 매니페스트 v2는 HTTP로 SHA-256 비교하는 공개 자산과 로컬 소스 존재/릴리스 계약으로 확인하는 서버·스크립트 파일을 구분하고, API는 POST 전용 응답 계약을 별도 확인.
+- **Vercel 배포·검증 (최종 확인):** [PR #135](https://github.com/dohyunkimmm/toolflow/pull/135)의 테스트 전용 WebKit 우회를 병합한 후 Production 배포는 SHA `5f4d0e5`로 **READY**. [main E2E #39969112576](https://github.com/dohyunkimmm/toolflow/actions/runs/39969112576)와 문서 동기화 [#136](https://github.com/dohyunkimmm/toolflow/pull/136) 이후 최신 [main E2E #39969874660](https://github.com/dohyunkimmm/toolflow/actions/runs/39969874660)에서 **13개 작업 전체 성공**. 공개 정적 자산 139/139 SHA-256 무결성, POST 전용 API 계약, Production Desktop Chromium·iPhone WebKit Smoke, 릴리스 검증 증빙 모두 성공. 구형 WebKit native `<select>`의 `style-src-attr` 엔진 회귀는 기능 테스트 컨텍스트에만 `bypassCSP:true`를 사용하며, 실제 배포 CSP는 그대로 유지하고 별도 엄격 CSP 재현 및 보안 게이트를 유지함. WebKit 기능 성공을 WebKit의 CSP 강제 실행 자체를 검증한 것으로 해석하지 않음.
 - **저장소 보호:** `protect-main` active, strict 필수 검사 3개, PR 필수 및 선형 이력 정책을 GitHub에서 재확인함. 구형 중복 규칙은 disabled. `Require signed commits` 규칙은 포함되어 있지 않음.
 - **브랜치 정리:** 작업 전 확인한 기존 비기본 브랜치 24개는 모두 `main`과 diverged이며 고유 commit 기준 `ahead_by > 0`. Squash 병합된 이력도 포함될 수 있어 무조건 삭제하거나 강제 동기화하지 않음. 열린 PR·이슈는 작업 착수 시 0개였음.
-- **문서 동기화:** [PR #136](https://github.com/dohyunkimmm/onboardos/pull/136) 병합 완료. README·체험 안내·CHANGELOG에서 현재 직무/AI/리뷰어 흐름과 실서비스 체험 경로를 정리함. 문서 변경은 런타임 배포 없이 기존 Production을 재검증함.
+- **문서 동기화:** [PR #136](https://github.com/dohyunkimmm/toolflow/pull/136) 병합 완료. README·체험 안내·CHANGELOG에서 현재 직무/AI/리뷰어 흐름과 실서비스 체험 경로를 정리함. 문서 변경은 런타임 배포 없이 기존 Production을 재검증함.
 - **릴리스 상태:** `release.json`의 v18.0.0/P6 `candidate`는 유지. 기존 릴리스 검증 자료와 최신 운영 검증 증거를 구분함. Gemini 실계정 추천 품질·비용·인증은 별도 미검증.
 
 ## 미완료 — 서명 **강제** 전환

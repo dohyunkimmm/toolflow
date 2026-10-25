@@ -37,14 +37,14 @@
 
 ## 2026-10-24 배포 기준
 
-- [UI 단순화 PR #145](https://github.com/dohyunkimmm/onboardos/pull/145) 병합 커밋 `32876f1`, Vercel Production READY. [main E2E](https://github.com/dohyunkimmm/onboardos/actions/workflows/e2e.yml?query=branch%3Amain)에서 Production Smoke·무결성 포함 14개 검사 성공.
+- [UI 단순화 PR #145](https://github.com/dohyunkimmm/toolflow/pull/145) 병합 커밋 `32876f1`, Vercel Production READY. [main E2E](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 Production Smoke·무결성 포함 14개 검사 성공.
 - 실제 Gemini API 키로 생성된 추천의 정답률·과금·직원별 권한 지급은 검증/구현 범위가 아닙니다. 기존 v18.0.0/P6 릴리스 표기는 `candidate`입니다.
 
 ## 설계·검증 근거
 
 - [현재 기능 및 기술 범위](../README.md)
 - [제품 검토·후속 과제](PRODUCT_REVIEW_2026-10-08.md)
-- [현재 배포 품질 확인](https://github.com/dohyunkimmm/onboardos/actions/workflows/e2e.yml?query=branch%3Amain)
+- [현재 배포 품질 확인](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)
 - [프로젝트 변경 이력](../CHANGELOG.md)
 
 독립적인 브라우저·보안·접근성 및 배포 무결성 검증 결과는 GitHub Actions에서 확인합니다. 릴리스 기준은 `release.json`이며, v18.0.0/P6 `candidate` 상태를 그대로 유지합니다.

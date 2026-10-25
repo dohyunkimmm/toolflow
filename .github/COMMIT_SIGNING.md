@@ -2,7 +2,7 @@
 
 This repository currently protects `main` with PR-only changes, verified CI checks,
 non-fast-forward protection, and linear history. The active ruleset is
-[`protect-main`](https://github.com/dohyunkimmm/onboardos/settings/rules/24772212).
+[`protect-main`](https://github.com/dohyunkimmm/toolflow/settings/rules/24772212).
 
 ## Current status: audit-only
 
@@ -68,11 +68,11 @@ GitHub web editor, or another verified signing route for all such changes.
    (never rewrite protected `main` history). Respect collaborators before
    rewriting shared branches.
 3. Run the standard PR CI and confirm checks pass.
-4. In [`protect-main`](https://github.com/dohyunkimmm/onboardos/settings/rules/24772212),
+4. In [`protect-main`](https://github.com/dohyunkimmm/toolflow/settings/rules/24772212),
    enable **Require signed commits**, keeping every existing protection.
 5. Prove that a deliberately unsigned test PR is blocked; close the PR and
    delete the test branch without merging.
-6. Record results in [issue #114](https://github.com/dohyunkimmm/onboardos/issues/114).
+6. Record results in [issue #114](https://github.com/dohyunkimmm/toolflow/issues/114).
 
 References: [GitHub signing documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits)
 and [Ruleset rule behavior](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets).
