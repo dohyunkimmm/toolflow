@@ -39,7 +39,7 @@ const report = {
   runUrl:repository && process.env.GITHUB_RUN_ID ? `${serverUrl}/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}` : null,
   workflowUrl:repository ? `${serverUrl}/${repository}/actions/workflows/e2e.yml?query=branch%3Amain` : null,
   verificationMatrixUrl:repository ? `${serverUrl}/${repository}#verification-matrix` : null,
-  productionUrl:'https://onboardos-rho.vercel.app/',
+  productionUrl:'https://toolflow-dohyunkimmm.vercel.app/',
   release:{
     product:release.product,
     version:release.version,

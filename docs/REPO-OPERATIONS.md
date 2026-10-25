@@ -6,7 +6,7 @@
 
 - [PR #144](https://github.com/dohyunkimmm/toolflow/pull/144): AI·협업·PM·기타 20개 확장(내부 카탈로그 43개), 업무 케이스 기반 직군 외 도구 추천과 IT 예외 요청 분기, 입력 최소 글자 제한 제거.
 - [PR #145](https://github.com/dohyunkimmm/toolflow/pull/145): 신규입사자 첫 화면의 인라인 추천·케이스 선택·확장 목록·어두운 강조 배경 제거. 기존 핵심 카탈로그 23개 중심 화면 복구. ‘AI 추천’ 버튼 모달에서 기본 3개를 먼저 제시, 선택 입력 뒤 사용자가 요청할 때만 Gemini 호출.
-- **운영 소스 SHA:** `32876f1a9ccd538879c215badd38d5a968aee495`. [운영 사이트](https://onboardos-rho.vercel.app/)를 가리키는 Vercel Production 배포 **READY** 확인. 해당 커밋의 GitHub Actions **14/14 성공** (Chromium·Firefox/WebKit, 보안, 복구, 접근성, 데스크톱/모바일 Lighthouse, Production 데스크톱/모바일 Smoke·배포 무결성 및 증빙 포함).
+- **운영 소스 SHA:** `32876f1a9ccd538879c215badd38d5a968aee495`. [운영 사이트](https://toolflow-dohyunkimmm.vercel.app/)를 가리키는 Vercel Production 배포 **READY** 확인. 해당 커밋의 GitHub Actions **14/14 성공** (Chromium·Firefox/WebKit, 보안, 복구, 접근성, 데스크톱/모바일 Lighthouse, Production 데스크톱/모바일 Smoke·배포 무결성 및 증빙 포함).
 - **해석 한계:** 테스트는 모의 로그인·모의 티켓·모의 지급 흐름 및 Gemini 모의 공급자 테스트를 검증한다. 실제 Gemini 응답 품질, 회사 인증, 실제 JSM 연동·라이선스 발급을 입증하지 않는다. `release.json` v18.0.0/P6 `candidate` 유지.
 - GitHub [최신 main 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain), [배포 이력](https://vercel.com/dohyunkimm/onboard.os). 기존 `protect-main` 필수 PR·검사 정책, `Require signed commits` 미활성 상태에 대한 과거 기록은 별도 변경 없음.
 

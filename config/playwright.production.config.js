@@ -8,7 +8,7 @@ module.exports = defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? [['list'], ['html', { open: 'never', outputFolder: '../playwright-report-production' }]] : 'list',
   use: {
-    baseURL: process.env.PRODUCTION_URL || 'https://onboardos-rho.vercel.app',
+    baseURL: process.env.PRODUCTION_URL || 'https://toolflow-dohyunkimmm.vercel.app',
     trace: 'retain-on-failure',
     timezoneId: 'Asia/Seoul'
   },
