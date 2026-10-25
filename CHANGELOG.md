@@ -8,33 +8,33 @@
 
 PR #102 후보 변경으로 직무별 필수 도구 준비 상태, 완료 필터의 실제 비노출·키보드 제외, 설치·계정 시작 가이드, 승인 요청의 목적·범위·기간 입력 및 관리자 판단 정보를 추가했습니다. 공통 도구와 대표 신청 체험은 필수 도구 준비 상태와 구분합니다. 실제 기업의 SSO·좌석·비용·설치 포털은 연결되지 않았습니다.
 
-**검증 상태(2026-10-23 갱신):** 10월 8일 최초 후보 설명은 당시 검증 범위의 기록입니다. 이후 변경은 개별 PR의 전체 CI를 거쳐 순차적으로 병합되었으며, 최신 Production 검증은 [main E2E #40015446574](https://github.com/dohyunkimmm/onboardos/actions/runs/40015446574)에서 확인해야 합니다. 기존 v18.0.0 릴리스 검증 자료는 과거 릴리스 기록으로 남으며, 이후 후보 코드의 검증으로 소급하지 않습니다. 상세 내용은 [`docs/PRODUCT_REVIEW_2026-10-08.md`](./docs/PRODUCT_REVIEW_2026-10-08.md)를 참고하세요.
+**검증 상태(2026-10-23 갱신):** 10월 8일 최초 후보 설명은 당시 검증 범위의 기록입니다. 이후 변경은 개별 PR의 전체 CI를 거쳐 순차적으로 병합되었으며, 최신 Production 검증은 [main E2E #40015446574](https://github.com/dohyunkimmm/toolflow/actions/runs/40015446574)에서 확인해야 합니다. 기존 v18.0.0 릴리스 검증 자료는 과거 릴리스 기록으로 남으며, 이후 후보 코드의 검증으로 소급하지 않습니다. 상세 내용은 [`docs/PRODUCT_REVIEW_2026-10-08.md`](./docs/PRODUCT_REVIEW_2026-10-08.md)를 참고하세요.
 
 ### 직군+케이스 추천 확장, 신규입사자 UI 원복 — 2026-10-24 (최신)
 
-- [PR #143](https://github.com/dohyunkimmm/onboardos/pull/143): 동의 후 인라인 Gemini 추천 시도. 사용자가 새 화면의 반복 입력·복잡성을 지적해 이후 PR #145에서 상시 노출 AI 패널을 철회함.
-- [PR #144](https://github.com/dohyunkimmm/onboardos/pull/144): 직군별 확장 5개씩(총 20개), AI·협업툴·PM툴·기타 분류, 공통 업무 케이스·직군 외 라이선스 예외 요청, 5글자 최소 입력 제한 제거. 내부 카탈로그 **43개**.
-- [PR #145](https://github.com/dohyunkimmm/onboardos/pull/145): 신규입사자에게 불필요한 상시 AI 패널·케이스 선택·확장 카테고리 목록 및 어두운 추가 배경을 첫 화면에서 제거. 이전의 간결한 첫 화면 복원. **AI 추천 버튼 → 모달에서 기본 3개 추천 → 업무 입력은 선택·추천 받기 시 Gemini 호출** 방식으로 정리. 추가 20개는 AI 후보 데이터로 유지.
+- [PR #143](https://github.com/dohyunkimmm/toolflow/pull/143): 동의 후 인라인 Gemini 추천 시도. 사용자가 새 화면의 반복 입력·복잡성을 지적해 이후 PR #145에서 상시 노출 AI 패널을 철회함.
+- [PR #144](https://github.com/dohyunkimmm/toolflow/pull/144): 직군별 확장 5개씩(총 20개), AI·협업툴·PM툴·기타 분류, 공통 업무 케이스·직군 외 라이선스 예외 요청, 5글자 최소 입력 제한 제거. 내부 카탈로그 **43개**.
+- [PR #145](https://github.com/dohyunkimmm/toolflow/pull/145): 신규입사자에게 불필요한 상시 AI 패널·케이스 선택·확장 카테고리 목록 및 어두운 추가 배경을 첫 화면에서 제거. 이전의 간결한 첫 화면 복원. **AI 추천 버튼 → 모달에서 기본 3개 추천 → 업무 입력은 선택·추천 받기 시 Gemini 호출** 방식으로 정리. 추가 20개는 AI 후보 데이터로 유지.
 - 최종 Production `32876f1a9ccd538879c215badd38d5a968aee495`, Vercel READY, GitHub Actions 해당 커밋의 **14개 검사 전부 성공**(Production Smoke·무결성 포함). 과거 출시 영상/후보 증빙과 최신 검증을 혼용하지 않음. Google SSO·JSM·실제 라이선스 지급은 모의 체험; Gemini 실제 추천 품질은 별도 검증 대상. 기존 `releaseStatus: candidate` 유지.
 
 ### 카탈로그 수치 동기화·구형 영상 정리 — 2026-10-24 (변경 전 기록)
 
 - **PR #140 시점**의 데이터 기준 카탈로그는 공통 5개+직무별 18개=총 23개였음 (디자인 4·개발 5·데이터 5·경영지원 4). 이는 최신 총 43개와 다르며, 지금은 화면 핵심 23개+AI 후보 확장 20개를 구분함. 기존 포트폴리오의 당시 21개/공통 6개 표현을 정정했던 이력.
-- [PR #138](https://github.com/dohyunkimmm/onboardos/pull/138), [PR #139](https://github.com/dohyunkimmm/onboardos/pull/139): 과거 녹화 스크립트·웹 경로·문서 노출·릴리스 업로드 의존성을 제거하고 일회성 정리 Action 실행 후 폐기. 변경 가능한 v1.7.0 영상 1개는 삭제.
+- [PR #138](https://github.com/dohyunkimmm/toolflow/pull/138), [PR #139](https://github.com/dohyunkimmm/toolflow/pull/139): 과거 녹화 스크립트·웹 경로·문서 노출·릴리스 업로드 의존성을 제거하고 일회성 정리 Action 실행 후 폐기. 변경 가능한 v1.7.0 영상 1개는 삭제.
 - 과거 v12/13/15/16/17/18의 GitHub **immutable 릴리스**에 포함된 영상 6개는 릴리스 파일 자체가 잠겨 있어 개별 삭제 불가. 현행 제품의 영상 노출은 제거했으며 기타 증빙을 일괄 삭제하지 않음.
 
 ### 사용자 경험·AI 추천·검증 경로 정리 — 2026-10-23
 
-- [#120–#127](https://github.com/dohyunkimmm/onboardos/pull/127): 밝은 업무용 UI, 직원용 간결한 라이선스 카탈로그, 중복 안내 정리, 직무 선택 메뉴 및 키보드/반응형 회귀 보정.
-- [#128–#133](https://github.com/dohyunkimmm/onboardos/pull/133): 직무별 선택형 Gemini 추천·허용 목록 검증, 라이선스 확장, 추천 기반 신청 초안, 요청 빈도 제한, 입력 변경/포커스/세션 복원 안정성 강화. 기본 SSO·승인·발급은 계속 모의 흐름.
-- [#134](https://github.com/dohyunkimmm/onboardos/pull/134): 서버 함수와 내부 스크립트를 공개 정적 자산 무결성 목록에서 분리. 공개 자산 SHA-256과 POST 전용 API 응답을 별도 검증하고 매니페스트 회귀 테스트 추가.
-- [#135](https://github.com/dohyunkimmm/onboardos/pull/135): Production 모바일 WebKit 기능 테스트만 알려진 native select/CSP 엔진 오류와 분리. 실제 사이트 CSP 설정과 독립적인 보안 게이트 및 엄격 CSP 원인 재현 검사는 유지.
+- [#120–#127](https://github.com/dohyunkimmm/toolflow/pull/127): 밝은 업무용 UI, 직원용 간결한 라이선스 카탈로그, 중복 안내 정리, 직무 선택 메뉴 및 키보드/반응형 회귀 보정.
+- [#128–#133](https://github.com/dohyunkimmm/toolflow/pull/133): 직무별 선택형 Gemini 추천·허용 목록 검증, 라이선스 확장, 추천 기반 신청 초안, 요청 빈도 제한, 입력 변경/포커스/세션 복원 안정성 강화. 기본 SSO·승인·발급은 계속 모의 흐름.
+- [#134](https://github.com/dohyunkimmm/toolflow/pull/134): 서버 함수와 내부 스크립트를 공개 정적 자산 무결성 목록에서 분리. 공개 자산 SHA-256과 POST 전용 API 응답을 별도 검증하고 매니페스트 회귀 테스트 추가.
+- [#135](https://github.com/dohyunkimmm/toolflow/pull/135): Production 모바일 WebKit 기능 테스트만 알려진 native select/CSP 엔진 오류와 분리. 실제 사이트 CSP 설정과 독립적인 보안 게이트 및 엄격 CSP 원인 재현 검사는 유지.
 - 위 개선은 `releaseStatus: candidate` 상태를 변경하거나, 과거 v18.0.0 릴리스의 증빙으로 최신 화면을 검증했다고 주장하지 않습니다.
 
 ### 문서·CI 유지보수 — 2026-10-09
 
-- [#105](https://github.com/dohyunkimmm/onboardos/pull/105)에서 README를 간소화했습니다. 자세한 검증 안내는 [DEMO_WALKTHROUGH](docs/DEMO_WALKTHROUGH.md)와 현재 GitHub Actions 실행 내역을 참고합니다.
-- [#106](https://github.com/dohyunkimmm/onboardos/pull/106)에서 E2E의 Node 22/npm 캐시/`npm ci` 반복 설정을 `.github/actions/setup-node-dependencies/action.yml`로 통합했습니다. 기존 QA 게이트와 제품 동작은 변경하지 않았습니다.
+- [#105](https://github.com/dohyunkimmm/toolflow/pull/105)에서 README를 간소화했습니다. 자세한 검증 안내는 [DEMO_WALKTHROUGH](docs/DEMO_WALKTHROUGH.md)와 현재 GitHub Actions 실행 내역을 참고합니다.
+- [#106](https://github.com/dohyunkimmm/toolflow/pull/106)에서 E2E의 Node 22/npm 캐시/`npm ci` 반복 설정을 `.github/actions/setup-node-dependencies/action.yml`로 통합했습니다. 기존 QA 게이트와 제품 동작은 변경하지 않았습니다.
 - 이 작업은 `releaseStatus: candidate`를 `verified`로 변경하지 않으며 새 Production 확인 기록도 아닙니다.
 
 ## v18.0.0 — Task Clarity & Product Experience — 2026-09-18
@@ -591,7 +591,7 @@ ONBOARD·OS의 포트폴리오용 기술 범위를 P6에서 동결합니다. 이
 실제 사용 데이터가 생긴 뒤에만 `Demo Login → License Request → Admin Review → License Complete` 퍼널을 확인합니다. Synthetic smoke/QA 트래픽은 Analytics endpoint를 intercept하며, 이름·이메일·EMP ID·자유 입력 신청 사유는 Custom Event data에 포함하지 않습니다.
 
 ### Published release
-- GitHub Release: [v1.7.0 — P6 verified portfolio freeze](https://github.com/dohyunkimmm/onboardos/releases/tag/v1.7.0)
+- GitHub Release: [v1.7.0 — P6 verified portfolio freeze](https://github.com/dohyunkimmm/toolflow/releases/tag/v1.7.0)
 - Tag: `v1.7.0`
 - Freeze commit: `b70537ef507443f0962b7d03a8f335ac7b6157f9`
 

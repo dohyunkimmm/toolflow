@@ -1,6 +1,6 @@
 # ToolFlow
 
-[![E2E Verification](https://github.com/dohyunkimmm/onboardos/actions/workflows/e2e.yml/badge.svg?branch=main)](https://github.com/dohyunkimmm/onboardos/actions/workflows/e2e.yml?query=branch%3Amain)
+[![E2E Verification](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml/badge.svg?branch=main)](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)
 
 **신규 입사자가 직무별 업무 도구를 확인하고, 라이선스 신청부터 승인·지급 완료까지 체험하는 온보딩 포털 프로토타입입니다.**
 
@@ -23,9 +23,9 @@
 
 ## 2026-10-24 최신 운영 상태
 
-- [PR #144](https://github.com/dohyunkimmm/onboardos/pull/144): 라이선스 추천 후보 총 43개 확대, 직군과 다른 업무 케이스(예: 경영지원의 디자인 편집, 디자인의 PDF 편집) 추천 및 예외 검토 흐름 추가.
-- [PR #145](https://github.com/dohyunkimmm/onboardos/pull/145): 신규입사자 첫 화면에서 상시 AI 패널·업무 케이스 드롭다운·추가 도구 카테고리를 제거하고 기존 간결한 화면·색상 복원. **AI 추천 버튼**을 누를 때만 기본 추천 3개 및 선택 입력이 포함된 모달 표시.
-- Production: [운영 데모](https://onboardos-rho.vercel.app/) · 커밋 `32876f1a9ccd538879c215badd38d5a968aee495` · Vercel READY · 해당 커밋의 GitHub Actions **14개 검사 전부 성공**(Production 데스크톱/모바일 Smoke·배포 무결성 포함). GitHub [main 검증](https://github.com/dohyunkimmm/onboardos/actions/workflows/e2e.yml?query=branch%3Amain)에서 확인.
+- [PR #144](https://github.com/dohyunkimmm/toolflow/pull/144): 라이선스 추천 후보 총 43개 확대, 직군과 다른 업무 케이스(예: 경영지원의 디자인 편집, 디자인의 PDF 편집) 추천 및 예외 검토 흐름 추가.
+- [PR #145](https://github.com/dohyunkimmm/toolflow/pull/145): 신규입사자 첫 화면에서 상시 AI 패널·업무 케이스 드롭다운·추가 도구 카테고리를 제거하고 기존 간결한 화면·색상 복원. **AI 추천 버튼**을 누를 때만 기본 추천 3개 및 선택 입력이 포함된 모달 표시.
+- Production: [운영 데모](https://onboardos-rho.vercel.app/) · 커밋 `32876f1a9ccd538879c215badd38d5a968aee495` · Vercel READY · 해당 커밋의 GitHub Actions **14개 검사 전부 성공**(Production 데스크톱/모바일 Smoke·배포 무결성 포함). GitHub [main 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 확인.
 - 테스트 통과는 **실제 직원 인증·실제 지급 연동 또는 실시간 Gemini 추천 품질의 검증을 의미하지 않습니다.** 릴리스 표기는 기존 v18.0.0/P6 `candidate` 유지.
 
 ## 실제 연동 범위
@@ -53,8 +53,8 @@ npm run test:e2e
 
 - [저장소 보호·커밋 서명·운영 검증 상태](docs/REPO-OPERATIONS.md) · [커밋 서명 설정](.github/COMMIT_SIGNING.md)
 - [2–3분 체험 안내](docs/DEMO_WALKTHROUGH.md) · [AI 추천 설정·제약](docs/AI-RECOMMENDATION.md) · [2026-10-08 제품 검토](docs/PRODUCT_REVIEW_2026-10-08.md)
-- [릴리스 이력](CHANGELOG.md) · [최신 CI 검증](https://github.com/dohyunkimmm/onboardos/actions/workflows/e2e.yml?query=branch%3Amain)
-- [Production 수동 검증](https://github.com/dohyunkimmm/onboardos/actions/workflows/production-verify.yml)
+- [릴리스 이력](CHANGELOG.md) · [최신 CI 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)
+- [Production 수동 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/production-verify.yml)
 
 ![ToolFlow 미리보기](og-image.png)
 
