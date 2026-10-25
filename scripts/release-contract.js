@@ -142,13 +142,12 @@ function validateReleaseContract(){
     fail(error.message);
   }
 
+  // Release history belongs in CHANGELOG, not in the README's product overview.
   const expectedTag = `v${release.version}`;
-  const readme = fs.readFileSync('README.md', 'utf8');
-  if(release.releaseStatus === 'verified'){
-    if(!readme.includes(`Portfolio release — ${expectedTag} / P6 Production verified.`)) fail(`README verified release block is not aligned to ${expectedTag}`);
-    if(!readme.includes(`releases/tag/${expectedTag}`)) fail(`README verified release link is not aligned to ${expectedTag}`);
-  } else {
-    if(!readme.includes(`Portfolio release — ${expectedTag} / P6 ${release.productReview ? 'product-review' : 'design-only'} candidate.`)) fail(`README candidate release block is not aligned to ${expectedTag}`);
+  const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+  if(!changelog.includes(expectedTag)) fail(`CHANGELOG release history is not aligned to ${expectedTag}`);
+  if(release.releaseStatus === 'verified' && !changelog.includes(`releases/tag/${expectedTag}`)){
+    fail(`CHANGELOG verified release link is not aligned to ${expectedTag}`);
   }
 
   const versionMatch = versionText.match(/^ToolFlow v(\d+\.\d+\.\d+)$/m);

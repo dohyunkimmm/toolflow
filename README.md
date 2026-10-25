@@ -4,11 +4,7 @@
 
 **신규 입사자가 직무별 업무 도구를 확인하고, 라이선스 신청부터 승인·지급 완료까지 체험하는 온보딩 포털 프로토타입입니다.**
 
-[Demo](https://onboardos-rho.vercel.app/) · [GitHub](https://github.com/dohyunkimmm/toolflow) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
-
-> **Portfolio release — v18.0.0 / P6 product-review candidate.**
->
-> 2026-10-08 제품 검토 1~7을 반영한 후보 상태입니다. 기존 v18.0.0 릴리스 검증 자료는 당시 버전의 기록입니다. 이 자료를 이번 후보 변경 전체의 E2E·시각 회귀·Production 검증 완료로 해석하지 않습니다.
+[Demo](https://onboardos-rho.vercel.app/) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)
 
 ## 핵심 사용자 흐름
 
@@ -20,20 +16,6 @@
 - **관리자 체험:** [리뷰어 모드](https://onboardos-rho.vercel.app/?review=1)에서 검토, 승인·반려, 보완 재신청, 지급 완료 처리
 - **예외 대응:** 직무 미매핑·목록 외 요청, 세션 복원, 직무별 시나리오 상태 격리
 - **접근성·반응형:** 키보드 조작, 스크린 리더 대응, 데스크톱·모바일 경험
-
-## 2026-10-24 최신 운영 상태
-
-- [PR #144](https://github.com/dohyunkimmm/toolflow/pull/144): 라이선스 추천 후보 총 43개 확대, 직군과 다른 업무 케이스(예: 경영지원의 디자인 편집, 디자인의 PDF 편집) 추천 및 예외 검토 흐름 추가.
-- [PR #145](https://github.com/dohyunkimmm/toolflow/pull/145): 신규입사자 첫 화면에서 상시 AI 패널·업무 케이스 드롭다운·추가 도구 카테고리를 제거하고 기존 간결한 화면·색상 복원. **AI 추천 버튼**을 누를 때만 기본 추천 3개 및 선택 입력이 포함된 모달 표시.
-- Production: [운영 데모](https://onboardos-rho.vercel.app/) · 커밋 `32876f1a9ccd538879c215badd38d5a968aee495` · Vercel READY · 해당 커밋의 GitHub Actions **14개 검사 전부 성공**(Production 데스크톱/모바일 Smoke·배포 무결성 포함). GitHub [main 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 확인.
-- 테스트 통과는 **실제 직원 인증·실제 지급 연동 또는 실시간 Gemini 추천 품질의 검증을 의미하지 않습니다.** 릴리스 표기는 기존 v18.0.0/P6 `candidate` 유지.
-
-## 2026-10-25 문서·모바일 성능 동기화
-
-- **저장소·문서:** `onboardos` → `toolflow` 리네임 후 [PR #149](https://github.com/dohyunkimmm/toolflow/pull/149)에서 README 및 운영 가이드 등 GitHub 링크를 동기화하고, 관련 Notion 프로젝트 페이지 5개도 새 저장소 주소로 정리. 기존 Vercel 데모 URL은 유지.
-- **모바일 Lighthouse 개선:** [PR #150](https://github.com/dohyunkimmm/toolflow/pull/150)에서 로컬 QA 서버의 HTML·CSS·JavaScript 등 텍스트 정적 자산에 Brotli/Gzip 압축 전송을 적용해 실제 Vercel 정적 응답과 측정 조건을 일치시킴. 운영 앱의 기능 코드나 Lighthouse 기준치는 변경하지 않음.
-- **성능 검증:** 동일한 격리 테스트 환경에서 모바일 3회 측정 기준 **성능 84점 → 91~95점**, **LCP 약 4.37~4.38초 → 약 2.42~2.45초**, **전송량 약 537KB → 169KB**. [PR #150 CI](https://github.com/dohyunkimmm/toolflow/actions/runs/40153464104)에서 모바일·데스크톱 Lighthouse 및 Chromium, Firefox/WebKit, 보안·복구 등 검사 통과.
-- **병합·문서 검사:** PR #149·#150 모두 `main`에 병합됨. [Documentation Sync](https://github.com/dohyunkimmm/toolflow/actions/runs/40153755623) 통과. 위 성능 수치는 **QA 테스트 서버 기준**이며 운영 사용자 환경의 Core Web Vitals 실측치가 아님.
 
 ## 실제 연동 범위
 
@@ -59,8 +41,8 @@ npm run test:e2e
 ## 자세히 보기
 
 - [저장소 보호·커밋 서명·운영 검증 상태](docs/REPO-OPERATIONS.md) · [커밋 서명 설정](.github/COMMIT_SIGNING.md)
-- [AI 추천 설정·제약](docs/AI-RECOMMENDATION.md) · [2026-10-08 제품 검토](docs/PRODUCT_REVIEW_2026-10-08.md)
-- [릴리스 이력](CHANGELOG.md) · [최신 CI 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)
+- [AI 추천 설정·제약](docs/AI-RECOMMENDATION.md)
+- [CI 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)
 - [Production 수동 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/production-verify.yml)
 
 ![ToolFlow 미리보기](og-image.png)
