@@ -2,6 +2,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const zlib = require('zlib');
 const root = process.cwd();
 const port = Number(process.env.PORT || 4173);
 const config = JSON.parse(fs.readFileSync('vercel.json','utf8'));
@@ -28,6 +29,16 @@ http.createServer((req,res) => {
   if(!file.startsWith(root + path.sep) || !fs.existsSync(file) || fs.statSync(file).isDirectory()){
     res.writeHead(404, {...securityHeaders, 'Cache-Control':'no-store'}); res.end('Not found'); return;
   }
-  res.writeHead(200, {...securityHeaders, 'Content-Type': mime[path.extname(file)] || 'application/octet-stream', 'Cache-Control':'no-store'});
-  fs.createReadStream(file).pipe(res);
+  // Keep local Lighthouse delivery aligned with compressed Vercel static responses.
+  const extension = path.extname(file);
+  const compressible = ['.html', '.js', '.css', '.json', '.svg'].includes(extension);
+  const accepted = req.headers['accept-encoding'] || '';
+  const encoding = compressible && /\bbr\b/.test(accepted) ? 'br' : compressible && /\bgzip\b/.test(accepted) ? 'gzip' : null;
+  const headers = {...securityHeaders, 'Content-Type': mime[extension] || 'application/octet-stream', 'Cache-Control':'no-store', 'Vary':'Accept-Encoding'};
+  if(encoding) headers['Content-Encoding'] = encoding;
+  res.writeHead(200, headers);
+  const source = fs.createReadStream(file);
+  if(encoding === 'br') source.pipe(zlib.createBrotliCompress()).pipe(res);
+  else if(encoding === 'gzip') source.pipe(zlib.createGzip()).pipe(res);
+  else source.pipe(res);
 }).listen(port, '127.0.0.1', () => console.log(`QA server listening on http://127.0.0.1:${port}`));
