@@ -71,5 +71,7 @@ test('업무 우선 순서와 모바일 직무 선택·대비 스타일을 유�
  assert.ok(html.indexOf('task-overview')<html.indexOf('licenses role-secondary'));
  assert.ok(html.indexOf('licenses role-secondary')<html.indexOf('licenses common-first'));
  assert.match(html,/<details\b(?=[^>]*class="licenses common-first")(?=[^>]*id="commonTools")(?=[^>]*\bopen\b)[^>]*>/);
- assert.match(read('css/product-readiness.css'),/role-tabs\{flex-wrap:wrap/);
+ assert.match(html, /<label class="catalog-field role-picker" for="roleSelect">/);
+ assert.match(html, /<select id="roleSelect" aria-label="직군 선택"/);
+ assert.match(read('css/catalog.css'), /body \.catalog-filter-row\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 });
