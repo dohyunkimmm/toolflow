@@ -12,11 +12,11 @@ const statusConfig = {
 
 
 const commonLicenses = [
-  { mono:'SL', icon:'icons/slack.svg',  name:'Slack',            cat:'협업툴', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://slack.com' },
-  { mono:'NT', icon:'icons/notion.svg',  name:'Notion',              cat:'협업툴', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://notion.so' },
-  { mono:'CF', icon:'icons/confluence.svg', name:'Confluence',       cat:'협업툴', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://confluence.atlassian.com' },
-  { mono:'JR', icon:'icons/jira.svg',    name:'Jira',                cat:'협업툴', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://jira.atlassian.com' },
-  { mono:'JSM', icon:'icons/jsm.svg', name:'Jira Service Management', cat:'IT 요청 포털', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://jira.atlassian.com' },
+  { mono:'SL', icon:'icons/slack.svg',  name:'Slack',            cat:'메신저·협업', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://slack.com' },
+  { mono:'NT', icon:'icons/notion.svg',  name:'Notion',              cat:'문서·지식 관리', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://app.notion.com' },
+  { mono:'CF', icon:'icons/confluence.svg', name:'Confluence',       cat:'문서·지식 관리', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://www.atlassian.com/software/confluence' },
+  { mono:'JR', icon:'icons/jira.svg',    name:'Jira',                cat:'프로젝트·이슈 관리', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://www.atlassian.com/software/jira' },
+  { mono:'JSM', icon:'icons/jsm.svg', name:'Jira Service Management', cat:'IT 요청 포털', owner:'IT팀', audience:'전사 구성원', status:'auto', url:'https://www.atlassian.com/software/jira/service-management' },
 ];
 
 const roles = {
@@ -47,7 +47,7 @@ const roles = {
     cards:[
       { mono:'SF', icon:'icons/snowflake.svg',  name:'Snowflake',          cat:'데이터 접근 권한', owner:'데이터팀 라이선스 담당', audience:'데이터 직군', status:'approval', url:'https://snowflake.com' },
       { mono:'DB', icon:'icons/dbeaver.svg',    name:'DBeaver',            cat:'DB툴', owner:'데이터팀 라이선스 담당', audience:'데이터 직군', status:'auto', url:'https://dbeaver.io' },
-      { mono:'GPT', icon:'icons/openai.svg',     name:'ChatGPT Enterprise', cat:'AI툴', owner:'IT팀·데이터팀', audience:'데이터 직군', status:'request', url:'https://chat.openai.com' },
+      { mono:'GPT', icon:'icons/openai.svg',     name:'ChatGPT Enterprise', cat:'AI툴', owner:'IT팀·데이터팀', audience:'데이터 직군', status:'request', url:'https://chatgpt.com' },
       { mono:'PBI', icon:'icons/power-bi.svg', name:'Power BI Pro', cat:'BI·데이터 시각화', owner:'데이터팀 라이선스 담당', audience:'데이터 직군', status:'request', url:'https://app.powerbi.com' },
       { mono:'PX', icon:'icons/perplexity.svg', name:'Perplexity',         cat:'AI툴', owner:'IT팀·데이터팀', audience:'데이터 직군', status:'request', url:'https://perplexity.ai' },
     ]

@@ -7,25 +7,25 @@ const read=file=>fs.readFileSync(file,'utf8');
 function setup(){
  const nodes=new Map();
  const node=id=>{
-   if(!nodes.has(id)) nodes.set(id,{id,value:'',textContent:'',innerHTML:'',hidden:false,dataset:{},inert:false,focus(){},setAttribute(){},removeAttribute(){},classList:{add(){},remove(){},toggle(){},contains(){return false;}},querySelectorAll(){return [];},closest(){return null;}});
+   if(!nodes.has(id)) nodes.set(id,{id,value:'',textContent:'',innerHTML:'',hidden:false,dataset:{},inert:false,checked:false,focus(){},setAttribute(){},removeAttribute(){},replaceChildren(){},append(){},appendChild(){},dispatchEvent(){},classList:{add(){},remove(){},toggle(){},contains(){return false;}},querySelectorAll(){return [];},closest(){return null;}});
    return nodes.get(id);
  };
- const context=vm.createContext({console,Date,Set,Map,setTimeout:()=>0,clearTimeout(){},requestAnimationFrame:fn=>fn(),window:{},sessionStorage:{setItem(){},removeItem(){},getItem(){return null;}},document:{getElementById:node,querySelectorAll:()=>[],querySelector:()=>null},trackEvent(){},activateOverlay(){},deactivateOverlay(){},focusCurrentOverlay(){},overlayReturnFocus:new Map(),syncPageInert(){}});
+ const context=vm.createContext({console,Date,Set,Map,setTimeout:()=>0,clearTimeout(){},requestAnimationFrame:fn=>fn(),window:{},sessionStorage:{setItem(){},removeItem(){},getItem(){return null;}},document:{getElementById:id=>id==='recommendationDraftReviewed'?(nodes.get(id)||null):node(id),querySelectorAll:()=>[],querySelector:selector=>selector.startsWith('#filterTabs')?{textContent:'완료'}:null,addEventListener(){},createElement:()=>({dataset:{},setAttribute(){},append(){},type:'',className:''}),createTextNode:text=>({textContent:text})},trackEvent(){},activateOverlay(){},deactivateOverlay(){},focusCurrentOverlay(){},overlayReturnFocus:new Map(),syncPageInert(){}});
  const app=read('js/app.js');
- for(const file of ['js/data.js','js/state.js','js/product-readiness.js']) vm.runInContext(read(file),context);
+ for(const file of ['js/data.js','js/state.js','js/product-readiness.js','js/catalog.js']) vm.runInContext(read(file),context);
  vm.runInContext(app.slice(0,app.indexOf('// 모바일 더보기')),context);
  return {node,context,run:code=>vm.runInContext(code,context)};
 }
-test('필수 도구와 선택 도구를 구분하고 도구 유형에 맞는 시작 안내를 제공한다',()=>{
+test('필수·선택 구분과 실제 카드 시작 버튼 문구가 현재 목록 정책과 일치한다',()=>{
  const {run}=setup();
  assert.equal(run("requirementFor(findLicenseByName('Figma'))"),'필수');
  assert.equal(run("requirementFor(findLicenseByName('Adobe Creative Cloud'))"),'선택');
- assert.equal(run("startLabel(findLicenseByName('한글(HWP)'))"),'설치 안내');
- assert.equal(run("startLabel(findLicenseByName('Slack'))"),'계정·초대 안내');
+ assert.match(run("renderCard(findLicenseByName('한글(HWP)'),true)"),/>신청하기<\/button>/);
+ assert.match(run("renderCard(findLicenseByName('Slack'),false)"),/>사용 안내<\/button>/);
 });
 test('완료 필터는 미완료 카드를 숨기고 키보드 접근에서도 제외한다',()=>{
  const {run,context}=setup();
- const cards=['completed','request','approval'].map(status=>({dataset:{status},classList:{toggle(){}},hidden:false,inert:false}));
+ const cards=['completed','request','approval'].map((status,index)=>({dataset:{status,name:['Slack','Notion','Figma'][index]},classList:{toggle(){}},hidden:false,inert:false}));
  context.document.querySelectorAll=()=>cards;
  run("selectedFilter='done'; applyFilters()");
  assert.deepEqual(cards.map(c=>c.hidden),[false,true,true]);
@@ -35,9 +35,9 @@ test('완료 필터는 미완료 카드를 숨기고 키보드 접근에서도 �
 test('선택 도구 지급 완료가 필수 도구 준비 완료로 오인되지 않는다',()=>{
  const {run,node}=setup();
  run("currentRole='design'; activateRoleState('design'); requestState['Adobe Creative Cloud']={status:'completed'}; renderReadiness()");
- assert.match(node('readinessSummary').innerHTML,/필수 도구 0\/1개/);
+ assert.match(node('readinessSummary').textContent,/필수 라이선스 0\/1개 준비 완료/);
  run("requestState.Figma={status:'completed'}; renderReadiness()");
- assert.match(node('readinessSummary').innerHTML,/필수 도구 1\/1개/);
+ assert.match(node('readinessSummary').textContent,/필수 라이선스 1\/1개 준비 완료/);
 });
 test('승인 요청은 목적·제품 범위·기간이 모두 입력될 때만 접수한다',()=>{
  const {run,node}=setup();
@@ -70,6 +70,6 @@ test('업무 우선 순서와 모바일 직무 선택·대비 스타일을 유�
  const html=read('index.html');
  assert.ok(html.indexOf('task-overview')<html.indexOf('licenses role-secondary'));
  assert.ok(html.indexOf('licenses role-secondary')<html.indexOf('licenses common-first'));
- assert.match(html,/<details class="licenses common-first">/);
+ assert.match(html,/<details\b(?=[^>]*class="licenses common-first")(?=[^>]*id="commonTools")(?=[^>]*\bopen\b)[^>]*>/);
  assert.match(read('css/product-readiness.css'),/role-tabs\{flex-wrap:wrap/);
 });

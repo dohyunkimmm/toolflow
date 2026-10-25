@@ -57,8 +57,12 @@ function clearCatalogFilter(key){
   } else {
     const id = {query:'toolSearch'}[key];
     const input = id && document.getElementById(id);
-    if(input) input.value = '';
-    applyFilters();
+    if(input){
+      input.value = '';
+      input.dispatchEvent(new Event('input',{bubbles:true}));
+    }else{
+      applyFilters();
+    }
   }
 }
 
