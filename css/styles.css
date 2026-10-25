@@ -234,10 +234,6 @@ a.top-btn{text-decoration:none;display:inline-flex;align-items:center;}
 .login-eyebrow{font-family:"Pretendard Variable",sans-serif;font-size:10.5px;font-weight:600;color:var(--slate);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line-soft);border-radius:999px;}
 .login-card .login-title{font-size:30px;font-weight:800;line-height:1.3;letter-spacing:-.02em;margin:0 0 12px;color:var(--ink);}
 .login-card p{font-size:14px;color:var(--slate);line-height:1.7;margin:0 0 22px;}
-.scenario-list{display:grid;gap:9px;margin:20px 0 0;}
-.scenario-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--slate);padding:0;}
-.scenario-item b{color:var(--ink);font-weight:600;}
-.scenario-check{color:var(--purple-soft);font-weight:800;font-size:13px;line-height:1;}
 .login-panel{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:20px;padding:20px;}
 .login-account{display:grid;grid-template-columns:minmax(0,1fr);justify-items:start;gap:5px;width:100%;min-width:0;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.05);padding:12px 14px;margin-bottom:12px;}
 .login-account-label{font-size:11.5px;font-weight:600;color:var(--slate);white-space:nowrap;}
