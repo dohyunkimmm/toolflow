@@ -19,6 +19,11 @@ for(const file of runtimeFiles){
   if(/javascript\s*:/i.test(text)) fail(`${file} contains a javascript: URL`);
 }
 
+const readme = read('README.md');
+const expectedNavigation = '[Demo](https://onboardos-rho.vercel.app/) · [GitHub](https://github.com/dohyunkimmm/toolflow)';
+if(!readme.includes(expectedNavigation)) fail('README Demo/GitHub links are not aligned with the Notion project navigation');
+if(/\[(?:직접 체험|2[–-]3분 체험 안내)\]\(|docs\/DEMO_WALKTHROUGH\.md/.test(readme)) fail('README still exposes an unrequested 2–3 minute walkthrough or stale demo label');
+
 const html = read('index.html');
 if(/<script(?![^>]*\bsrc=)[^>]*>/i.test(html)) fail('index.html contains an inline script block');
 if(/cdn\.jsdelivr\.net/i.test(html)) fail('index.html still has a jsDelivr runtime dependency');
