@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const {execFileSync} = require('child_process');
-execFileSync(process.execPath,['--test','scripts/tests/ai-recommendation.test.cjs','scripts/tests/public-assets.test.cjs'],{stdio:'inherit'});
+execFileSync(process.execPath,['--test','scripts/tests/ai-recommendation.test.cjs','scripts/tests/public-assets.test.cjs','scripts/product-review-check.js'],{stdio:'inherit'});
 const { validateReleaseContract } = require('./release-contract');
 const { collectPublicAssets } = require('./public-assets');
 
@@ -59,10 +59,15 @@ for(const ref of fontRefs){
 
 const sandbox = {};
 vm.createContext(sandbox);
-vm.runInContext(read('js/data.js') + '\n;globalThis.__catalog={commonLicenses,roles};', sandbox);
-const { commonLicenses, roles } = sandbox.__catalog;
-const cards = [...commonLicenses, ...Object.values(roles).flatMap(role => [...(role.cards || []),...(role.extras || [])])];
+vm.runInContext(read('js/data.js') + '\n;globalThis.__catalog={commonLicenses,roles,recommendationCases};', sandbox);
+const { commonLicenses, roles, recommendationCases } = sandbox.__catalog;
+const visibleCards = [...commonLicenses, ...Object.values(roles).flatMap(role => [...(role.cards || [])])];
+const extraCards = Object.values(roles).flatMap(role => [...(role.extras || [])]);
+const cards = [...visibleCards, ...extraCards];
 if(cards.length !== 43) fail(`expected 43 licenses, found ${cards.length}`);
+if(visibleCards.length !== 23) fail(`expected 23 main-list licenses, found ${visibleCards.length}`);
+if(extraCards.length !== 20) fail(`expected 20 AI-only extra licenses, found ${extraCards.length}`);
+if(cards.length !== visibleCards.length + extraCards.length) fail('main-list and AI-only catalog partitions do not reconcile');
 const publicCatalogCount = `공통 ${commonLicenses.length}개 + 직무별 ${cards.length-commonLicenses.length}개 = 총 ${cards.length}개`;
 for(const file of ['README.md','docs/DEMO_WALKTHROUGH.md']){
   const publicText = read(file);
@@ -70,13 +75,47 @@ for(const file of ['README.md','docs/DEMO_WALKTHROUGH.md']){
   if(/21개\s*(도구|SaaS)|공통\s*6종/.test(publicText)) fail(`${file} still advertises an outdated catalog count`);
 }
 const names = new Set();
+const ids = new Set();
+const urlOwners = new Map();
 for(const item of cards){
-  for(const key of ['name','cat','owner','audience','status','url']) if(!item[key]) fail(`${item.name || 'unknown'} missing ${key}`);
+  for(const key of ['mono','name','cat','owner','audience','status','url']) if(!item[key]) fail(`${item.name || 'unknown'} missing ${key}`);
   if(names.has(item.name)) fail(`duplicate tool name: ${item.name}`);
   names.add(item.name);
+  if(ids.has(item.mono)) fail(`duplicate tool id: ${item.mono}`);
+  ids.add(item.mono);
   if(!['auto','request','approval'].includes(item.status)) fail(`${item.name} has invalid base status ${item.status}`);
   if(!/^https:\/\//.test(item.url)) fail(`${item.name} URL must use https`);
+  let normalizedUrl;
+  try{ normalizedUrl = new URL(item.url).href.replace(/\/$/,''); }
+  catch(_error){ fail(`${item.name} URL is invalid: ${item.url}`); }
+  if(urlOwners.has(normalizedUrl)) fail(`duplicate tool URL: ${urlOwners.get(normalizedUrl)} and ${item.name} (${normalizedUrl})`);
+  urlOwners.set(normalizedUrl,item.name);
   if(item.icon && !fs.existsSync(path.join('.', item.icon))) fail(`${item.name} icon missing: ${item.icon}`);
+}
+const visibleIds = new Set(visibleCards.map(item=>item.mono));
+for(const item of visibleCards){
+  if(item.bucket) fail(`${item.name} main-list item must not be tagged as an AI-only extra`);
+}
+for(const item of extraCards){
+  if(visibleIds.has(item.mono)) fail(`${item.name} appears in both the main list and AI-only extras`);
+  if(!['AI','협업툴','PM툴','기타'].includes(item.bucket)) fail(`${item.name} has invalid AI-only bucket: ${item.bucket || 'missing'}`);
+}
+for(const item of commonLicenses){
+  if(item.audience !== '전사 구성원') fail(`${item.name} common-list audience must be 전사 구성원`);
+}
+for(const [roleName,role] of Object.entries(roles)){
+  if(!role.exception){
+    for(const item of [...(role.cards || []),...(role.extras || [])]){
+      if(item.audience !== `${role.label} 직군`) fail(`${item.name} audience does not match role ${roleName}`);
+    }
+  }
+}
+for(const [group,cases] of Object.entries(recommendationCases)){
+  for(const scenario of cases){
+    for(const item of scenario.recommendations || []){
+      if(!ids.has(item.toolId)) fail(`recommendation case ${group}/${scenario.id} references unknown tool id: ${item.toolId}`);
+    }
+  }
 }
 for(const roleName of ['design','dev','data','office','unmapped']) if(!roles[roleName]) fail(`missing role ${roleName}`);
 
@@ -137,4 +176,4 @@ if(!fs.existsSync(path.join('tests','ux-interaction.spec.js'))) fail('ux-interac
 if(!fs.existsSync(path.join('tests','visual-system.spec.js'))) fail('visual-system.spec.js is missing');
 if(!fs.existsSync(path.join('tests','design-polish.spec.js'))) fail('design-polish.spec.js is missing');
 
-console.log(`Quality gate PASS: ${cards.length} tools, ${names.size} unique names, ${fontRefs.length} self-hosted font subsets, ${publicAssets.length} manifest assets, release ${release.version} canonical contract, role isolation, R1-R8 resilience, S1-S8 security, U1-U8 interaction UX, V1-V8 visual system, D1-D8 design polish, security headers + analytics privacy boundary + SHA-pinned workflows`);
+console.log(`Quality gate PASS: ${cards.length} tools (${visibleCards.length} main + ${extraCards.length} AI-only), ${names.size} unique names and IDs, ${fontRefs.length} self-hosted font subsets, ${publicAssets.length} manifest assets, release ${release.version} canonical contract, role isolation, R1-R8 resilience, S1-S8 security, U1-U8 interaction UX, V1-V8 visual system, D1-D8 design polish, security headers + analytics privacy boundary + SHA-pinned workflows`);

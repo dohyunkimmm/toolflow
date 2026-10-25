@@ -15,6 +15,20 @@ test('available shared cards remain actionable as guidance and never create requ
  await expect(page.locator('#actionModalTitle')).toHaveText('Notion');
  await expect(page.locator('#requestCount')).toHaveText('0');
 });
+test('clearing the search chip restores the shared-list accordion state from before search',async({page})=>{
+ await login(page);
+ const common=page.locator('#commonTools');
+ await common.locator('summary').click();
+ await expect.poll(()=>common.evaluate(el=>el.open)).toBe(false);
+ await page.locator('#toolSearch').fill('Notion');
+ await expect.poll(()=>common.evaluate(el=>el.open)).toBe(true);
+ await expect(page.locator('[data-catalog-clear="query"]')).toBeVisible();
+ await page.locator('[data-catalog-clear="query"]').click();
+ await expect(page.locator('#toolSearch')).toHaveValue('');
+ await expect.poll(()=>common.evaluate(el=>el.open)).toBe(false);
+ await expect(page.locator('#catalogResultCount')).toContainText('9');
+});
+
 test('three desktop columns and one mobile column use matching card geometry',async({page})=>{
  await page.setViewportSize({width:1440,height:1000});await login(page);
  for(const id of ['roleGrid','commonGrid']){

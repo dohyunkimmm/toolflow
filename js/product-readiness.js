@@ -8,9 +8,6 @@ const INVITED_TOOLS = new Set(['SL','NT','CF','JR','JSM','GH','FG','FJ','MZ','GP
 function requirementFor(item){
   return item.status === 'auto' || REQUIRED_ROLE_TOOLS.has(item.mono) ? '필수' : '선택';
 }
-function startLabel(item){
-  return '사용 안내';
-}
 function employeeTiming(item){
   const req = requestState[item.name];
   if(!req) return item.status === 'auto' ? '사용 가능' : getSlaMeta(item.status).detail.replace('영업일 기준','영업일');

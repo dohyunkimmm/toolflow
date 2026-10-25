@@ -26,6 +26,7 @@ jobs:
           node --check js/events.js
           node --check js/state.js
           node --check scripts/quality-check.js
+          node --check scripts/product-review-check.js
           node --check scripts/serve.js
           node --check scripts/asset-integrity.js
           node --check scripts/release-contract.js
