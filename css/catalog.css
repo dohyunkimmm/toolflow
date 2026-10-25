@@ -332,3 +332,33 @@ body #mainContent #commonGrid .card .cta:focus-visible{
   body:not(.login-open) .topbar:has([data-reviewer-only]:not([hidden])){flex-wrap:wrap;}
   body:not(.login-open) .topbar:has([data-reviewer-only]:not([hidden])) .top-actions{width:100%!important;justify-content:flex-start;flex-wrap:wrap!important;}
 }
+
+/* Follow-up QA: keep the compact discovery controls visually self-contained. */
+@media(min-width:1024px){
+  body .catalog-controls{max-width:890px;margin-inline:auto;}
+}
+body .catalog-field select{height:44px;min-height:44px;}
+body .catalog-reset{min-height:40px;}
+body #mainContent .card .requirement-pill,
+body #mainContent .card .status-pill{font-size:12px!important;}
+@media(max-width:560px){
+  body .catalog-eyebrow{display:none;}
+  body .catalog-heading{margin-bottom:14px;}
+  body #catalogTitle{font-size:25px;}
+  body .catalog-description{margin-top:5px;}
+  body .catalog-heading .task-overview{margin-top:8px;}
+  body .catalog-controls{padding:12px;margin-bottom:14px;}
+  body .catalog-search-row.tools-bar{margin-bottom:12px;}
+  body .catalog-filter-heading{margin-bottom:3px;}
+  body .catalog-filter-row{row-gap:10px;}
+  body .catalog-controls .catalog-field{gap:5px;}
+  body .catalog-result-heading{margin-bottom:10px;}
+  body #mainContent #roleGrid .card,
+  body #mainContent #commonGrid .card{min-height:160px!important;height:auto;}
+}
+@media(max-width:360px){
+  body .catalog-description{display:none;}
+  body .catalog-controls{padding:10px;}
+  body .catalog-search-row.tools-bar{margin-bottom:8px;}
+  body .catalog-filter-row{row-gap:6px;}
+}
