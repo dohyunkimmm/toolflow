@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-25 — 저장소 구조·배포 도메인·중요 문서 동기화
+
+- [PR #149](https://github.com/dohyunkimmm/toolflow/pull/149): ToolFlow 저장소·Notion 링크 동기화. [PR #150](https://github.com/dohyunkimmm/toolflow/pull/150): QA Lighthouse 서버의 텍스트 압축 및 회귀 테스트 보정(프로덕션 RUM 수치 아님).
+- [PR #151](https://github.com/dohyunkimmm/toolflow/pull/151)–[#153](https://github.com/dohyunkimmm/toolflow/pull/153): README에서 날짜별 릴리스·PR 기록 및 중복 GitHub 자체 링크, 요청하지 않은 시간제 체험 안내 노출을 제거. 제품 소개의 `Demo · Case Study` 링크만 유지.
+- [PR #154](https://github.com/dohyunkimmm/toolflow/pull/154): 파일 삭제 없이 루트 스타일시트 10개를 `css/`, 앱 JavaScript 2개를 `js/`로 재배치. GitHub 루트 항목 **34개 → 23개**, 코드 참조·배포·무결성 검사 함께 정리.
+- [PR #155](https://github.com/dohyunkimmm/toolflow/pull/155): 대표 Demo를 [https://toolflow-dohyunkimmm.vercel.app/](https://toolflow-dohyunkimmm.vercel.app/)로 전환. README, Notion 주요 페이지 5개, SEO, 브라우저 테스트와 CI의 배포 주소를 교차검증하고 이전 Vercel 도메인 연결은 해제.
+- **2026-10-25 당시 검증:** `main` 커밋 `e4872c5f94f7ccbf219892604949a7c8cadb24b3`의 Vercel Production `READY`, [E2E 13/13 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40158839656), [Documentation sync 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40158839644). 이후 변경은 [현재 main 검증](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)을 별도 확인.
+- `v18.0.0 / P6` 릴리스는 `candidate` 유지. 실제 Google SSO·JSM·라이선스 발급은 미연결된 모의 흐름이며 Gemini 실제 추천 품질은 별도 검증 대상.
+
 ## 2026-10-24 — ToolFlow 명칭 통일
 
 사이트 로고·로그인·탭 제목·접근성 이름·공유 정보와 이미지, 현재 프로젝트 문서 및 릴리스 제품명을 ToolFlow로 통일했습니다. 기존 배포 주소·저장소 주소·세션 저장 키와 신청·승인 동작은 유지합니다. 관련 노션 프로젝트 5개의 제목도 ToolFlow로 일치시켰습니다.
@@ -8,14 +17,14 @@
 
 PR #102 후보 변경으로 직무별 필수 도구 준비 상태, 완료 필터의 실제 비노출·키보드 제외, 설치·계정 시작 가이드, 승인 요청의 목적·범위·기간 입력 및 관리자 판단 정보를 추가했습니다. 공통 도구와 대표 신청 체험은 필수 도구 준비 상태와 구분합니다. 실제 기업의 SSO·좌석·비용·설치 포털은 연결되지 않았습니다.
 
-**검증 상태(2026-10-23 갱신):** 10월 8일 최초 후보 설명은 당시 검증 범위의 기록입니다. 이후 변경은 개별 PR의 전체 CI를 거쳐 순차적으로 병합되었으며, 최신 Production 검증은 [main E2E #40015446574](https://github.com/dohyunkimmm/toolflow/actions/runs/40015446574)에서 확인해야 합니다. 기존 v18.0.0 릴리스 검증 자료는 과거 릴리스 기록으로 남으며, 이후 후보 코드의 검증으로 소급하지 않습니다. 상세 내용은 [`docs/PRODUCT_REVIEW_2026-10-08.md`](./docs/PRODUCT_REVIEW_2026-10-08.md)를 참고하세요.
+**검증 상태(2026-10-23 갱신):** 10월 8일 최초 후보 설명은 당시 검증 범위의 기록입니다. 이후 변경은 개별 PR의 전체 CI를 거쳐 순차적으로 병합되었으며, 이 문단의 검증은 당시 기록이며 최신 실행은 [main E2E](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 확인해야 합니다. 기존 v18.0.0 릴리스 검증 자료는 과거 릴리스 기록으로 남으며, 이후 후보 코드의 검증으로 소급하지 않습니다. 상세 내용은 [`docs/PRODUCT_REVIEW_2026-10-08.md`](./docs/PRODUCT_REVIEW_2026-10-08.md)를 참고하세요.
 
-### 직군+케이스 추천 확장, 신규입사자 UI 원복 — 2026-10-24 (최신)
+### 직군+케이스 추천 확장, 신규입사자 UI 원복 — 2026-10-24 (당시 변경)
 
 - [PR #143](https://github.com/dohyunkimmm/toolflow/pull/143): 동의 후 인라인 Gemini 추천 시도. 사용자가 새 화면의 반복 입력·복잡성을 지적해 이후 PR #145에서 상시 노출 AI 패널을 철회함.
 - [PR #144](https://github.com/dohyunkimmm/toolflow/pull/144): 직군별 확장 5개씩(총 20개), AI·협업툴·PM툴·기타 분류, 공통 업무 케이스·직군 외 라이선스 예외 요청, 5글자 최소 입력 제한 제거. 내부 카탈로그 **43개**.
 - [PR #145](https://github.com/dohyunkimmm/toolflow/pull/145): 신규입사자에게 불필요한 상시 AI 패널·케이스 선택·확장 카테고리 목록 및 어두운 추가 배경을 첫 화면에서 제거. 이전의 간결한 첫 화면 복원. **AI 추천 버튼 → 모달에서 기본 3개 추천 → 업무 입력은 선택·추천 받기 시 Gemini 호출** 방식으로 정리. 추가 20개는 AI 후보 데이터로 유지.
-- 최종 Production `32876f1a9ccd538879c215badd38d5a968aee495`, Vercel READY, GitHub Actions 해당 커밋의 **14개 검사 전부 성공**(Production Smoke·무결성 포함). 과거 출시 영상/후보 증빙과 최신 검증을 혼용하지 않음. Google SSO·JSM·실제 라이선스 지급은 모의 체험; Gemini 실제 추천 품질은 별도 검증 대상. 기존 `releaseStatus: candidate` 유지.
+- 당시 Production `32876f1a9ccd538879c215badd38d5a968aee495`, Vercel READY, GitHub Actions 해당 커밋의 **14개 검사 전부 성공**(Production Smoke·무결성 포함). 과거 출시 영상/후보 증빙과 이후 검증을 혼용하지 않음. Google SSO·JSM·실제 라이선스 지급은 모의 체험; Gemini 실제 추천 품질은 별도 검증 대상. 기존 `releaseStatus: candidate` 유지.
 
 ### 카탈로그 수치 동기화·구형 영상 정리 — 2026-10-24 (변경 전 기록)
 

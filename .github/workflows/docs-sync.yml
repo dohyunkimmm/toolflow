@@ -34,6 +34,26 @@ jobs:
           fi
           grep -Fq "## ${TAG}" CHANGELOG.md
           grep -Fq "${TAG}" docs/DEMO_WALKTHROUGH.md
+
+          # Public Demo, SEO and production verification sources should agree.
+          SITE="https://toolflow-dohyunkimmm.vercel.app"
+          grep -Fq "[Demo](${SITE}/)" README.md
+          grep -Fq "<link href=\"${SITE}/\" rel=\"canonical\"/>" index.html
+          grep -Fq "PRODUCTION_URL: ${SITE}" .github/workflows/e2e.yml
+          grep -Fq "PRODUCTION_URL: ${SITE}" .github/workflows/production-verify.yml
+          grep -Fq "productionUrl:'${SITE}/'" scripts/verification-summary.js
+          if grep -Fq "onboardos-rho.vercel.app" README.md index.html docs/*.md .github/workflows/*.yml config/playwright.production.config.js scripts/verification-summary.js; then
+            echo "Removed legacy domain still referenced in representative documents" >&2
+            exit 1
+          fi
+          if grep -Eq '2[–-]3분|약 (30|40|60)초' docs/DEMO_WALKTHROUGH.md; then
+            echo "Timed walkthrough has reappeared" >&2
+            exit 1
+          fi
+          if grep -Eq '#verification-matrix|Lighthouse 13[.]4[.]1' scripts/verification-summary.js; then
+            echo "Obsolete verification evidence metadata" >&2
+            exit 1
+          fi
           # Reject stale recording references in representative public documents.
           if grep -Eiq 'production-demo|\.mp4' README.md docs/DEMO_WALKTHROUGH.md release.json; then
             echo "Obsolete recording reference in public documents" >&2
