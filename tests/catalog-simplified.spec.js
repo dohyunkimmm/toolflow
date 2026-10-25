@@ -38,3 +38,34 @@ test('simplified role and status filters fit on mobile without horizontal overfl
   const width=await page.evaluate(()=>({document:document.documentElement.scrollWidth,viewport:innerWidth}));
   expect(width.document).toBeLessThanOrEqual(width.viewport);
 });
+
+test('search takes a compact share while the primary AI action is larger and clear on desktop and mobile',async({page})=>{
+  await page.setViewportSize({width:1440,height:900});
+  await login(page);
+  const measures=()=>page.evaluate(()=>{
+    const search=document.querySelector('.catalog-controls .tool-search').getBoundingClientRect();
+    const ai=document.querySelector('.catalog-ai').getBoundingClientRect();
+    return {
+      searchWidth:search.width,aiWidth:ai.width,aiHeight:ai.height,
+      aiBackground:getComputedStyle(document.querySelector('.catalog-ai')).backgroundColor,
+      viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
+    };
+  });
+  const desktop=await measures();
+  expect(desktop.searchWidth).toBeLessThan(610);
+  expect(desktop.aiWidth).toBeGreaterThanOrEqual(240);
+  expect(desktop.aiWidth).toBeGreaterThan(desktop.searchWidth*.45);
+  expect(desktop.aiHeight).toBeGreaterThanOrEqual(48);
+  expect(desktop.aiBackground).toBe('rgb(23, 99, 198)');
+  await expect(page.locator('#toolSearch')).toHaveAttribute('placeholder','도구명·업무 검색');
+  await page.locator('#toolSearch').fill('Notion');
+  await expect(page.locator('#catalogResultCount')).toContainText('1');
+  await page.locator('#toolSearch').fill('');
+  await page.setViewportSize({width:390,height:844});
+  const mobile=await measures();
+  expect(mobile.searchWidth).toBeLessThan(240);
+  expect(mobile.aiWidth).toBeGreaterThanOrEqual(130);
+  expect(mobile.scrollWidth).toBeLessThanOrEqual(mobile.viewport);
+  await page.getByRole('button',{name:'AI 추천',exact:true}).click();
+  await expect(page.locator('#actionModalBackdrop')).toHaveClass(/show/);
+});
