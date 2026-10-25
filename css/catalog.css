@@ -64,7 +64,6 @@ body #mainContent .card .card-owner b,body #mainContent .card .card-timing b{fon
 body #mainContent .card .card-bottom{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important;margin:0!important;padding:14px 0 0!important;border:0;border-top:1px solid #f0f2f5;}
 body #mainContent .card .card-status-group{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px;min-height:22px;}
 body #mainContent .card .status-pill{font-size:10px;}
-body #mainContent .card .sla-pill{font-size:10px;background:none;border:0;color:#969da7;padding:0;}
 body #mainContent .card .card-action{width:100%;}
 body #mainContent #roleGrid .card .cta,body #mainContent #commonGrid .card .cta{display:flex;align-items:center;justify-content:center;min-height:42px;width:100%;margin:0;padding:10px 14px;border:1px solid #1a73e8!important;border-radius:7px!important;background:#1a73e8!important;color:#fff!important;font-size:13px!important;font-weight:700;line-height:1.4;}
 body #mainContent #commonGrid .card .cta,body #mainContent #roleGrid .card[data-status="auto"] .cta{background:white!important;border-color:#dce3ed!important;color:#486584!important;}
