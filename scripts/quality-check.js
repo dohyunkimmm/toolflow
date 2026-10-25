@@ -20,8 +20,9 @@ for(const file of runtimeFiles){
 }
 
 const readme = read('README.md');
-const expectedNavigation = '[Demo](https://onboardos-rho.vercel.app/) · [GitHub](https://github.com/dohyunkimmm/toolflow)';
-if(!readme.includes(expectedNavigation)) fail('README Demo/GitHub links are not aligned with the Notion project navigation');
+const expectedNavigation = '[Demo](https://onboardos-rho.vercel.app/) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)';
+const readmeNavigation = readme.split('\n').find(line => line.startsWith('[Demo](')) || '';
+if(readmeNavigation !== expectedNavigation) fail('README must link to the Demo and external Case Study, without a redundant GitHub self-link');
 if(/\[(?:직접 체험|2[–-]3분 체험 안내)\]\(|docs\/DEMO_WALKTHROUGH\.md/.test(readme)) fail('README still exposes an unrequested 2–3 minute walkthrough or stale demo label');
 
 const html = read('index.html');
