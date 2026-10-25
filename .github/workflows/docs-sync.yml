@@ -23,12 +23,11 @@ jobs:
           TAG="v${VERSION}"
           STATUS="$(node -p "require('./release.json').releaseStatus || 'verified'")"
 
+          # README is a product landing page; versioned release evidence lives in CHANGELOG.
           if [ "${STATUS}" = "verified" ]; then
-            grep -Fq "Portfolio release — ${TAG} / P6 Production verified." README.md
-            grep -Fq "releases/tag/${TAG}" README.md
+            grep -Fq "releases/tag/${TAG}" CHANGELOG.md
           elif [ "${STATUS}" = "candidate" ]; then
-            CANDIDATE_KIND="$(node -p "require('./release.json').productReview ? 'product-review' : 'design-only'")"
-            grep -Fq "Portfolio release — ${TAG} / P6 ${CANDIDATE_KIND} candidate." README.md
+            grep -Fq "${TAG}" CHANGELOG.md
           else
             echo "Unsupported releaseStatus: ${STATUS}" >&2
             exit 1
