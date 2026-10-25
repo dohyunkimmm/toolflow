@@ -4,9 +4,9 @@
 
 ## 최근 확인 상태 — 2026-10-25
 
-- **대표 도메인:** [https://toolflow-dohyunkimmm.vercel.app/](https://toolflow-dohyunkimmm.vercel.app/). Vercel `toolflow` 프로젝트에서 유일하게 확인된 연결 도메인이며, 이전 OnboardOS 도메인 연결은 제거되었습니다.
-- **당시 검증된 운영 커밋:** `e4872c5f94f7ccbf219892604949a7c8cadb24b3`, Vercel Production `READY`, [main E2E 13/13 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40158839656), [Documentation sync 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40158839644). 이후 실행의 상태는 별도 확인해야 합니다.
-- **릴리스 상태:** `v18.0.0 / P6 / candidate` 유지. 가상 로그인·티켓·지급 검증은 실제 회사 시스템 연동을 증명하지 않습니다.
+- **대표 도메인:** [https://toolflow-dohyunkimmm.vercel.app/](https://toolflow-dohyunkimmm.vercel.app/). Vercel `toolflow` 프로젝트에 연결된 운영 도메인 중 대표 URL입니다. 이전 OnboardOS 연결 제거 기록은 과거 변경 이력입니다.
+- **2026-10-25 최신 검증 운영 커밋:** `3592408346b1679b6cf2fb8e3bd1111a8b163212` ([QA PR #162](https://github.com/dohyunkimmm/toolflow/pull/162) 병합), Vercel Production `READY`, [병합 후 main E2E 13/13 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40193714768) — Chromium·Firefox/WebKit·보안·접근성·성능·운영 브라우저 Smoke·배포 무결성 검증. PR #160·#161·#162는 데스크톱 정렬, 모바일 헤더·카드 밀도, 320px·390px 회귀를 개선했습니다. 이 확인은 10월 25일 스냅샷이며 이후 배포는 별도 확인해야 합니다.
+- **릴리스 상태:** `v18.0.0 / P6 / candidate` 유지. 가상 로그인·티켓·지급 검증은 실제 회사 시스템 연동을 증명하지 않습니다. 'QA 10/10'은 정의된 테스트 항목 통과로, 사용자 관찰이나 절대 미적 평가를 대신하지 않습니다.
 
 ## 2026-10-24 Production 검증 (당시 기록)
 
