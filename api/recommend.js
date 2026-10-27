@@ -1,6 +1,7 @@
 'use strict';
 
 const {acquireRecommendation}=require('../lib/recommendation-rate-limit');
+const {safeProviderRetryAfter}=require('../lib/provider-retry-after');
 const {catalogFor,caseFor,detectRecommendationCase,schemaFor,validateRecommendation,instructions} = require('../lib/recommendation');
 
 module.exports = async function handler(req,res){
@@ -67,10 +68,7 @@ module.exports = async function handler(req,res){
         // A provider quota error is not the same as this instance's burst limiter.
         // Bound the upstream hint and avoid instantly retrying exhausted quota.
         const upstreamHint = response.headers?.get?.('retry-after');
-        const seconds = Number(upstreamHint);
-        const retryAfter = Number.isFinite(seconds) && seconds >= 1
-          ? Math.min(3600, Math.ceil(seconds)) : 60;
-        res.setHeader('Retry-After', String(retryAfter));
+        res.setHeader('Retry-After', String(safeProviderRetryAfter(upstreamHint)));
         return res.status(429).json({error:'provider_unavailable'});
       }
       return res.status(502).json({error:'provider_unavailable'});
