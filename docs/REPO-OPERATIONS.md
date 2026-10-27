@@ -2,6 +2,13 @@
 
 > 운영·보호·검증 기록입니다. 날짜와 SHA가 기재된 검증은 **해당 당시 사실**이며 이후 배포가 있다면 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain) 및 [Vercel 프로젝트](https://vercel.com/dohyunkimm/toolflow)로 재확인합니다. 제품 소개는 [README](../README.md), 변경 이력은 [CHANGELOG](../CHANGELOG.md)를 우선합니다.
 
+## 2026-10-27 현행 검증 및 미완료 추적
+
+- `main` `b0d44b5c8738d69d389a58b02cb20bb0780ef3a9`에 대한 GitHub [E2E #40429951807](https://github.com/dohyunkimmm/toolflow/actions/runs/40429951807) 13개 작업 성공 및 Production `READY`·동일 SHA 확인(2026-10-27 조사 당시). 이후 변경이 있으면 다시 검증합니다.
+- 최근 조회한 `main` 커밋 6개는 모두 GitHub `Verified`였습니다. **자동화 PR 커밋의 서명 호환성은 확인되지 않아 Require signed commits는 여전히 미활성**입니다. PR 서명 점검은 GitHub API 결과가 비어 있으면 실패하도록 보강했으나, 여전히 감사용·비필수 검사입니다.
+- 미완료 운영 작업은 [서명 강제 #171](https://github.com/dohyunkimmm/toolflow/issues/171), [v18 candidate 릴리스 확정 #172](https://github.com/dohyunkimmm/toolflow/issues/172), [Gemini 실제 운영·분산 사용량 보호 #173](https://github.com/dohyunkimmm/toolflow/issues/173)에 명확한 완료 조건으로 등록했습니다.
+- `release.json`의 v18.0.0/P6/`candidate` 및 기존 WAF/AI 제한 동작은 변경하지 않았습니다.
+
 ## 2026-10-26 후속 검증 현황
 
 - 2026-10-25 병합된 [PR #165](https://github.com/dohyunkimmm/toolflow/pull/165)의 `main` 커밋 `1e8299139d15d3f17c388b2f90595f2c1f6a78da`에 대해 [E2E](https://github.com/dohyunkimmm/toolflow/actions/runs/40206705617)와 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/40206705644)가 **성공**했습니다.
