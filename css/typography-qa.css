@@ -122,7 +122,7 @@ body .task-overview{border-radius:20px;}
 body .section-head h2,body #roleGrid .cta{font-weight:700!important;}
 body .reason-item,body .reason-item span,body .reject-recap{color:#3c4043!important;background:#f8fafd!important;border-color:#dadce0!important;}
 body .request-note-label{color:#202124!important;}
-@media(max-width:768px){body #roleGrid .card{min-height:0!important;}}
+@media(max-width:768px){}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
 @media(forced-colors:active){body :where(.card,.role-tab,.filter-chip,.request-modal,.admin-kpi){border:1px solid CanvasText!important;}}
 
