@@ -9,7 +9,8 @@ non-fast-forward protection, and linear history. The active ruleset is
 The [Commit signature readiness](./workflows/commit-signature-audit.yml)
 workflow reports GitHub's `commit.verification.verified` for every PR commit.
 It **does not block merging on unsigned commits**; the check should not be
-mistaken for enforcing signatures. Signatures must be enforced with GitHub's
+mistaken for enforcing signatures. If the GitHub API yields zero PR commits,
+the audit now fails instead of claiming that an empty 0/0 audit passed. Signatures must be enforced with GitHub's
 `Require signed commits` ruleset after all contribution methods work.
 
 Historical audit (2026-10-22):
@@ -72,7 +73,7 @@ GitHub web editor, or another verified signing route for all such changes.
    enable **Require signed commits**, keeping every existing protection.
 5. Prove that a deliberately unsigned test PR is blocked; close the PR and
    delete the test branch without merging.
-6. Record results in [issue #114](https://github.com/dohyunkimmm/toolflow/issues/114).
+6. Record results in the active [signed-commit rollout issue #171](https://github.com/dohyunkimmm/toolflow/issues/171). Historical [#114](https://github.com/dohyunkimmm/toolflow/issues/114) was closed after branch-protection cleanup; it did not enable signed-commit enforcement.
 
 References: [GitHub signing documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits)
 and [Ruleset rule behavior](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets).

@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const {execFileSync} = require('child_process');
-execFileSync(process.execPath,['--test','scripts/tests/ai-recommendation.test.cjs','scripts/tests/public-assets.test.cjs','scripts/product-review-check.js'],{stdio:'inherit'});
+execFileSync(process.execPath,['--test','scripts/tests/ai-recommendation.test.cjs','scripts/tests/public-assets.test.cjs','scripts/tests/commit-signature-readiness.test.cjs','scripts/product-review-check.js'],{stdio:'inherit'});
 const { validateReleaseContract } = require('./release-contract');
 const { collectPublicAssets } = require('./public-assets');
 

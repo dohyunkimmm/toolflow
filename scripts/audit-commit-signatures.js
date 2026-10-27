@@ -4,6 +4,15 @@
 // for each PR commit. The actual enforcement switch is a repository ruleset.
 const fs = require('node:fs');
 
+function unverifiedCommits(commits) {
+  // A missing/empty response is not evidence that every commit is signed.
+  if (!Array.isArray(commits) || commits.length === 0) {
+    throw new Error('No PR commits returned; signing readiness could not be verified');
+  }
+  return commits.filter((entry) => entry.commit?.verification?.verified !== true);
+}
+
+
 async function main() {
   const repository = process.env.GITHUB_REPOSITORY || '';
   const token = process.env.GITHUB_TOKEN || '';
@@ -35,7 +44,7 @@ async function main() {
   }
 
   // For GitHub's actual branch rule, ONLY "verified" is authoritative.
-  const unsigned = commits.filter((entry) => entry.commit?.verification?.verified !== true);
+  const unsigned = unverifiedCommits(commits);
   const safeReason = (entry) => {
     const reason = entry.commit?.verification?.reason;
     return /^[a-z_]+$/.test(reason || '') ? reason : 'not_verified';
@@ -56,7 +65,7 @@ async function main() {
     '',
     ...(rows.length ? ['| Unverified commit | GitHub reason |', '| --- | --- |', ...rows] : ['All commits are verified by GitHub.']),
     '',
-    'See [commit signing instructions](https://github.com/dohyunkimmm/onboardos/blob/main/.github/COMMIT_SIGNING.md) or the repository documentation.',
+    'See [commit signing instructions](https://github.com/dohyunkimmm/toolflow/blob/main/.github/COMMIT_SIGNING.md) or the repository documentation.',
     '',
   ].join('\n');
 
@@ -64,8 +73,10 @@ async function main() {
   process.stdout.write(`Commit signature audit: ${commits.length - unsigned.length}/${commits.length} verified; ${unsigned.length} need attention.\n`);
 }
 
-main().catch((error) => {
+if (require.main === module) main().catch((error) => {
   // A broken audit must not silently claim commits are verified.
   console.error(error.message);
   process.exitCode = 1;
 });
+
+module.exports = { unverifiedCommits };
