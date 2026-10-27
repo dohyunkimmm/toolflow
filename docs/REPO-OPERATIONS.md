@@ -2,6 +2,12 @@
 
 > 운영·보호·검증 기록입니다. 날짜와 SHA가 기재된 검증은 **해당 당시 사실**이며 이후 배포가 있다면 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain) 및 [Vercel 프로젝트](https://vercel.com/dohyunkimm/toolflow)로 재확인합니다. 제품 소개는 [README](../README.md), 변경 이력은 [CHANGELOG](../CHANGELOG.md)를 우선합니다.
 
+## 2026-10-27 릴리스 후보 발행 차단 (v18)
+
+정식 GitHub Release 생성 전에는 브라우저/보안/운영 E2E 증빙뿐 아니라 **현재 `release.json`과 요청 대상 SHA 내부의 `release.json` 모두 `releaseStatus=verified`**인지 확인합니다. candidate를 가진 커밋은 GitHub Release 발행 대상이 아닙니다. 버전 태그도 대상 커밋 `release.json.version`과 일치해야 합니다.
+
+이 변경은 증빙 없이 candidate가 정식 태그로 승격되는 실수를 막는 안전장치입니다. `v18.0.0/P6`는 현재 **candidate**이며 운영자의 정식 출시 결정, 관련 승인·증빙 갱신, `verified`로의 명시적 PR 승격을 하기 전까지 **태그/릴리스 발행 금지**입니다. 참조: [#172](https://github.com/dohyunkimmm/toolflow/issues/172).
+
 ## 2026-10-27 현행 검증 및 미완료 추적
 
 - `main` `b0d44b5c8738d69d389a58b02cb20bb0780ef3a9`에 대한 GitHub [E2E #40429951807](https://github.com/dohyunkimmm/toolflow/actions/runs/40429951807) 13개 작업 성공 및 Production `READY`·동일 SHA 확인(2026-10-27 조사 당시). 이후 변경이 있으면 다시 검증합니다.

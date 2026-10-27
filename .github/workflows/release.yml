@@ -86,7 +86,19 @@ jobs:
           fi
           git cat-file -e "${TARGET}^{commit}"
 
-          EXPECTED_TAG="v$(node -p "require('./release.json').version")"
+          # A passing browser/production run is not approval to publish a
+          # release candidate. Check both the currently approved manifest and
+          # the *exact* target commit, not just the workflow checkout.
+          CURRENT_STATUS="$(node -p "require('./release.json').releaseStatus")"
+          TARGET_RELEASE="$(git show "${TARGET}:release.json")"
+          TARGET_VERSION="$(printf '%s' "$TARGET_RELEASE" | jq -er '.version | select(type == "string")')"
+          TARGET_STATUS="$(printf '%s' "$TARGET_RELEASE" | jq -er '.releaseStatus | select(type == "string")')"
+          if [ "$CURRENT_STATUS" != "verified" ] || [ "$TARGET_STATUS" != "verified" ]; then
+            echo "Release blocked: current and target manifest must both be verified (current=$CURRENT_STATUS, target=$TARGET_STATUS)." >&2
+            exit 1
+          fi
+
+          EXPECTED_TAG="v${TARGET_VERSION}"
           if [ "$TAG" != "$EXPECTED_TAG" ]; then
             echo "Release tag $TAG does not match canonical release.json $EXPECTED_TAG." >&2
             exit 1
