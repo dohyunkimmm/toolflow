@@ -273,3 +273,19 @@ test('corrupt and inherited session roles recover to a valid catalog',()=>{
     assert.ok(vm.runInContext('roles[currentRole].cards.length',ctx)>0);
   }
 });
+
+
+test('provider HTTP-date Retry-After is parsed safely without leaking upstream text', () => {
+  const { safeProviderRetryAfter } = require('../../lib/provider-retry-after');
+  const fixed = Date.parse('2026-10-27T09:00:00Z');
+  const httpDate = new Date(fixed + 90 * 1000).toUTCString();
+  assert.equal(safeProviderRetryAfter(httpDate, fixed), 90);
+  assert.equal(safeProviderRetryAfter(new Date(fixed + 4000000).toUTCString(), fixed), 3600);
+  assert.equal(safeProviderRetryAfter(new Date(fixed - 1000).toUTCString(), fixed), 60);
+  assert.equal(safeProviderRetryAfter('01', fixed), 1);
+  assert.equal(safeProviderRetryAfter('0.5', fixed), 60);
+  assert.equal(safeProviderRetryAfter('NaN', fixed), 60);
+  assert.equal(safeProviderRetryAfter('1\r\nX-Injected: 123', fixed), 60);
+  assert.equal(safeProviderRetryAfter('Wed, 99 Oct 2026 00:00:00 GMT', fixed), 60);
+  assert.equal(safeProviderRetryAfter(null, fixed), 60);
+});
