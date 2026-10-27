@@ -62,7 +62,19 @@ module.exports = async function handler(req,res){
         }
       })
     });
-    if(!response.ok) return res.status(response.status === 429 ? 429 : 502).json({error:'provider_unavailable'});
+    if(!response.ok){
+      if(response.status === 429){
+        // A provider quota error is not the same as this instance's burst limiter.
+        // Bound the upstream hint and avoid instantly retrying exhausted quota.
+        const upstreamHint = response.headers?.get?.('retry-after');
+        const seconds = Number(upstreamHint);
+        const retryAfter = Number.isFinite(seconds) && seconds >= 1
+          ? Math.min(3600, Math.ceil(seconds)) : 60;
+        res.setHeader('Retry-After', String(retryAfter));
+        return res.status(429).json({error:'provider_unavailable'});
+      }
+      return res.status(502).json({error:'provider_unavailable'});
+    }
     const data = await response.json();
     if(data.promptFeedback?.blockReason) return res.status(422).json({error:'cannot_recommend'});
     const candidate = data.candidates?.[0];
