@@ -2,6 +2,7 @@
 
 let aiRecommendationController = null;
 let aiRecommendationSequence = 0;
+let aiRecommendationRetryUntil = 0;
 
 // Reuse the returned AI reasoning; no second API call or extra quota is needed.
 function recommendationRequestDraft(detail,reason){
@@ -66,6 +67,12 @@ async function submitAiRecommendation(event){
   const status = document.getElementById('aiRecommendationStatus');
   const results = document.getElementById('aiRecommendationResults');
   const button = document.getElementById('aiRecommendSubmit');
+  const remaining = Math.ceil((aiRecommendationRetryUntil - Date.now()) / 1000);
+  if(remaining > 0){
+    results.replaceChildren();
+    status.textContent = '요청 한도 대기 중입니다. ' + remaining + '초 후 다시 시도해 주세요.';
+    return;
+  }
   // Keep the normal manual recommendation broad. Allow a cross-role task case
   // only when it introduces an explicitly reviewed exception license.
   const all = [...commonLicenses,...Object.values(roles).flatMap(group=>[...group.cards,...(group.extras||[])])];
@@ -95,8 +102,13 @@ async function submitAiRecommendation(event){
         429:'요청이 많습니다. 잠시 후 다시 시도해 주세요.',
         503:'AI 추천이 아직 연결되지 않았습니다. 기존 직군별 목록에서 라이선스를 확인해 주세요.'
       };
-      const retryAfter=Number(response.headers.get('Retry-After'));
-      if(response.status===429 && Number.isFinite(retryAfter) && retryAfter>0) throw new Error('요청이 많습니다. '+Math.ceil(retryAfter)+'초 후 다시 시도해 주세요.');
+      if(response.status===429){
+        const hinted=Number(response.headers.get('Retry-After'));
+        const retryAfter=Number.isFinite(hinted) && hinted >= 1
+          ? Math.min(3600, Math.ceil(hinted)) : 60;
+        aiRecommendationRetryUntil=Math.max(aiRecommendationRetryUntil,Date.now() + retryAfter * 1000);
+        throw new Error('요청이 많습니다. '+retryAfter+'초 후 다시 시도해 주세요.');
+      }
       throw new Error(messages[response.status] || '추천을 가져오지 못했습니다. 다시 시도하거나 기존 목록을 이용해 주세요.');
     }
     const data = await response.json();

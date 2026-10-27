@@ -96,3 +96,31 @@ test('long AI results and application fields stay inside their dialog',async({pa
   expect(await page.locator('#requestDetails').evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
   await testInfo.attach('ai-request-layout',{body:await page.screenshot(),contentType:'image/png'});
 });
+
+
+test('provider quota cooldown prevents repeated outbound AI calls, even after editing input',async({page})=>{
+  let sent=0;
+  await page.route('**/api/recommend',route=>{
+    sent++;
+    return route.fulfill({
+      status:429,headers:{'Retry-After':'90'},json:{error:'provider_unavailable'}
+    });
+  });
+  await openRecommendation(page);
+  await page.getByLabel('세부 직무·담당 역할').fill('계약서 검토');
+  const send=page.getByRole('button',{name:'추천 받기',exact:true});
+  await send.click();
+  await expect(page.locator('#aiRecommendationStatus')).toContainText('90초 후');
+  expect(sent).toBe(1);
+  await send.click();
+  await expect(page.locator('#aiRecommendationStatus')).toContainText('요청 한도 대기 중');
+  expect(sent).toBe(1);
+  await page.getByLabel('세부 직무·담당 역할').fill('디자인 편집');
+  await send.click();
+  expect(sent).toBe(1);
+  await page.locator('#actionModalActions').getByRole('button',{name:'닫기',exact:true}).click();
+  await page.getByRole('button',{name:'AI 추천',exact:true}).click();
+  await page.getByRole('button',{name:'추천 받기',exact:true}).click();
+  expect(sent).toBe(1);
+  await expect(page.locator('.ai-starter-tool')).toHaveCount(3);
+});
