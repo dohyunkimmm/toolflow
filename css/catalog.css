@@ -93,7 +93,6 @@ body #mainContent footer{margin-top:36px;padding-top:24px;border-top:1px solid #
  body .catalog-ai{min-width:82px;gap:5px;padding:0 10px;font-size:12px;}
  body .catalog-ai>span{font-size:18px;}
  body .catalog-filter-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
- 
  body .catalog-field select{font-size:12px!important;padding:8px;}
  body .catalog-status .filter-chip{font-size:11px!important;padding:7px 5px;}
  body #mainContent #roleGrid,body #mainContent #roleGrid.balanced-four,body #mainContent #roleGrid[data-count],body #mainContent #commonGrid{grid-template-columns:1fr!important;gap:13px;}
@@ -105,7 +104,6 @@ body #mainContent footer{margin-top:36px;padding-top:24px;border-top:1px solid #
 body .catalog-heading .task-overview{background:transparent!important;}
 body .catalog-controls .tool-search>.sr-only,body .catalog-result-heading .sr-only{position:absolute!important;width:1px!important;height:1px!important;min-width:0!important;max-width:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;}
 body .catalog-status .filter-tabs{display:flex!important;width:100%!important;max-width:none!important;}
-
 body #mainContent #roleGrid .card:focus-within,body #mainContent #commonGrid .card:focus-within{border-color:#7aa9ee!important;box-shadow:0 0 0 3px #e8f0fe!important;}
 body #mainContent .card .card-purpose,body #mainContent .card .card-owner,body #mainContent .card .card-timing,body #mainContent .card .sla-pill,body #mainContent .count{color:#667085!important;}
 body #mainContent .card .requirement-pill.provided{color:#286644;}
@@ -205,7 +203,6 @@ body .catalog-filter-row .catalog-status .filter-tabs{max-width:560px;}
 @media(max-width:768px){
  body .catalog-filter-row{grid-template-columns:minmax(0,1fr);gap:14px;}
  body .catalog-filter-row .role-picker{max-width:none;}
- 
  body .catalog-filter-row .catalog-status .filter-tabs{max-width:none;}
 }
 
