@@ -185,8 +185,37 @@ test('free quota exhaustion returns 429 without retrying or switching provider',
   enable();
   let calls=0;
   global.fetch=async()=>{calls++;return {ok:false,status:429};};
-  assert.equal((await call()).code,429);
+  const throttled = await call();
+  assert.equal(throttled.code,429);
+  assert.equal(throttled.headers['Retry-After'],'60');
   assert.equal(calls,1);
+});
+
+test('Gemini quota Retry-After is bounded and malformed hints fail safely',async()=>{
+  enable();
+  for(const [hint, expected] of [['5','5'], ['0','60'], ['oops','60'], ['99999','3600']]){
+    global.fetch=async()=>({
+      ok:false, status:429, headers:{get(name){ assert.equal(name,'retry-after'); return hint; }}
+    });
+    const throttled=await call();
+    assert.equal(throttled.code,429);
+    assert.equal(throttled.headers['Retry-After'],expected);
+    assert.deepEqual(throttled.body,{error:'provider_unavailable'});
+  }
+});
+
+test('per-instance recommendation counters must not be mistaken for a shared global quota',()=>{
+  const {createLimiter}=require('../../lib/recommendation-rate-limit');
+  let now=0;
+  const firstInstance=createLimiter(()=>now);
+  const secondInstance=createLimiter(()=>now);
+  for(let i=0;i<5;i++){
+    const a=firstInstance('same-user'); assert.equal(a.ok,true); a.release();
+    const b=secondInstance('same-user'); assert.equal(b.ok,true); b.release();
+  }
+  assert.equal(firstInstance('same-user').ok,false);
+  assert.equal(secondInstance('same-user').ok,false);
+  // Ten calls passed across two instances: platform/shared limits remain necessary.
 });
 
 test('rate limiter blocks bursts, concurrent work and resets elapsed windows',()=>{
