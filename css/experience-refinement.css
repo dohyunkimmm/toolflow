@@ -136,12 +136,9 @@ body:not(.login-open) .empty-state b{font-size:15.5px;letter-spacing:-.015em;}
   body:not(.login-open) .overview-panel .progress-wrap{margin-inline:-28px;}
   body:not(.login-open) #commonGrid,body:not(.login-open) #roleGrid,body:not(.login-open) #roleGrid.balanced-four{grid-template-columns:repeat(2,minmax(0,1fr));}
   body:not(.login-open) #roleGrid .card{min-height:166px;}
-  body:not(.login-open) .tools-bar{top:68px;}
 }
 @media (max-width:768px){
   body:not(.login-open) .tools-bar{top:62px;width:100%;overflow-x:auto;scrollbar-width:none;}
-  body:not(.login-open) .tools-bar::-webkit-scrollbar{display:none;}
-  body:not(.login-open) .filter-tabs{width:max-content;}
   body:not(.login-open) .overview-panel .name-input{font-size:25px;}
   body:not(.login-open) .progress-hint{justify-content:flex-start;line-height:1.55;}
   body:not(.login-open) #roleGrid .card{min-height:0;}
@@ -318,14 +315,10 @@ body:not(.login-open) .modal-actions{box-shadow:0 -18px 36px -34px rgba(0,0,0,.9
   body:not(.login-open) .progress-step{flex:0 0 78px;}
   body:not(.login-open) .progress-hint{align-items:flex-start;}
   body:not(.login-open) .section-head{align-items:flex-start;flex-direction:column;gap:5px;}
-  body:not(.login-open) .section-head .count{text-align:left;}
   body:not(.login-open) #commonGrid,
   body:not(.login-open) #roleGrid,
   body:not(.login-open) #roleGrid.balanced-four{grid-template-columns:1fr;}
   body:not(.login-open) #roleGrid .card{padding:18px 17px 15px;border-radius:18px;}
-  body:not(.login-open) #roleGrid .card-bottom{align-items:stretch;flex-direction:column;}
-  body:not(.login-open) #roleGrid .card-action{width:100%;}
-  body:not(.login-open) #roleGrid .cta{width:100%;min-height:44px;}
 }
 @media (max-width:560px){
   body:not(.login-open) .tools-bar{margin-inline:-2px;width:calc(100% + 4px);}
@@ -347,25 +340,18 @@ body:not(.login-open) .modal-actions{box-shadow:0 -18px 36px -34px rgba(0,0,0,.9
 }
 @media (prefers-reduced-motion:reduce){
   body:not(.login-open) .progress-step.current{transform:none;}
-  body:not(.login-open) .card:hover,
-  body:not(.login-open) #roleGrid .cta:hover{transform:none;}
 }
 
 /* V12-9: retain verified mobile density and touch-target contracts. */
 body:not(.login-open) .request-actions button{min-height:44px;}
 @media (min-width:360px) and (max-width:768px){
-  body:not(.login-open) #commonGrid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (max-width:359px){
-  body:not(.login-open) #commonGrid{grid-template-columns:1fr;}
 }
 
 /* V12-10: preserve WCAG AA and non-scrollable progress semantics. */
 body:not(.login-open) .section-head .count{color:var(--v12-muted);}
 @media (max-width:768px){
-  body:not(.login-open) .overview-panel{border-radius:24px;}
-  body:not(.login-open) .progress-bar{overflow-x:visible;justify-content:space-between;padding-bottom:0;}
-  body:not(.login-open) .progress-step{flex:1 1 0;min-width:0;}
 }
 
 /* ToolFlow v13 candidate — product-grade visual system.
@@ -681,43 +667,26 @@ body:not(.login-open) .request-actions button{min-height:44px;border-radius:11px
 @media (max-width:1024px) and (min-width:769px){
   body:not(.login-open) main{max-width:960px;padding-inline:20px;}
   body:not(.login-open) .licenses{padding:21px;}
-  body:not(.login-open) #commonGrid,
-  body:not(.login-open) #roleGrid,
-  body:not(.login-open) #roleGrid.balanced-four{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (max-width:768px){
   body:not(.login-open) main{padding:20px 14px 56px;}
-  body:not(.login-open) .overview-panel{border-radius:24px;}
   body:not(.login-open) .overview-panel .name-input{font-size:26px;}
   body:not(.login-open) .overview-panel .avatar{width:52px;height:52px;}
-  body:not(.login-open) .progress-bar{overflow-x:visible;justify-content:space-between;padding-bottom:0;}
-  body:not(.login-open) .progress-step{flex:1 1 0;min-width:0;}
   body:not(.login-open) .progress-step.current .step-circle{width:30px;height:30px;}
   body:not(.login-open) .tools-bar{width:100%;margin-top:18px;overflow-x:auto;scrollbar-width:none;}
-  body:not(.login-open) .tools-bar::-webkit-scrollbar{display:none;}
-  body:not(.login-open) .filter-tabs{width:max-content;}
   body:not(.login-open) .licenses{padding:17px 14px;border-radius:20px;}
   body:not(.login-open) .licenses.role-secondary{margin-top:14px;}
   body:not(.login-open) .section-head{align-items:flex-start;flex-direction:column;gap:7px;margin-bottom:14px;}
   body:not(.login-open) .section-head .count{padding:0;border:0;background:transparent;text-align:left;}
   body:not(.login-open) .card-grid{gap:9px;}
-  body:not(.login-open) #roleGrid,
-  body:not(.login-open) #roleGrid.balanced-four{grid-template-columns:1fr;}
   body:not(.login-open) #roleGrid .card{min-height:0;padding:18px 17px 15px;border-radius:18px;}
-  body:not(.login-open) #roleGrid .card-bottom{align-items:stretch;flex-direction:column;}
-  body:not(.login-open) #roleGrid .card-action{width:100%;}
-  body:not(.login-open) #roleGrid .cta{width:100%;min-height:44px;}
 }
 @media (min-width:360px) and (max-width:768px){
-  body:not(.login-open) #commonGrid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (max-width:359px){
-  body:not(.login-open) #commonGrid{grid-template-columns:1fr;}
 }
 @media (max-width:560px){
   body:not(.login-open) .topbar{padding-block:11px;}
-  body:not(.login-open) .overview-panel .badge-top{gap:12px;}
-  body:not(.login-open) .filter-chip{min-height:40px;padding-inline:12px;}
   body:not(.login-open) .section-head h2{font-size:20px;}
 }
 
@@ -734,13 +703,6 @@ body:not(.login-open) .request-actions button{min-height:44px;border-radius:11px
   }
 }
 @media (prefers-reduced-motion:reduce){
-  body:not(.login-open) .card,
-  body:not(.login-open) .cta,
-  body:not(.login-open) .filter-chip,
-  body:not(.login-open) .role-tab,
-  body:not(.login-open) .request-item{transition-duration:0s!important;}
-  body:not(.login-open) .card:hover,
-  body:not(.login-open) #roleGrid .cta:hover{transform:none;}
 }
 @media (forced-colors:active){
   body:not(.login-open) .licenses,
@@ -1100,7 +1062,6 @@ body:not(.login-open) .empty-state::before{
   body:not(.login-open) #commonGrid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (max-width:359px){
-  body:not(.login-open) #commonGrid{grid-template-columns:1fr;}
 }
 @media (max-width:560px){
   body:not(.login-open) .topbar{padding-block:10px;}

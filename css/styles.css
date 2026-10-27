@@ -323,7 +323,6 @@ a.top-btn{text-decoration:none;display:inline-flex;align-items:center;}
   .top-btn{padding:8px 10px;font-size:11.5px;}
   .top-btn .desktop-label{display:none;}
   .top-btn .mobile-label{display:inline;}
-  main{padding:32px 16px 80px;}
   .badge-wrap{padding:28px 22px 24px;}
   .name-input{font-size:21px;}
   .progress-bar{padding:16px 8px;overflow-x:visible;}
@@ -499,7 +498,6 @@ footer{margin-top:var(--space-7);}
 
 
 /* ---- v1.4.3 IA: baseline tools first, role additions second ---- */
-.licenses.common-first{margin-top:0;}
 .licenses.role-secondary{margin-top:44px;padding-top:4px;}
 @media (max-width:560px){
   .licenses.common-first{margin-top:0;}
@@ -561,7 +559,6 @@ footer{margin-top:var(--space-7);}
   #commonGrid .card-top{margin-bottom:8px;}
   #commonGrid .logo-chip{width:32px;height:32px;padding:4px;}
   #commonGrid .card-title{font-size:12px;}
-  .licenses.role-secondary{margin-top:28px;}
 }
 
 
