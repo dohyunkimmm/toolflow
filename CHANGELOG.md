@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-27 — AI 요청 제한·출시 보호·서명 감사 보강
+
+- [PR #174](https://github.com/dohyunkimmm/toolflow/pull/174): 커밋 서명 감사에서 커밋 조회 결과가 비어 있으면 실패하도록 변경. 서명 **강제**는 여전히 미적용이며 [이슈 #171](https://github.com/dohyunkimmm/toolflow/issues/171)에서 추적합니다.
+- [PR #175](https://github.com/dohyunkimmm/toolflow/pull/175), [#178](https://github.com/dohyunkimmm/toolflow/pull/178), [#179](https://github.com/dohyunkimmm/toolflow/pull/179): Gemini 429 응답의 제한된 `Retry-After` 안내, 브라우저 내 재요청 억제, 표준 HTTP-date 값의 안전한 초 단위 변환을 반영했습니다. 인스턴스 간 전역 제한과 실제 공급자 품질은 [이슈 #173](https://github.com/dohyunkimmm/toolflow/issues/173)의 미완료 항목입니다.
+- [PR #176](https://github.com/dohyunkimmm/toolflow/pull/176): 정식 GitHub Release 발행 전에 현재와 대상 SHA의 `releaseStatus=verified`를 모두 검사하도록 보강. `v18.0.0 / P6 / candidate`는 정식 발행하지 않았으며 [이슈 #172](https://github.com/dohyunkimmm/toolflow/issues/172)를 유지합니다.
+- 최신 `main` `988a61183e8864b8ddf571ac0a0ebe4b76a500eb`에서 [E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352932) 및 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352980) 성공(2026-10-27). 현재 Vercel Production의 동일 SHA 여부는 이 기록에서 별도로 확인하지 않았습니다.
+
 ## 2026-10-25 — 디자인 QA 마무리 및 최신 운영 검증
 
 - [PR #160](https://github.com/dohyunkimmm/toolflow/pull/160): 카드 메타 정보·제목·신청 버튼·검색 플레이스홀더 대비 및 가독성, 필터 영역과 모바일 헤더·로그인 완료 토스트를 보정.

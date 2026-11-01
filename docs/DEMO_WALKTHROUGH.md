@@ -37,6 +37,7 @@
 
 ## 배포·검증 기준
 
+- **2026-11-02 GitHub 재확인:** 최신 `main`은 2026-10-27의 `988a61183e8864b8ddf571ac0a0ebe4b76a500eb`이며, [E2E 13개 작업 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352932)과 [Documentation sync 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352980)을 확인했습니다. 이는 해당 커밋의 CI 결과이며 현재 Vercel Production SHA가 일치한다는 독립 확인은 아닙니다. 아래 2026-10-25 운영 검증은 당시 기록입니다.
 - **2026-10-25 최종 확인:** [PR #160–#162](https://github.com/dohyunkimmm/toolflow/pull/162) 반영 운영 커밋 `3592408346b1679b6cf2fb8e3bd1111a8b163212`, Vercel Production `READY`, [병합 후 main E2E 13/13 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40193714768) (데스크톱 Chromium·iPhone WebKit 운영 Smoke 및 배포 무결성 포함). 검토자 모바일 한 줄 헤더, 데스크톱 검색·필터·카드 시작선, 320×568px·390×667px 첫 카드 노출과 조작성을 점검했습니다. 이후 배포는 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)를 다시 확인해야 합니다.
 - 실제 Gemini 추천 품질·과금·실사용 직원 권한 발급은 검증 범위가 아닙니다. 릴리스 상태는 `v18.0.0 / P6 / candidate`로 유지합니다.
 
