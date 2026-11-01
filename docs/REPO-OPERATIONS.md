@@ -2,12 +2,12 @@
 
 > 운영·보호·검증 기록입니다. 날짜와 SHA가 기재된 검증은 **해당 당시 사실**이며 이후 배포가 있다면 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain) 및 [Vercel 프로젝트](https://vercel.com/dohyunkimm/toolflow)로 재확인합니다. 제품 소개는 [README](../README.md), 변경 이력은 [CHANGELOG](../CHANGELOG.md)를 우선합니다.
 
-## 2026-11-02 데모 전용 v18.0.1 릴리스 준비
+## 2026-11-02 데모 전용 v18.0.1 릴리스 발행 완료
 
 - 정확한 현재 코드의 공개 릴리스는 과거 `v18.0.0` 태그를 재지정하지 않고 **v18.0.1** 새 버전을 사용합니다. 기존 태그 `v18.0.0` → `12ca2749b68d7d36cd66f1fbb8d7523dc36aa269`; 해당 SHA는 이전 검증 상태여서 현행 코드 태그로 재사용하면 안 됩니다.
 - 이번 `verified`는 **인터랙티브 데모 프로토타입의 재현 가능한 브라우저/보안/성능/무결성 검증**만 의미합니다. 실제 SSO·JSM·라이선스 발급, Gemini 실제 비용·추천 적합도·전역 제한은 증빙되지 않았고 릴리스에 포함된 운영 보장으로 간주하지 않습니다([#173](https://github.com/dohyunkimmm/toolflow/issues/173)).
 - `Require signed commits`는 자동화 Contents API 생성 PR 커밋이 여전히 `unsigned`인 상황에서 켜면 병합이 막힐 수 있으므로 서명 경로 검증 전에는 유지합니다([#171](https://github.com/dohyunkimmm/toolflow/issues/171)).
-- GitHub Release를 발행하려면 **v18.0.1 상태/버전 동기화 PR**을 병합한 대상 SHA에서 전체 E2E 13개 작업, Vercel 동일 SHA `READY`, Release 게이트 통과 및 정확한 SHA의 immutable evidence 첨부를 확인해야 합니다. 이 기록을 근거로 사전 태그/릴리스 생성하지 않습니다.
+- [PR #181](https://github.com/dohyunkimmm/toolflow/pull/181) 병합 대상 SHA `87e739f3f54d9058cad3b4115bc2a591c2e0cf40`에서 [E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/41363331200), Vercel Production `READY`/SHA 일치를 확인하고, [PR #182](https://github.com/dohyunkimmm/toolflow/pull/182)로 정확한 SHA의 [v18.0.1 릴리스](https://github.com/dohyunkimmm/toolflow/releases/tag/v18.0.1)를 발행했습니다. [Release 워크플로](https://github.com/dohyunkimmm/toolflow/actions/runs/41364013894) 성공, immutable 증빙 7개 파일 첨부, 태그는 기존 `v18.0.0`을 변경하지 않고 새로 생성했습니다. [출시 이슈 #172](https://github.com/dohyunkimmm/toolflow/issues/172)는 **데모 범위 완료**로 종료했고, 서명 강제 #171·Gemini 실계정/전역 한도 #173은 여전히 미완료입니다.
 
 ## 2026-11-02 GitHub 재확인 (최신 main 커밋 2026-10-27)
 
