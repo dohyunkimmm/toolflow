@@ -5,7 +5,7 @@
 ## 2026-11-02 GitHub 재확인 (최신 main 커밋 2026-10-27)
 
 - `main` HEAD `988a61183e8864b8ddf571ac0a0ebe4b76a500eb`([PR #179](https://github.com/dohyunkimmm/toolflow/pull/179) 병합)의 [E2E 실행 #40500352932](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352932)은 13개 작업 전부 성공, [Documentation sync #40500352980](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352980)은 성공했습니다. 이는 **2026-10-27 커밋의 GitHub Actions 결과**이며, 2026-11-02 재조회 시점의 최신 확인 기록입니다.
-- 현재 열린 PR은 0개입니다. 미완료 이슈 [#171](https://github.com/dohyunkimmm/toolflow/issues/171)·[#172](https://github.com/dohyunkimmm/toolflow/issues/172)·[#173](https://github.com/dohyunkimmm/toolflow/issues/173)은 유지되며 `release.json`은 `v18.0.0 / P6 / candidate`입니다. 최신 공개 GitHub Release는 `v11.0.0`입니다. 승인 없이 후보를 정식 출시로 표기하지 않습니다.
+- 문서 동기화 PR #180을 생성하기 전 기존 열린 PR은 0개였습니다. 미완료 이슈 [#171](https://github.com/dohyunkimmm/toolflow/issues/171)·[#172](https://github.com/dohyunkimmm/toolflow/issues/172)·[#173](https://github.com/dohyunkimmm/toolflow/issues/173)은 유지되며 `release.json`은 `v18.0.0 / P6 / candidate`입니다. 최신 공개 GitHub Release는 `v11.0.0`입니다. 승인 없이 후보를 정식 출시로 표기하지 않습니다.
 - 과거 작업 브랜치는 `main`과 갈라진 커밋이 남아 있으나 squash 병합·후속 변경을 포함하므로 `ahead_by` 수치만으로 미반영 기능을 판단하거나 일괄 병합하지 않습니다. 이번 확인은 원격 GitHub 기준이며 로컬 미커밋 파일은 포함하지 않습니다.
 - 최신 Vercel Production 소스 SHA와 실계정 Gemini 응답 품질은 이 재확인에서 별도 검증하지 않았습니다. 아래 과거 Production `READY` 기록은 해당 날짜의 증빙으로 유지합니다.
 
