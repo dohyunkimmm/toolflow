@@ -20,7 +20,7 @@ test('candidate release is never enough to publish from CI evidence alone', () =
   );
 });
 
-test('the v18 release manifest stays a candidate unless separately promoted', () => {
-  assert.ok(['candidate', 'verified'].includes(release.releaseStatus));
-  assert.equal(release.version, '18.0.0');
+test('v18.0.1 prototype promotion is explicit and not inferred from CI', () => {
+  assert.equal(release.releaseStatus, 'verified');
+  assert.equal(release.version, '18.0.1');
 });

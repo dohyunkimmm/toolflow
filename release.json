@@ -1,7 +1,7 @@
 {
   "schemaVersion": 10,
   "product": "ToolFlow",
-  "version": "18.0.0",
+  "version": "18.0.1",
   "freeze": "P6",
   "releaseClass": "task-clarity-product-experience",
   "scope": "product-review-1-through-7",
@@ -169,7 +169,7 @@
       "E8-empty-state.png"
     ]
   },
-  "releaseStatus": "candidate",
+  "releaseStatus": "verified",
   "productReview": {
     "date": "2026-10-08",
     "items": [

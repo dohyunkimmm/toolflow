@@ -1,5 +1,13 @@
 # Changelog
 
+## v18.0.1 — 2026-11-02 — ToolFlow 데모 프로토타입 검증 릴리스
+
+- **출시 범위:** 직무별 도구 탐색·모의 SSO·모의 신청/승인/지급·규칙 기반 기본 추천 3개와 접근성·반응형 검사를 포함한 **인터랙티브 데모 프로토타입**. 실제 기업 SSO, Jira Service Management, SaaS 지급, 실사용 직원 인증은 구현·검증하지 않았습니다.
+- **검증 기준:** [main E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/41361628807), [문서 검사](https://github.com/dohyunkimmm/toolflow/actions/runs/41361628804) 및 Production `26d721ee1ffea64e25352490bebd332eb5b53363`의 READY/SHA 일치는 2026-11-02 사전 증빙입니다. **이번 릴리스 대상 SHA는 병합 후 별도 전체 E2E와 배포 검증을 통과해야** 하며 해당 증빙을 정확히 첨부합니다.
+- **Gemini 제한:** 선택형 외부 AI는 계정별 Free Tier·실제 응답 품질/지연·실제 비용·서버리스 전역 한도까지 검증되지 않았습니다. 이것들은 이 프로토타입 릴리스의 검증 범위에서 제외하며 [이슈 #173](https://github.com/dohyunkimmm/toolflow/issues/173)으로 추적합니다. 민감 정보는 입력하지 마세요.
+- **보호/버전:** 과거 `v18.0.0` Git 태그는 `12ca2749b68d7d36cd66f1fbb8d7523dc36aa269`에 이미 존재하여 **변경·재사용하지 않고**, 새로운 패치 태그 `v18.0.1`로 현행 데모 릴리스를 구분합니다. `Require signed commits`는 자동화 작업 브랜치가 미서명인 상태여서 [#171](https://github.com/dohyunkimmm/toolflow/issues/171) 미완료로 유지합니다.
+- **릴리스:** [v18.0.1 GitHub Release](https://github.com/dohyunkimmm/toolflow/releases/tag/v18.0.1) — 정확한 대상 SHA의 E2E/배포 무결성 증빙 통과 및 릴리스 생성 후 공개됩니다.
+
 ## 2026-10-27 — AI 요청 제한·출시 보호·서명 감사 보강
 
 - [PR #174](https://github.com/dohyunkimmm/toolflow/pull/174): 커밋 서명 감사에서 커밋 조회 결과가 비어 있으면 실패하도록 변경. 서명 **강제**는 여전히 미적용이며 [이슈 #171](https://github.com/dohyunkimmm/toolflow/issues/171)에서 추적합니다.
