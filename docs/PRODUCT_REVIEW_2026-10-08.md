@@ -2,6 +2,8 @@
 
 Implemented on 2026-10-08.
 
+> Historical review checkpoint: references to the `candidate` release status below describe 2026-10-08, not the current release. As of 2026-11-02, `v18.0.1` is published with `releaseStatus=verified`. See [repository operations](REPO-OPERATIONS.md).
+
 Required role tools in the demo: Figma (design), GitHub (development), Snowflake and DBeaver (data), HWP (office). Other role tools are optional. Common entitlements are tracked separately. Production policy must be supplied by the organization.
 
 Approval-only tools require purpose, scope and period; budget is optional and explicitly routed to the department for verification if omitted. Stored fields are sanitized and escaped before display.
@@ -17,6 +19,6 @@ Validation: seven Node regression checks plus connected Chrome checks for reques
 - Resolved the `basic-ftp` high-severity audit chain and the `ip-address` advisory through pinned patched dependency overrides and a regenerated npm lock; the supply-chain CI gate passed.
 - Updated approval request E2E tests to supply the newly required product/permission scope and usage period.
 - Addressed a reduced-motion rendering defect where animation-dependent cards could remain transparent; added visual assertions for card presence and opacity and regenerated desktop/mobile candidate screenshot baselines. Existing release media remain historical and are not promoted by these candidate screenshots.
-- Keep `releaseStatus=candidate` pending a full passing branch E2E matrix and post-merge Production verification. No test coverage, security threshold, or Lighthouse budget is intentionally lowered.
+- At this checkpoint, `releaseStatus=candidate` was retained pending a full passing branch E2E matrix and post-merge Production verification. No test coverage, security threshold, or Lighthouse budget is intentionally lowered.
 
 - Synchronized both request-modal deadline/processing-emphasis screenshots and the ARIA snapshots with the candidate flow. Existing required-field validation and approval semantics remain enforced.

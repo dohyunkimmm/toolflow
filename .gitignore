@@ -25,3 +25,6 @@ pnpm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Generated login font subsets are embedded in fonts/pretendard-login.css
+fonts/login/ToolFlowUI.*.woff2

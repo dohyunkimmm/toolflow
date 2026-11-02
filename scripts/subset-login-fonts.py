@@ -2,6 +2,7 @@
 Modified font names use ToolFlow UI; the original Pretendard/OFL notice remains.
 """
 from pathlib import Path
+from io import BytesIO
 from html import unescape
 import re
 import base64
@@ -13,8 +14,7 @@ html=(root/'index.html').read_text()
 chunk=html[html.index('<!-- 가상 Google'):html.index('<main')]
 text=unescape(re.sub(r'<[^>]+>','',chunk))
 wanted={ord(c) for c in text}|set(range(32,127))
-out=root/'fonts/login'
-out.mkdir(parents=True,exist_ok=True)
+subsets={}
 for part in [86,87,88,89,90,91]:
     src=root/f'fonts/pretendard/PretendardVariable.subset.{part}.woff2'
     font=TTFont(src)
@@ -37,9 +37,10 @@ for part in [86,87,88,89,90,91]:
         if value is not None:
             record.string=value.encode(record.getEncoding())
     font.flavor='woff2'
-    target=out/f'ToolFlowUI.{part}.woff2'
-    font.save(target)
-    print(f'{target.relative_to(root)}: {target.stat().st_size} bytes, {len(available)} characters')
+    buffer=BytesIO()
+    font.save(buffer)
+    subsets[part]=buffer.getvalue()
+    print(f'ToolFlowUI.{part}.woff2 (inlined only): {len(subsets[part])} bytes, {len(available)} characters')
 
 # Inline these small first-paint faces to avoid a separate font request chain.
 source_css=(root/'fonts/pretendard.css').read_text()
@@ -49,7 +50,7 @@ for part in [86,87,88,89,90,91]:
         marker=f'./pretendard/PretendardVariable.subset.{part}.woff2'
         if marker not in rule:
             continue
-        data=base64.b64encode((out/f'ToolFlowUI.{part}.woff2').read_bytes()).decode()
+        data=base64.b64encode(subsets[part]).decode()
         rule=rule.replace("font-family: 'Pretendard Variable'","font-family: 'ToolFlow UI'")
         rule=rule.replace(f'url({marker})',f'url("data:font/woff2;base64,{data}")')
         rules.append(rule)
