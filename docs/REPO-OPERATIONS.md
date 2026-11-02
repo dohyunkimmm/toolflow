@@ -2,40 +2,47 @@
 
 > 운영·보호·검증 기록입니다. 날짜와 SHA가 기재된 검증은 **해당 당시 사실**이며 이후 배포가 있다면 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain) 및 [Vercel 프로젝트](https://vercel.com/dohyunkimm/toolflow)로 재확인합니다. 제품 소개는 [README](../README.md), 변경 이력은 [CHANGELOG](../CHANGELOG.md)를 우선합니다.
 
+## 2026-11-02 기준 검증 및 클렌징
+
+- GitHub `main` 기준 SHA `78b7eb039e86a5a68b95ab8090e0d9416584e245`에서 [E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/41364607991)과 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/41364607885)가 성공했습니다. E2E의 Production Smoke·배포 무결성 작업도 당시 성공했습니다. 이후 커밋과 현재 배포 상태는 별도로 검증해야 합니다.
+- 공개 최신 릴리스는 [v18.0.1](https://github.com/dohyunkimmm/toolflow/releases/tag/v18.0.1)이며 대상 SHA는 `87e739f3f54d9058cad3b4115bc2a591c2e0cf40`입니다. `release.json`은 `v18.0.1 / P6 / verified`입니다. 후속 `main` 정리 변경을 기존 불변 태그에 소급 적용하거나 새 릴리스로 간주하지 않습니다.
+- 로그인용 `fonts/pretendard-login.css`는 6개 폰트 서브셋을 데이터 URL로 이미 포함합니다. 별도 배포·Git 추적되던 `fonts/login/ToolFlowUI.*.woff2` 6개는 런타임 참조가 없어 제거 대상으로 판별했습니다. 재생성 스크립트는 메모리에서 CSS를 만들도록 변경하고, 무결성 매니페스트의 해당 중복 경로를 제외합니다. `fonts/login/NOTICE.txt`, 원본 Pretendard 92개 서브셋 및 라이선스는 유지합니다. 실제 폰트 렌더링과 배포 무결성은 이 변경의 CI·배포 검증으로 확인해야 합니다.
+- 미완료 작업은 [서명 강제 #171](https://github.com/dohyunkimmm/toolflow/issues/171), [Gemini 실계정/전역 제한 #173](https://github.com/dohyunkimmm/toolflow/issues/173)입니다(2026-11-02 조회 기준).
+
 ## 2026-11-02 데모 전용 v18.0.1 릴리스 발행 완료
 
-- 정확한 현재 코드의 공개 릴리스는 과거 `v18.0.0` 태그를 재지정하지 않고 **v18.0.1** 새 버전을 사용합니다. 기존 태그 `v18.0.0` → `12ca2749b68d7d36cd66f1fbb8d7523dc36aa269`; 해당 SHA는 이전 검증 상태여서 현행 코드 태그로 재사용하면 안 됩니다.
+- 2026-11-02 발행 당시 검증된 코드의 공개 릴리스는 과거 `v18.0.0` 태그를 재지정하지 않고 **v18.0.1** 새 버전을 사용합니다. 기존 태그 `v18.0.0` → `12ca2749b68d7d36cd66f1fbb8d7523dc36aa269`; 해당 SHA는 이전 검증 상태여서 현행 코드 태그로 재사용하면 안 됩니다.
 - 이번 `verified`는 **인터랙티브 데모 프로토타입의 재현 가능한 브라우저/보안/성능/무결성 검증**만 의미합니다. 실제 SSO·JSM·라이선스 발급, Gemini 실제 비용·추천 적합도·전역 제한은 증빙되지 않았고 릴리스에 포함된 운영 보장으로 간주하지 않습니다([#173](https://github.com/dohyunkimmm/toolflow/issues/173)).
 - `Require signed commits`는 자동화 Contents API 생성 PR 커밋이 여전히 `unsigned`인 상황에서 켜면 병합이 막힐 수 있으므로 서명 경로 검증 전에는 유지합니다([#171](https://github.com/dohyunkimmm/toolflow/issues/171)).
 - [PR #181](https://github.com/dohyunkimmm/toolflow/pull/181) 병합 대상 SHA `87e739f3f54d9058cad3b4115bc2a591c2e0cf40`에서 [E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/41363331200), Vercel Production `READY`/SHA 일치를 확인하고, [PR #182](https://github.com/dohyunkimmm/toolflow/pull/182)로 정확한 SHA의 [v18.0.1 릴리스](https://github.com/dohyunkimmm/toolflow/releases/tag/v18.0.1)를 발행했습니다. [Release 워크플로](https://github.com/dohyunkimmm/toolflow/actions/runs/41364013894) 성공, immutable 증빙 7개 파일 첨부, 태그는 기존 `v18.0.0`을 변경하지 않고 새로 생성했습니다. [출시 이슈 #172](https://github.com/dohyunkimmm/toolflow/issues/172)는 **데모 범위 완료**로 종료했고, 서명 강제 #171·Gemini 실계정/전역 한도 #173은 여전히 미완료입니다.
 
-## 2026-11-02 GitHub 재확인 (최신 main 커밋 2026-10-27)
+## 2026-11-02 이전 조회 기록 (2026-10-27 커밋 기준 · 이력)
 
-- `main` HEAD `988a61183e8864b8ddf571ac0a0ebe4b76a500eb`([PR #179](https://github.com/dohyunkimmm/toolflow/pull/179) 병합)의 [E2E 실행 #40500352932](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352932)은 13개 작업 전부 성공, [Documentation sync #40500352980](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352980)은 성공했습니다. 이는 **2026-10-27 커밋의 GitHub Actions 결과**이며, 2026-11-02 재조회 시점의 최신 확인 기록입니다.
-- 문서 동기화 PR #180을 생성하기 전 기존 열린 PR은 0개였습니다. 미완료 이슈 [#171](https://github.com/dohyunkimmm/toolflow/issues/171)·[#172](https://github.com/dohyunkimmm/toolflow/issues/172)·[#173](https://github.com/dohyunkimmm/toolflow/issues/173)은 유지되며 `release.json`은 `v18.0.0 / P6 / candidate`입니다. 최신 공개 GitHub Release는 `v11.0.0`입니다. 승인 없이 후보를 정식 출시로 표기하지 않습니다.
+- `main` HEAD `988a61183e8864b8ddf571ac0a0ebe4b76a500eb`([PR #179](https://github.com/dohyunkimmm/toolflow/pull/179) 병합)의 [E2E 실행 #40500352932](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352932)은 13개 작업 전부 성공, [Documentation sync #40500352980](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352980)은 성공했습니다. 이는 **2026-10-27 커밋의 GitHub Actions 결과**로, 당시 조회 기록입니다. 현재 기준 검증은 이 문서 상단을 확인합니다.
+- 문서 동기화 PR #180 생성 이전에는 열린 PR이 0개였고, 당시 이슈 #171·#172·#173은 미완료, `release.json`은 `v18.0.0 / P6 / candidate`, 공개 최신 릴리스는 `v11.0.0`이었습니다. **이후 #172는 완료되고 v18.0.1이 발행되었으므로 이 문단은 당시 이력만 설명합니다.**
 - 과거 작업 브랜치는 `main`과 갈라진 커밋이 남아 있으나 squash 병합·후속 변경을 포함하므로 `ahead_by` 수치만으로 미반영 기능을 판단하거나 일괄 병합하지 않습니다. 이번 확인은 원격 GitHub 기준이며 로컬 미커밋 파일은 포함하지 않습니다.
 - 최신 Vercel Production 소스 SHA와 실계정 Gemini 응답 품질은 이 재확인에서 별도 검증하지 않았습니다. 아래 과거 Production `READY` 기록은 해당 날짜의 증빙으로 유지합니다.
 
-## 2026-10-27 릴리스 후보 발행 차단 (v18)
+## 2026-10-27 릴리스 후보 발행 차단 (당시 정책·이력)
 
 정식 GitHub Release 생성 전에는 브라우저/보안/운영 E2E 증빙뿐 아니라 **현재 `release.json`과 요청 대상 SHA 내부의 `release.json` 모두 `releaseStatus=verified`**인지 확인합니다. candidate를 가진 커밋은 GitHub Release 발행 대상이 아닙니다. 버전 태그도 대상 커밋 `release.json.version`과 일치해야 합니다.
 
-이 변경은 증빙 없이 candidate가 정식 태그로 승격되는 실수를 막는 안전장치입니다. `v18.0.0/P6`는 현재 **candidate**이며 운영자의 정식 출시 결정, 관련 승인·증빙 갱신, `verified`로의 명시적 PR 승격을 하기 전까지 **태그/릴리스 발행 금지**입니다. 참조: [#172](https://github.com/dohyunkimmm/toolflow/issues/172).
+이 변경은 증빙 없이 candidate가 정식 태그로 승격되는 실수를 막는 안전장치입니다. `v18.0.0/P6`는 당시 **candidate**였으며 운영자의 정식 출시 결정, 관련 승인·증빙 갱신, `verified`로의 명시적 PR 승격 전까지 **태그/릴리스 발행 금지** 상태였습니다. 참조: [#172](https://github.com/dohyunkimmm/toolflow/issues/172).
 
-## 2026-10-27 현행 검증 및 미완료 추적
+## 2026-10-27 당시 검증 및 미완료 추적 (이력)
 
 - `main` `b0d44b5c8738d69d389a58b02cb20bb0780ef3a9`에 대한 GitHub [E2E #40429951807](https://github.com/dohyunkimmm/toolflow/actions/runs/40429951807) 13개 작업 성공 및 Production `READY`·동일 SHA 확인(2026-10-27 조사 당시). 이후 변경이 있으면 다시 검증합니다.
 - 최근 조회한 `main` 커밋 6개는 모두 GitHub `Verified`였습니다. **자동화 PR 커밋의 서명 호환성은 확인되지 않아 Require signed commits는 여전히 미활성**입니다. PR 서명 점검은 GitHub API 결과가 비어 있으면 실패하도록 보강했으나, 여전히 감사용·비필수 검사입니다.
-- 미완료 운영 작업은 [서명 강제 #171](https://github.com/dohyunkimmm/toolflow/issues/171), [v18 candidate 릴리스 확정 #172](https://github.com/dohyunkimmm/toolflow/issues/172), [Gemini 실제 운영·분산 사용량 보호 #173](https://github.com/dohyunkimmm/toolflow/issues/173)에 명확한 완료 조건으로 등록했습니다.
-- `release.json`의 v18.0.0/P6/`candidate` 및 기존 WAF/AI 제한 동작은 변경하지 않았습니다.
+- 당시 미완료 운영 작업은 [서명 강제 #171](https://github.com/dohyunkimmm/toolflow/issues/171), [v18 candidate 릴리스 확정 #172](https://github.com/dohyunkimmm/toolflow/issues/172), [Gemini 실제 운영·분산 사용량 보호 #173](https://github.com/dohyunkimmm/toolflow/issues/173)에 등록되어 있었습니다. #172는 이후 완료되었습니다.
+- 2026-10-27 당시에는 `release.json`의 v18.0.0/P6/`candidate` 및 기존 WAF/AI 제한 동작을 변경하지 않았습니다.
 
 ## 2026-10-26 후속 검증 현황
 
 - 2026-10-25 병합된 [PR #165](https://github.com/dohyunkimmm/toolflow/pull/165)의 `main` 커밋 `1e8299139d15d3f17c388b2f90595f2c1f6a78da`에 대해 [E2E](https://github.com/dohyunkimmm/toolflow/actions/runs/40206705617)와 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/40206705644)가 **성공**했습니다.
 - 이는 해당 커밋의 GitHub Actions 결과이며, 최신 Vercel Production 소스가 동일 커밋이라는 별도 검증은 포함하지 않습니다. 아래 2026-10-25 운영 커밋 `3592408` 확인 기록은 당시의 Production 검증 이력으로 유지합니다.
-- 이후 클렌징 PR의 검증 상태는 개별 PR 체크를 확인해야 합니다. `release.json`의 `candidate` 상태는 변경하지 않습니다.
+- 해당 날짜 이후 클렌징 PR의 검증 상태는 개별 PR 체크를 확인해야 합니다. 당시에는 `release.json`의 `candidate` 상태를 변경하지 않았습니다.
 
-## 최근 확인 상태 — 2026-10-25
+## 2026-10-25 당시 확인 상태 (이력)
 
 - **대표 도메인:** [https://toolflow-dohyunkimmm.vercel.app/](https://toolflow-dohyunkimmm.vercel.app/). Vercel `toolflow` 프로젝트에 연결된 운영 도메인 중 대표 URL입니다. 이전 OnboardOS 연결 제거 기록은 과거 변경 이력입니다.
 - **2026-10-25 최신 검증 운영 커밋:** `3592408346b1679b6cf2fb8e3bd1111a8b163212` ([QA PR #162](https://github.com/dohyunkimmm/toolflow/pull/162) 병합), Vercel Production `READY`, [병합 후 main E2E 13/13 성공](https://github.com/dohyunkimmm/toolflow/actions/runs/40193714768) — Chromium·Firefox/WebKit·보안·접근성·성능·운영 브라우저 Smoke·배포 무결성 검증. PR #160·#161·#162는 데스크톱 정렬, 모바일 헤더·카드 밀도, 320px·390px 회귀를 개선했습니다. 이 확인은 10월 25일 스냅샷이며 이후 배포는 별도 확인해야 합니다.

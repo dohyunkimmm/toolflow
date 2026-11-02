@@ -31,7 +31,7 @@ Google SSO, Google Workspace 조직 정보, Jira Service Management 티켓, SaaS
 - **품질:** 신청·관리자 흐름, 접근성, 시각 회귀, 복구·보안, 크로스 브라우저, 성능 검사
 - **배포·검증 절차:** `main` → Vercel Production. SHA-256 무결성·브라우저 Smoke 결과는 대상 배포의 별도 검증 기록을 기준으로 판단
 - **기록:** GitHub Actions에서 자동 검증 결과와 릴리스 근거를 확인할 수 있습니다. 공개 정적 자산은 SHA-256으로 비교하고, 서버 함수는 응답 계약으로 별도 확인합니다.
-- **최근 GitHub 검증(2026-10-27):** `main` 커밋 `988a61183e8864b8ddf571ac0a0ebe4b76a500eb`에서 [E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352932) 및 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/40500352980)가 성공했습니다. Production Smoke·무결성은 해당 Actions의 검사 결과이며, 현재 Vercel Production이 이 SHA인지 별도로 조회한 결과는 아닙니다. Documentation sync는 대표 저장소 문서의 정합성 검사로 Notion 자동 업데이트를 뜻하지 않습니다.
+- **GitHub 검증 기록(2026-11-02):** `main` 커밋 `78b7eb039e86a5a68b95ab8090e0d9416584e245`에서 [E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/41364607991) 및 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/41364607885)가 성공했습니다. 당시 E2E의 Production Smoke·배포 무결성 검사도 통과했습니다. 이는 해당 실행 시점의 증빙이며, 후속 커밋·배포의 최신 상태는 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 별도로 확인해야 합니다. Documentation sync는 대표 문서 정합성 검사로 Notion 자동 업데이트를 의미하지 않습니다.
 
 ```bash
 npm ci

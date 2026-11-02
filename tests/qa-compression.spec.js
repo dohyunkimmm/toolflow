@@ -34,7 +34,7 @@ test('QA static assets support Brotli, gzip, and identity with identical decoded
       : encoding === 'gzip' ? zlib.gunzipSync(response.body) : response.body;
     expect(decoded.equals(expected)).toBe(true);
   }
-  const font = await requestRaw('/fonts/login/ToolFlowUI.86.woff2', 'br');
+  const font = await requestRaw('/fonts/pretendard/PretendardVariable.subset.86.woff2', 'br');
   expect(font.status).toBe(200);
   expect(font.headers['content-encoding']).toBeUndefined();
 });

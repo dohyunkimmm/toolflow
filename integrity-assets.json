@@ -42,12 +42,6 @@
       "extensions": [
         ".woff2"
       ]
-    },
-    {
-      "root": "fonts/login",
-      "extensions": [
-        ".woff2"
-      ]
     }
   ],
   "sourceOnlyFiles": [

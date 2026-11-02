@@ -4,5 +4,6 @@ Derived from the bundled Pretendard Variable font by Kil Hyung-jin.
 The glyph outlines and variable weight axis are preserved; only the characters needed by the login screen are included.
 Modified family and PostScript names: ToolFlow UI / ToolFlowUI.
 Original copyright and SIL Open Font License: ../PRETENDARD-LICENSE.txt.
-Reproduce: python scripts/subset-login-fonts.py (fonttools[woff] 4.67.0).
+The six login-only subsets are embedded as data URLs inside ../pretendard-login.css, not deployed as separate .woff2 assets.
+Reproduce the stylesheet: python scripts/subset-login-fonts.py (fonttools[woff] 4.67.0). The script builds the subsets in memory.
 The full product interface uses the original bundled Pretendard Variable font.
