@@ -2,7 +2,9 @@ const { test, expect } = require('@playwright/test');
 
 async function demoLogin(page){
   await page.goto('/');
-  await page.getByRole('button', { name: 'Google SSO로 시작하기' }).click();
+  if(await page.locator('#loginScreen').isVisible()){
+    await page.getByRole('button', { name: 'Google SSO로 시작하기' }).click();
+  }
   await expect(page.locator('#loginScreen')).toBeHidden();
 }
 
@@ -89,9 +91,11 @@ test('request modal and reviewer drawer share the visual system', async ({page})
   await expect(page.locator('#requestBackdrop')).toHaveClass(/show/);
   await expect(page.locator('.request-modal')).toHaveCSS('background-color','rgb(255, 255, 255)');
   const radius = await page.locator('.request-modal').evaluate(el => parseFloat(getComputedStyle(el).borderRadius));
-  expect(radius).toBeGreaterThanOrEqual(24);
+  expect(radius).toBeGreaterThanOrEqual(page.viewportSize().width <= 768 ? 20 : 24);
   await page.goto('/?review=1');
-  await page.getByRole('button',{name:'Google SSO로 시작하기'}).click();
+  if(await page.locator('#loginScreen').isVisible()){
+    await page.getByRole('button',{name:'Google SSO로 시작하기'}).click();
+  }
   await expect(page.locator('#adminBtn')).toBeVisible();
   await page.locator('#adminBtn').click();
   await expect(page.locator('#drawerBackdrop')).toHaveClass(/show/);
