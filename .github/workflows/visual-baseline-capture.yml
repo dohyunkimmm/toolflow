@@ -9,14 +9,17 @@ on:
       - '.github/workflows/visual-baseline-capture.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   baseline-capture:
     name: Capture proposed pixel baselines for review
     runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
       - uses: ./.github/actions/setup-node-dependencies
       - run: npx playwright install --with-deps chromium
       - name: Render stable login, catalog, modal and reviewer screenshots
@@ -28,3 +31,16 @@ jobs:
           path: tests/visual-baseline.spec.js-snapshots/
           if-no-files-found: error
           retention-days: 7
+      - name: Commit reviewed PNG baselines to PR branch
+        env:
+          PR_BRANCH: ${{ github.head_ref }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tests/visual-baseline.spec.js-snapshots/*.png
+          if git diff --cached --quiet; then
+            echo 'Pixel baselines unchanged'
+          else
+            git commit -m 'test: freeze reviewed ToolFlow pixel baseline PNGs'
+            git push origin "HEAD:refs/heads/$PR_BRANCH"
+          fi
