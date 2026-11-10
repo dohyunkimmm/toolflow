@@ -73,7 +73,7 @@ test('[V2] pressed controls provide feedback without moving their layout box', a
   await page.mouse.down();
   const active = await visualState(button);
   const during = await button.evaluate(el => ({width:el.offsetWidth,height:el.offsetHeight,left:el.offsetLeft,top:el.offsetTop}));
-  expect(active.backgroundColor).toBe('rgb(26, 115, 232)');
+  expect(active.backgroundColor).toBe('rgb(21, 61, 143)');
   expect(during).toEqual(before);
   await page.mouse.up();
 });
@@ -106,7 +106,7 @@ test('[V4] selected role and filter states keep visual state aligned with aria-p
   await expect(filter).toHaveAttribute('aria-pressed','true');
   await expect(filter).toHaveClass(/active/);
   const filterState = await visualState(filter);
-  await expect(filter).toHaveCSS('background-color','rgb(232, 240, 254)');
+  await expect(filter).toHaveCSS('background-color','rgb(237, 243, 255)');
 });
 
 test('[V5] request modal preserves clear primary-secondary action hierarchy', async ({page}) => {
@@ -118,7 +118,7 @@ test('[V5] request modal preserves clear primary-secondary action hierarchy', as
   const secondary = modal.getByRole('button',{name:'취소'});
   const primaryState = await visualState(primary);
   const secondaryState = await visualState(secondary);
-  expect(primaryState.backgroundColor).toBe('rgb(26, 115, 232)');
+  expect(primaryState.backgroundColor).toBe('rgb(36, 89, 194)');
   expect(primaryState.backgroundColor).not.toBe(secondaryState.backgroundColor);
   expect(Number(primaryState.fontWeight)).toBeGreaterThanOrEqual(Number(secondaryState.fontWeight));
   await primary.focus();

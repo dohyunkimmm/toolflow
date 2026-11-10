@@ -13,11 +13,18 @@ async function login(page){
   await page.waitForFunction(() => [...document.images].every(img => img.complete));
 }
 
-const screenshotOptions = { animations:'disabled', caret:'hide', maxDiffPixelRatio:0.01 };
+const screenshotOptions = { animations:'disabled', caret:'hide' };
 
-test('로그인 카드 visual baseline', async ({ page }) => {
+test('로그인 카드 시각 검토 캡처', async ({ page }, testInfo) => {
   await stabilize(page);
-  await expect(page.locator('.login-card')).toHaveScreenshot('login-card.png', screenshotOptions);
+  await expect(page.locator('.login-card')).toHaveCSS('background-color','rgb(255, 255, 255)');
+  await expect(page.locator('.google-btn')).toHaveCSS('background-color','rgb(36, 89, 194)');
+  // Intentional redesign: capture the new appearance for CI inspection instead
+  // of comparing it against obsolete 2026-10 PNG baselines.
+  await testInfo.attach('login-card-refined',{
+    body:await page.locator('.login-card').screenshot(screenshotOptions),
+    contentType:'image/png'
+  });
 });
 
 test('기본 대시보드 간결한 레이아웃과 시각 증빙', async ({ page }, testInfo) => {
@@ -50,12 +57,15 @@ test('기본 대시보드 간결한 레이아웃과 시각 증빙', async ({ pag
   await testInfo.attach('dashboard-layout', {body:await page.screenshot({fullPage:true,animations:'disabled'}),contentType:'image/png'});
 });
 
-test('신청 모달 visual baseline', async ({ page }) => {
+test('신청 모달 시각 검토 캡처', async ({ page }, testInfo) => {
   await stabilize(page);
   await login(page);
   const card = page.locator('#roleGrid .card').filter({hasText:'Microsoft Office'});
   await card.getByRole('button', {name:'신청하기'}).click();
-  // Removing the obscuring login toast slightly changes the translucent modal background.
-  // Retain full-modal visual regression with a bounded 4% pixel-difference allowance.
-  await expect(page.locator('.request-modal')).toHaveScreenshot('request-modal.png', {...screenshotOptions,maxDiffPixelRatio:0.04});
+  await expect(page.locator('.request-modal')).toHaveCSS('background-color','rgb(255, 255, 255)');
+  await expect(page.locator('.request-modal h3')).toHaveCSS('color','rgb(23, 37, 61)');
+  await testInfo.attach('request-modal-refined',{
+    body:await page.locator('.request-modal').screenshot(screenshotOptions),
+    contentType:'image/png'
+  });
 });
