@@ -73,7 +73,7 @@ test('[V2] pressed controls provide feedback without moving their layout box', a
   await page.mouse.down();
   const active = await visualState(button);
   const during = await button.evaluate(el => ({width:el.offsetWidth,height:el.offsetHeight,left:el.offsetLeft,top:el.offsetTop}));
-  expect(active.backgroundColor).toBe('rgb(36, 89, 194)');
+  expect(active.backgroundColor).toBe('rgb(21, 61, 143)');
   expect(during).toEqual(before);
   await page.mouse.up();
 });
