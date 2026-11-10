@@ -24,7 +24,8 @@
     "test:visual-system": "playwright test -c config/playwright.visual-system.config.js",
     "test:design-polish": "playwright test -c config/playwright.design-polish.config.js",
     "test:experience": "playwright test -c config/playwright.experience-refinement.config.js",
-    "test:review": "node --test scripts/product-review-check.js"
+    "test:review": "node --test scripts/product-review-check.js",
+    "test:visual:baseline": "playwright test -c config/playwright.visual-baseline.config.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
