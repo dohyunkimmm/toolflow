@@ -96,6 +96,11 @@ body .google-btn:hover {
   background: var(--tf-brand-hover) !important;
   box-shadow: 0 6px 16px rgba(36,89,194,.14) !important;
 }
+body .google-btn:active {
+  background: var(--tf-brand-active) !important;
+  border-color: var(--tf-brand-active) !important;
+  transform: none !important; /* press feedback without a layout jump */
+}
 body .reviewer-entry a,
 body .reviewer-entry a:first-of-type { color: var(--tf-brand) !important; }
 
@@ -197,6 +202,7 @@ body #mainContent #roleGrid .card:focus-within,
 body #mainContent #commonGrid .card:focus-within {
   border-color: var(--tf-brand) !important;
   box-shadow: 0 0 0 3px var(--tf-focus-ring) !important;
+  transition: none !important; /* keyboard focus must appear immediately */
 }
 body #mainContent .card .logo-chip {
   background: var(--tf-subtle-surface) !important;
