@@ -24,7 +24,7 @@ jobs:
       - uses: ./.github/actions/setup-node-dependencies
       - run: npx playwright install --with-deps chromium
       - name: Re-render fixed-status-chip visual baselines
-        run: npx playwright test -c config/playwright.visual-baseline.config.js --update-snapshots
+        run: npx playwright test -c config/playwright.visual-baseline.config.js --update-snapshots=all
       - name: Commit baseline updates
         env:
           PR_BRANCH: ${{ github.head_ref }}
