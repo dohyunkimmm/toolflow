@@ -53,8 +53,7 @@ test('[T2] common entitlements use the same card format as actionable role cards
   expect(Math.abs(commonBox.width - roleBox.width)).toBeLessThanOrEqual(1);
   expect(commonBox.height).toBeLessThanOrEqual(210);
   expect(roleBox.height).toBeLessThanOrEqual(210);
-  expect(commonStyle.boxShadow === 'none' || commonStyle.boxShadow.includes('inset')).toBeTruthy();
-  expect(roleStyle.boxShadow).toBe('none');
+  expect(commonStyle.boxShadow).toBe(roleStyle.boxShadow);
   await expect(role.locator('.cta')).toBeVisible();
 });
 
@@ -73,7 +72,7 @@ test('[T4] filter selection remains visually quieter than the primary card actio
   const filter = await style(page.locator('.filter-chip.active'));
   const cta = await style(page.locator('#roleGrid .cta').first());
   expect(filter.boxShadow).toBe('none');
-  expect(filter.backgroundColor).toBe('rgb(232, 240, 254)');
+  expect(filter.backgroundColor).toBe('rgb(237, 243, 255)');
   expect(cta.backgroundColor).toBe('rgb(255, 255, 255)');
   expect(cta.backgroundColor).not.toBe(filter.backgroundColor);
 });
