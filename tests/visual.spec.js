@@ -13,7 +13,7 @@ async function login(page){
   await page.waitForFunction(() => [...document.images].every(img => img.complete));
 }
 
-const screenshotOptions = { animations:'disabled', caret:'hide', maxDiffPixelRatio:0.01 };
+const screenshotOptions = { animations:'disabled', caret:'hide' };
 
 test('로그인 카드 시각 검토 캡처', async ({ page }, testInfo) => {
   await stabilize(page);
