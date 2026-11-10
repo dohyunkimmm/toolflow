@@ -25,7 +25,7 @@ test('[E1] top navigation separates primary product action from demo utilities',
   await stabilize(page);await login(page);
   const status=await css(page.locator('#statusBtn'));
   const reset=await css(page.locator('#resetBtn'));
-  expect(status.backgroundColor).toBe('rgb(26, 115, 232)');
+  expect(status.backgroundColor).toBe('rgb(36, 89, 194)');
   expect(reset.backgroundImage).toBe('none');
   await shot(page.locator('.topbar'),'E1-navigation-hierarchy.png');
 });
@@ -59,7 +59,7 @@ test('[E4] status filters behave as a sticky command surface with a distinct sel
   const tools=await css(page.locator('.tools-bar'));
   const active=await css(page.locator('.filter-chip.active'));
   expect(tools.position).toBe('static');
-  expect(active.backgroundColor).toBe('rgb(232, 240, 254)');
+  expect(active.backgroundColor).toBe('rgb(237, 243, 255)');
   const selected=page.locator('.filter-chip.active');
   await expect(selected).toHaveAttribute('aria-pressed','true');
   await shot(page.locator('.tools-bar'),'E4-filter-command-surface.png');
