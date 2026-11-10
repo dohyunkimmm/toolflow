@@ -190,6 +190,27 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+
+  visual-baseline:
+    name: Reviewed pixel regression / 9 screenshots
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup-node-dependencies
+      - run: npx playwright install --with-deps chromium
+      - name: Compare frozen desktop/mobile/login/modal/reviewer PNG baselines
+        run: npm run test:visual:baseline
+      - name: Upload pixel diff artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pixel-baseline-diff-${{ github.sha }}
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: warn
+          retention-days: 14
+
   experience-refinement:
     name: Experience refinement / interaction clarity gate
     runs-on: ubuntu-latest
@@ -280,7 +301,7 @@ jobs:
   production-smoke:
     name: Production desktop/mobile smoke + deployment integrity
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [playwright, resilience, security, ux, visual-system, design-polish, experience-refinement, cross-browser, lighthouse, lighthouse-mobile, supply-chain]
+    needs: [playwright, resilience, security, ux, visual-system, design-polish, visual-baseline, experience-refinement, cross-browser, lighthouse, lighthouse-mobile, supply-chain]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -348,7 +369,7 @@ jobs:
 
   evidence:
     name: Verification evidence
-    needs: [playwright, resilience, security, ux, visual-system, design-polish, experience-refinement, cross-browser, lighthouse, lighthouse-mobile, supply-chain, production-smoke]
+    needs: [playwright, resilience, security, ux, visual-system, design-polish, visual-baseline, experience-refinement, cross-browser, lighthouse, lighthouse-mobile, supply-chain, production-smoke]
     if: >-
       always() &&
       needs.playwright.result == 'success' &&
@@ -357,6 +378,7 @@ jobs:
       needs.ux.result == 'success' &&
       needs.visual-system.result == 'success' &&
       needs.design-polish.result == 'success' &&
+      needs.visual-baseline.result == 'success' &&
       needs.experience-refinement.result == 'success' &&
       needs.cross-browser.result == 'success' &&
       needs.lighthouse.result == 'success' &&
