@@ -46,9 +46,9 @@ test('[X2] request modal promotes SLA and expected delivery above secondary meta
   const expectedStyle = await expected.evaluate(el => ({bg:getComputedStyle(el).backgroundColor,font:getComputedStyle(el.querySelector('b')).fontSize}));
   const ordinaryStyle = await ordinary.evaluate(el => ({bg:getComputedStyle(el).backgroundColor,font:getComputedStyle(el.querySelector('b')).fontSize}));
 
-  expect(slaStyle.bg).toBe('rgb(232, 240, 254)');
+  expect(slaStyle.bg).toBe('rgb(237, 243, 255)');
   expect(slaStyle.border).not.toBe('rgba(0, 0, 0, 0)');
-  expect(expectedStyle.bg).toBe('rgb(232, 240, 254)');
+  expect(expectedStyle.bg).toBe('rgb(237, 243, 255)');
   expect(parseFloat(expectedStyle.font)).toBeGreaterThanOrEqual(parseFloat(ordinaryStyle.font));
 
   const expectedBox = await rect(expected);
@@ -104,7 +104,7 @@ test('[X5] admin queue keeps KPI filtering secondary to the execution action', a
   await pendingKpi.click();
   await expect(pendingKpi).toHaveAttribute('aria-pressed','true');
   const kpiStyle = await pendingKpi.evaluate(el => ({bg:getComputedStyle(el).backgroundColor,border:getComputedStyle(el).borderTopColor}));
-  expect(kpiStyle.bg).toBe('rgb(232, 240, 254)');
+  expect(kpiStyle.bg).toBe('rgb(237, 243, 255)');
   expect(kpiStyle.border).not.toBe('rgba(0, 0, 0, 0)');
 
   const primary = page.locator('.request-item').filter({hasText:'Microsoft Office'}).locator('.request-actions .btn-primary');
