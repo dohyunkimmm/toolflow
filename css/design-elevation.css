@@ -158,6 +158,17 @@ body .catalog-field select {
   border-radius: var(--tf-radius-control) !important;
   background-color: var(--tf-surface) !important;
 }
+/* Prevent the selected status chip and keyboard focus outlines from being
+   cropped by legacy horizontal-scroll containers. All four chips already fit
+   their responsive grid; scrolling is unnecessary here. */
+body .catalog-status .filter-tabs,
+body .catalog-search-row.tools-bar {
+  overflow: visible !important;
+}
+body .catalog-status .filter-chip {
+  transform: none !important;
+}
+
 body .catalog-status .filter-chip {
   background: var(--tf-surface) !important;
   color: var(--tf-secondary) !important;

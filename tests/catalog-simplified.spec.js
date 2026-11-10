@@ -220,3 +220,49 @@ test('reviewer header keeps one accessible row on 320px and 390px',async({page},
   await page.getByRole('button',{name:'도움말',exact:true}).click();
   await expect(page.locator('#onboardingHelp')).toBeVisible();
 });
+
+
+test('status filter borders and adjacent search focus remain unclipped at responsive widths',async({page})=>{
+  await login(page);
+  for(const width of [320,390,768,1440]){
+    await page.setViewportSize({width,height:900});
+    await expect(page.locator('#filterTabs')).toHaveCSS('overflow-x','visible');
+    await expect(page.locator('.catalog-search-row.tools-bar')).toHaveCSS('overflow-x','visible');
+
+    for(const filter of ['all','todo','processing','done']){
+      const chip=page.locator('#filterTabs [data-filter="'+filter+'"]');
+      await chip.click();
+      await expect(chip).toHaveAttribute('aria-pressed','true');
+      await expect(chip).toHaveCSS('transform','none');
+      const box=await chip.evaluate(el=>{
+        const rect=el.getBoundingClientRect();
+        const container=el.closest('.filter-tabs').getBoundingClientRect();
+        return {
+          left:rect.left-container.left,
+          top:rect.top-container.top,
+          right:container.right-rect.right,
+          bottom:container.bottom-rect.bottom
+        };
+      });
+      for(const edge of Object.values(box)){
+        expect(edge,filter+' border clipped at '+width+'px').toBeGreaterThanOrEqual(-0.5);
+      }
+    }
+    const all=page.locator('#filterTabs [data-filter="all"]');
+    await all.click();
+    await all.hover();
+    await expect(all).toHaveCSS('transform','none');
+
+    // A focused AI recommendation button must not be clipped by a scrollport.
+    await page.locator('#toolSearch').focus();
+    await page.keyboard.press('Tab');
+    await expect(page.locator('.catalog-ai')).toBeFocused();
+    await expect(page.locator('.catalog-ai')).toHaveCSS('outline-style','solid');
+
+    const widthState=await page.evaluate(()=>({
+      scroll:document.documentElement.scrollWidth,
+      viewport:innerWidth
+    }));
+    expect(widthState.scroll).toBeLessThanOrEqual(widthState.viewport+1);
+  }
+});
