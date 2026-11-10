@@ -1,0 +1,380 @@
+/* ToolFlow visual refinement — 2026-11
+   One final presentation layer. Keeps business logic, card order, state labels and
+   the established responsive grid untouched. All colors flow from these tokens. */
+:root {
+  color-scheme: light;
+  --tf-brand: #2459c2;
+  --tf-brand-hover: #194aa8;
+  --tf-brand-active: #153d8f;
+  --tf-brand-tint: #edf3ff;
+  --tf-brand-border: #bad0f4;
+  --tf-ink: #17253d;
+  --tf-secondary: #526174;
+  --tf-muted: #66758a;
+  --tf-canvas: #f7f9fc;
+  --tf-surface: #ffffff;
+  --tf-subtle-surface: #f8fafd;
+  --tf-line: #e2e8f0;
+  --tf-line-strong: #c9d5e5;
+  --tf-success: #276749;
+  --tf-success-bg: #eaf6ef;
+  --tf-warning: #8a520b;
+  --tf-warning-bg: #fff6e6;
+  --tf-danger: #ae3542;
+  --tf-danger-bg: #fff0f1;
+  --tf-focus: #2459c2;
+  --tf-focus-ring: rgba(36,89,194,.20);
+  --tf-shadow-sm: 0 2px 10px rgba(23,37,61,.035);
+  --tf-shadow-md: 0 12px 32px rgba(23,37,61,.075);
+  --tf-radius-control: 9px;
+  --tf-radius-card: 13px;
+  --tf-radius-panel: 18px;
+  --tf-transition: 160ms cubic-bezier(.2,.7,.25,1);
+}
+
+/* Base surfaces: one light visual language for entry, catalog and overlays. */
+html, body, body:not(.login-open) {
+  background-color: var(--tf-canvas) !important;
+  color: var(--tf-ink);
+}
+body:not(.login-open) .topbar {
+  background: rgba(255,255,255,.98) !important;
+  border-bottom: 1px solid var(--tf-line) !important;
+  box-shadow: 0 1px 0 rgba(23,37,61,.02);
+}
+body .logo, body .logo-home { color: var(--tf-ink); }
+body .logo-home:hover { color: var(--tf-brand); }
+body .topbar .top-btn:not(#statusBtn) {
+  border-color: var(--tf-line) !important;
+  color: var(--tf-secondary) !important;
+  border-radius: var(--tf-radius-control);
+}
+body .topbar #statusBtn {
+  background: var(--tf-brand) !important;
+  border-color: var(--tf-brand) !important;
+  color: #fff !important;
+}
+body .topbar #statusBtn:hover { background: var(--tf-brand-hover) !important; }
+
+/* Login: quieter atmosphere, matched panels and call to action.
+   Preserve the login font-lock so deferred fonts cannot shift the button. */
+body .login-screen {
+  background:
+    radial-gradient(85% 65% at 8% -12%, rgba(36,89,194,.065), transparent 72%),
+    var(--tf-canvas) !important;
+}
+body #loginScreen .login-card {
+  background: var(--tf-surface) !important;
+  border-color: var(--tf-line) !important;
+  box-shadow: 0 18px 60px rgba(23,37,61,.055) !important;
+}
+body .login-brand { color: var(--tf-brand) !important; }
+body .login-card .login-title {
+  color: var(--tf-ink) !important;
+  letter-spacing: -.035em;
+}
+body .login-card p, body .login-note, body .login-eyebrow {
+  color: var(--tf-secondary) !important;
+}
+body .login-panel {
+  background: var(--tf-subtle-surface) !important;
+  border-color: var(--tf-line) !important;
+  border-radius: 15px;
+}
+body .login-account {
+  border-color: var(--tf-line) !important;
+  border-radius: 9px;
+}
+body .google-btn {
+  background: var(--tf-brand) !important;
+  border-color: var(--tf-brand) !important;
+  border-radius: var(--tf-radius-control) !important;
+  font-weight: 700;
+  transition: background-color var(--tf-transition), box-shadow var(--tf-transition);
+}
+body .google-btn:hover {
+  background: var(--tf-brand-hover) !important;
+  box-shadow: 0 6px 16px rgba(36,89,194,.14) !important;
+}
+body .reviewer-entry a,
+body .reviewer-entry a:first-of-type { color: var(--tf-brand) !important; }
+
+/* Catalog hierarchy — keep the existing left alignment and compact geometry. */
+body #catalogTitle {
+  color: var(--tf-ink) !important;
+  font-weight: 750;
+  letter-spacing: -.04em;
+}
+body .catalog-description { color: var(--tf-secondary) !important; }
+body .catalog-heading .task-overview .task-identity { color: var(--tf-secondary); }
+body .catalog-heading #readinessSummary,
+body .catalog-heading #readinessSummary p { color: var(--tf-secondary) !important; }
+body .catalog-heading #readinessSummary strong { color: var(--tf-brand) !important; }
+body .catalog-controls { background: transparent; }
+body .catalog-controls .tool-search {
+  background: var(--tf-surface) !important;
+  border-color: var(--tf-line-strong) !important;
+  border-radius: var(--tf-radius-control) !important;
+  transition: border-color var(--tf-transition), box-shadow var(--tf-transition);
+}
+body .catalog-controls .tool-search:focus-within {
+  border-color: var(--tf-brand) !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 3px var(--tf-focus-ring);
+}
+body .catalog-controls #toolSearch {
+  color: var(--tf-ink) !important;
+}
+body .catalog-controls #toolSearch::placeholder {
+  color: #526174 !important;
+  opacity: 1;
+}
+body .catalog-ai {
+  color: #fff !important;
+  background: var(--tf-brand) !important;
+  border-color: var(--tf-brand) !important;
+  border-radius: var(--tf-radius-control) !important;
+  box-shadow: 0 3px 10px rgba(36,89,194,.13);
+  transition: background-color var(--tf-transition), box-shadow var(--tf-transition);
+}
+body .catalog-ai:hover {
+  background: var(--tf-brand-hover) !important;
+  border-color: var(--tf-brand-hover) !important;
+  box-shadow: 0 6px 15px rgba(36,89,194,.17);
+}
+body .catalog-controls .catalog-field > span {
+  color: var(--tf-secondary) !important;
+  font-weight: 650;
+}
+body .catalog-field select {
+  color: var(--tf-ink);
+  border-color: var(--tf-line-strong) !important;
+  border-radius: var(--tf-radius-control) !important;
+  background-color: var(--tf-surface) !important;
+}
+body .catalog-status .filter-chip {
+  background: var(--tf-surface) !important;
+  color: var(--tf-secondary) !important;
+  border-color: var(--tf-line) !important;
+  border-radius: 8px !important;
+}
+body .catalog-status .filter-chip.active {
+  color: var(--tf-brand) !important;
+  background: var(--tf-brand-tint) !important;
+  border-color: var(--tf-brand-border) !important;
+}
+body .catalog-status .filter-chip:not(.active):hover {
+  border-color: var(--tf-line-strong) !important;
+  background: var(--tf-subtle-surface) !important;
+}
+body .catalog-reset { color: var(--tf-muted) !important; }
+body .catalog-reset:hover { color: var(--tf-brand) !important; }
+body #catalogResultCount { color: var(--tf-secondary); }
+body #catalogResultCount strong { color: var(--tf-ink); }
+body #mainContent .section-head h2,
+body #mainContent .common-summary h2 {
+  color: var(--tf-ink) !important;
+  font-weight: 700 !important;
+  letter-spacing: -.025em;
+}
+body #mainContent .count { color: var(--tf-muted) !important; }
+
+/* License cards — clear title / purpose / metadata / status / action order. */
+body #mainContent #roleGrid .card,
+body #mainContent #commonGrid .card {
+  background: var(--tf-surface) !important;
+  border-color: var(--tf-line) !important;
+  border-radius: var(--tf-radius-card) !important;
+  box-shadow: var(--tf-shadow-sm) !important;
+  transition: border-color var(--tf-transition), box-shadow var(--tf-transition);
+}
+body #mainContent #roleGrid .card:hover,
+body #mainContent #commonGrid .card:hover {
+  border-color: var(--tf-brand-border) !important;
+  box-shadow: var(--tf-shadow-md) !important;
+}
+body #mainContent #roleGrid .card:focus-within,
+body #mainContent #commonGrid .card:focus-within {
+  border-color: var(--tf-brand) !important;
+  box-shadow: 0 0 0 3px var(--tf-focus-ring) !important;
+}
+body #mainContent .card .logo-chip {
+  background: var(--tf-subtle-surface) !important;
+  border-color: var(--tf-line) !important;
+  border-radius: 8px;
+}
+body #mainContent .card .card-title {
+  color: var(--tf-ink) !important;
+  font-weight: 700 !important;
+}
+body #mainContent .card .card-purpose {
+  color: #34445a !important;
+  font-weight: 550 !important;
+}
+body #mainContent .card .card-owner,
+body #mainContent .card .card-timing,
+body #mainContent .catalog-meta-dot {
+  color: var(--tf-secondary) !important;
+}
+body #mainContent .card .card-bottom {
+  border-top-color: #edf1f7 !important;
+}
+body #mainContent .card .requirement-pill {
+  border-radius: 5px;
+  font-weight: 650;
+}
+body #mainContent .card .requirement-pill.required {
+  color: var(--tf-brand) !important;
+  background: var(--tf-brand-tint) !important;
+}
+body #mainContent .card .requirement-pill.optional {
+  color: var(--tf-secondary) !important;
+  background: #eef2f6 !important;
+}
+body #mainContent .card .requirement-pill.provided {
+  color: var(--tf-success) !important;
+  background: var(--tf-success-bg) !important;
+}
+body .status-request, body .status-pending, body .sla-health-warn {
+  color: var(--tf-warning) !important;
+  background: var(--tf-warning-bg) !important;
+}
+body .status-auto, body .status-approved, body .status-completed,
+body .sla-health-good, body .sla-health-done {
+  color: var(--tf-success) !important;
+  background: var(--tf-success-bg) !important;
+}
+body .status-approval, body .status-rejected,
+body .sla-health-over, body .sla-health-paused {
+  color: var(--tf-danger) !important;
+  background: var(--tf-danger-bg) !important;
+}
+body #mainContent #roleGrid .card .cta,
+body #mainContent #commonGrid .card .cta {
+  color: var(--tf-brand) !important;
+  background: var(--tf-surface) !important;
+  border-color: var(--tf-brand-border) !important;
+  border-radius: 8px !important;
+  transition: background-color var(--tf-transition), border-color var(--tf-transition);
+}
+body #mainContent #roleGrid .card .cta:hover,
+body #mainContent #commonGrid .card .cta:hover {
+  background: var(--tf-brand-tint) !important;
+  border-color: var(--tf-brand) !important;
+}
+body #mainContent #commonGrid .card .cta,
+body #mainContent #roleGrid .card[data-status="auto"] .cta {
+  color: var(--tf-secondary) !important;
+  border-color: var(--tf-line-strong) !important;
+}
+body #mainContent .shared-access {
+  color: var(--tf-success) !important;
+  background: var(--tf-success-bg) !important;
+}
+
+/* Requests, recommendation, reviewer queue: consistent elevation and intent. */
+body .request-modal, body .action-modal, body .drawer,
+body #onboardingHelp {
+  background: var(--tf-surface) !important;
+  color: var(--tf-ink) !important;
+  border-color: var(--tf-line) !important;
+  box-shadow: 0 24px 64px rgba(23,37,61,.16) !important;
+}
+body .request-modal, body .action-modal { border-radius: var(--tf-radius-panel); }
+body .request-modal h3, body .action-modal h3,
+body .drawer h3, body #onboardingHelp h2 {
+  color: var(--tf-ink) !important;
+  letter-spacing: -.03em;
+}
+body .drawer-head, body .admin-kpis, body .modal-actions {
+  background: var(--tf-surface) !important;
+  border-color: var(--tf-line) !important;
+}
+body .request-item, body .decision-context, body .action-info,
+body .detail-list, body .request-note-view,
+body .ai-recommendation-card {
+  background: var(--tf-subtle-surface) !important;
+  border-color: var(--tf-line) !important;
+}
+body .request-item { border-radius: 12px; }
+body .admin-kpi {
+  background: var(--tf-subtle-surface) !important;
+  border-color: var(--tf-line) !important;
+  border-radius: 10px;
+}
+body .admin-kpi.is-active {
+  background: var(--tf-brand-tint) !important;
+  border-color: var(--tf-brand-border) !important;
+  color: var(--tf-brand) !important;
+}
+body .btn-primary, body .primary-btn,
+body .hint-cta, body #requestSubmit, body #aiRecommendSubmit {
+  background: var(--tf-brand) !important;
+  border-color: var(--tf-brand) !important;
+  color: #fff !important;
+  border-radius: var(--tf-radius-control) !important;
+}
+body .btn-primary:hover, body .primary-btn:hover,
+body .hint-cta:hover, body #requestSubmit:hover, body #aiRecommendSubmit:hover {
+  background: var(--tf-brand-hover) !important;
+}
+body .btn-secondary, body .ghost-btn, body .jsm-btn {
+  background: var(--tf-surface) !important;
+  color: var(--tf-secondary) !important;
+  border-color: var(--tf-line-strong) !important;
+  border-radius: var(--tf-radius-control);
+}
+body .empty-state {
+  background: var(--tf-subtle-surface) !important;
+  border-color: var(--tf-line-strong) !important;
+  color: var(--tf-secondary) !important;
+}
+body .catalog-selected-tag {
+  color: var(--tf-brand) !important;
+  background: var(--tf-brand-tint) !important;
+  border-color: var(--tf-brand-border) !important;
+}
+
+/* Stable accessible interaction, independent of color alone. */
+body :where(button, a, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--tf-focus) !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px var(--tf-focus-ring) !important;
+}
+body :where(button, a, select, input, textarea)[disabled] { cursor: not-allowed; }
+body :where(button, a, select, input, textarea) {
+  -webkit-tap-highlight-color: rgba(36,89,194,.12);
+}
+@media (max-width: 768px) {
+  body #mainContent #roleGrid .card,
+  body #mainContent #commonGrid .card { box-shadow: none !important; }
+  body .catalog-controls .tool-search { min-height: 44px; }
+  body .catalog-ai { min-height: 48px; }
+  body .catalog-heading #readinessSummary { line-height: 1.5; }
+}
+@media (max-width: 360px) {
+  body .catalog-description {
+    display: block !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    margin-top: 3px !important;
+  }
+  body .catalog-controls { padding-top: 6px; }
+  body #mainContent .card .card-purpose { font-size: 13px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body .catalog-ai, body .google-btn,
+  body #mainContent #roleGrid .card,
+  body #mainContent #commonGrid .card,
+  body #mainContent .card .cta,
+  body .catalog-controls .tool-search { transition: none !important; }
+}
+@media (forced-colors: active) {
+  body #mainContent .card,
+  body .catalog-status .filter-chip,
+  body .admin-kpi { border: 1px solid CanvasText !important; }
+  body :where(button, a, input, select, textarea):focus-visible {
+    outline: 2px solid Highlight !important;
+    box-shadow: none !important;
+  }
+}
