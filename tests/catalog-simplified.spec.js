@@ -56,7 +56,7 @@ test('search takes a compact share while the primary AI action is larger and cle
   expect(desktop.aiWidth).toBeGreaterThanOrEqual(240);
   expect(desktop.aiWidth).toBeGreaterThan(desktop.searchWidth*.45);
   expect(desktop.aiHeight).toBeGreaterThanOrEqual(48);
-  expect(desktop.aiBackground).toBe('rgb(23, 99, 198)');
+  expect(desktop.aiBackground).toBe('rgb(36, 89, 194)');
   await expect(page.locator('#toolSearch')).toHaveAttribute('placeholder','도구 검색');
   await page.locator('#toolSearch').fill('Notion');
   await expect(page.locator('#catalogResultCount')).toContainText('1');
