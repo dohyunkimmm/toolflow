@@ -40,13 +40,15 @@ test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있
   await item.locator('.ops-review summary').click();
   await item.locator('.ops-priority').selectOption('우선');
   await item.locator('.ops-team').selectOption('GA팀');
+  await item.locator('.ops-assignee-role').selectOption('IT 라이선스 담당');
   await item.locator('.ops-review-note').fill('부서별 도구 중복 및 검토 필요');
   await item.getByRole('button',{name:'검토 정보 저장'}).click();
   const saved=page.locator('.request-item').filter({hasText:'Microsoft Office'}).locator('.ops-review');
   await expect(saved).toHaveAttribute('open','');
   await expect(saved.getByRole('button',{name:'검토 정보 저장'})).toBeFocused();
   await expect(saved.locator('.ops-review-note')).toHaveValue('부서별 도구 중복 및 검토 필요');
-  await expect(saved).toContainText('우선순위 변경은 SLA를 자동으로 변경하지 않습니다.');
+  await expect(saved).toContainText('우선순위·담당 역할 변경은 실제 배정이나 에스컬레이션 알림');
+  await expect(saved.locator('.ops-assignee-role')).toHaveValue('IT 라이선스 담당');
   await page.locator('.ops-planning summary').first().click();
   await page.locator('#opsSeats').fill('12');
   await page.locator('#opsUnitPrice').fill('20000');
@@ -64,6 +66,7 @@ test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있
   await restored.locator('.ops-review summary').click();
   await expect(restored.locator('.ops-priority')).toHaveValue('우선');
   await expect(restored.locator('.ops-team')).toHaveValue('GA팀');
+  await expect(restored.locator('.ops-assignee-role')).toHaveValue('IT 라이선스 담당');
   await expect(restored.locator('.ops-review-note')).toHaveValue('부서별 도구 중복 및 검토 필요');
 });
 
