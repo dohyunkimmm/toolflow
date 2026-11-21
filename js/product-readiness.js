@@ -73,7 +73,6 @@ function nextDemoAction(){
 const TOOLFLOW_POLICY_VERSION = '2026.11-review.1';
 const TOOLFLOW_REVIEW_TEAMS = Object.freeze(['IT팀','GA팀','HR팀']);
 const TOOLFLOW_PRIORITY_LEVELS = Object.freeze(['일반','우선']);
-const TOOLFLOW_ASSIGNEE_ROLES = Object.freeze(['미배정','IT 서비스데스크 담당','IT 라이선스 담당','GA 온보딩 담당','HR 인사 담당']);
 function toolflowPolicyFor(req){
   const flags = [];
   const tool=findLicenseByName(req.name);
