@@ -782,8 +782,8 @@ function renderDrawer(){
     const reason = req.status === 'rejected' && req.rejectionReason ? `<div class="rejection-reason"><b>반려 사유</b><br>${escapeHTML(req.rejectionReason)}</div>` : '';
     const history = `<div class="request-history">${(req.history || []).map(h=>`<div class="history-row"><span class="history-dot"></span><span><b class="history-actor">${escapeHTML(historyActor(h,req))}</b> · ${escapeHTML(h.label)} · ${escapeHTML(h.at)}</span></div>`).join('')}</div>`;
     return `<div class="request-item">
-      <div class="request-item-title">${req.name}<span class="ticket-key mono">${req.ticket}</span></div>
-      <div class="request-item-meta">${drawerMode === 'admin' ? `요청자 · <b>홍길동</b> (${escapeHTML(req.roleLabel || '경영지원·총무')} · 신규입사자)<br>` : ''}담당 · ${req.owner}<br>상태 · <b>${stateLabel}</b><br><span class="request-sla">${drawerMode==='admin'?slaHealthHTML(req):''}<span class="sla-target">${req.status==='completed'?'처리 이력은 아래에서 확인하세요':req.status==='rejected'?'보완 후 재신청 시 예정일을 다시 안내합니다':'처리 예정 '+req.expected}${drawerMode==='admin'?' · 기준 '+sla.short:''}</span></span><br>신청일 · ${req.createdAt}</div>
+      <div class="request-item-title">${escapeHTML(req.name)}<span class="ticket-key mono">${req.ticket}</span></div>
+      <div class="request-item-meta">${drawerMode === 'admin' ? `요청자 · <b>홍길동</b> (${escapeHTML(req.roleLabel || '경영지원·총무')} · 신규입사자)<br>` : ''}담당 · ${escapeHTML(req.owner)}<br>상태 · <b>${stateLabel}</b><br><span class="request-sla">${drawerMode==='admin'?slaHealthHTML(req):''}<span class="sla-target">${req.status==='completed'?'처리 이력은 아래에서 확인하세요':req.status==='rejected'?'보완 후 재신청 시 예정일을 다시 안내합니다':'처리 예정 '+req.expected}${drawerMode==='admin'?' · 기준 '+sla.short:''}</span></span><br>신청일 · ${escapeHTML(req.createdAt)}</div>
       ${req.note ? `<div class="request-note-view"><b>${req.status === 'rejected' ? '직전 신청 사유' : '신청 사유'}</b><br>${escapeHTML(req.note)}</div>` : ''}
       ${adminDecisionHTML(req)}${drawerMode === 'admin' && toolflowOpsMode ? toolflowReviewerControls(req) : ''}${reason}${history}${adminActions}${userActions}
     </div>`;
@@ -924,15 +924,20 @@ function toolflowReviewerControls(req){
   const policy=toolflowPolicyFor(req);
   const priority=TOOLFLOW_PRIORITY_LEVELS.includes(req.priority)?req.priority:'일반';
   const team=TOOLFLOW_REVIEW_TEAMS.includes(req.reviewTeam)?req.reviewTeam:'IT팀';
+  const assignedRole=TOOLFLOW_ASSIGNEE_ROLES.includes(req.assignedRole)?req.assignedRole:'미배정';
   const ticket=escapeHTML(req.ticket);
   return '<details class="ops-review" data-ticket="'+ticket+'"><summary>요청 검토 기준·담당 부서</summary>'+
     '<p class="ops-disclaimer">프로토타입 검토 정보 · 정책 '+escapeHTML(policy.version)+'</p>'+
     '<p>승인 경로: '+escapeHTML(policy.route)+'</p>'+
+    '<p>처리 기준: '+escapeHTML(getSlaHealth(req)?.label||'확인 필요')+' · 처리 담당 역할: '+escapeHTML(assignedRole)+' (체험)</p>'+
+    '<p class="ops-disclaimer">우선순위·담당 역할 변경은 실제 배정이나 에스컬레이션 알림, SLA 기한을 자동으로 변경하지 않습니다.</p>'+
     '<p>추가 확인: '+escapeHTML(policy.flags.join(' · ')||'기본 신청 조건')+'</p>'+
     '<div class="ops-fields"><label>우선순위<select class="ops-priority" aria-label="처리 우선순위">'+
       TOOLFLOW_PRIORITY_LEVELS.map(v=>'<option'+(priority===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label>'+
     '<label>협의 담당부서<select class="ops-team" aria-label="협의 담당부서">'+
-      TOOLFLOW_REVIEW_TEAMS.map(v=>'<option'+(team===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label></div>'+
+      TOOLFLOW_REVIEW_TEAMS.map(v=>'<option'+(team===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label>'+
+    '<label>처리 담당 역할<select class="ops-assignee-role" aria-label="처리 담당 역할">'+
+      TOOLFLOW_ASSIGNEE_ROLES.map(v=>'<option'+(assignedRole===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label></div>'+
     '<label>검토 판단 근거<textarea class="ops-review-note" aria-label="검토 판단 근거" maxlength="200" rows="2" placeholder="업무 필요성·권한·비용 확인 사항">'+escapeHTML(req.reviewNote||'')+'</textarea></label>'+
     '<div class="request-actions"><button type="button" class="btn-secondary" data-action="save-ops-review" data-value="'+ticket+'">검토 정보 저장</button></div></details>';
 }
@@ -943,16 +948,24 @@ function toolflowSaveReviewerControls(ticket){
   if(!req||!panel) return;
   const priority=panel.querySelector('.ops-priority')?.value;
   const team=panel.querySelector('.ops-team')?.value;
-  if(!TOOLFLOW_PRIORITY_LEVELS.includes(priority)||!TOOLFLOW_REVIEW_TEAMS.includes(team)) return;
+  const assignedRole=panel.querySelector('.ops-assignee-role')?.value;
+  if(!TOOLFLOW_PRIORITY_LEVELS.includes(priority)||!TOOLFLOW_REVIEW_TEAMS.includes(team)||!TOOLFLOW_ASSIGNEE_ROLES.includes(assignedRole)) return;
   const note=(panel.querySelector('.ops-review-note')?.value||'').trim().slice(0,200);
-  const changed=req.priority!==priority || req.reviewTeam!==team || req.reviewNote!==note;
+  const changed=req.priority!==priority || req.reviewTeam!==team || req.assignedRole!==assignedRole || req.reviewNote!==note;
   req.priority=priority;
   req.reviewTeam=team;
+  req.assignedRole=assignedRole;
   req.reviewNote=note;
   req.policyVersion=TOOLFLOW_POLICY_VERSION;
-  if(changed) req.history.push({actor:'IT 검토자 (체험)',label:'처리 우선순위·담당부서·검토 근거 갱신',at:timeLabel()});
+  if(changed) req.history.push({actor:'IT 검토자 (체험)',label:'처리 우선순위·담당부서·담당 역할·검토 근거 갱신',at:timeLabel()});
   saveSession();
   renderDrawer();
+  // Re-rendering the drawer replaces the save button: retain keyboard focus.
+  const refreshed=[...document.querySelectorAll('.ops-review')].find(el=>el.dataset.ticket===ticket);
+  if(refreshed){
+    refreshed.open=true;
+    refreshed.querySelector('[data-action="save-ops-review"]')?.focus({preventScroll:true});
+  }
 }
 function toolflowPlanningPanel(requests){
   const stats=toolflowServiceMetrics(requests);
@@ -965,6 +978,7 @@ function toolflowPlanningPanel(requests){
     '<p>기한 내 완료율 <b>'+rate+'</b></p><p>예외 요청 <b>'+stats.exception+'</b>건</p>'+
     '<p>재신청 포함 요청 <b>'+stats.reapplication+'</b>건</p></div>'+
     '<p class="ops-disclaimer">처리 지표는 현재 브라우저 세션의 사례 요청에 한정하며, 완료 시각이 있는 요청만 준수율 분모에 포함합니다.</p>'+
+    '<p class="ops-guidance"><b>지표 해석·개선 후보:</b> '+escapeHTML(toolflowMetricGuidance(stats))+'</p>'+
     '<div class="ops-fields">'+
     '<label>예시 신규 좌석 수<input id="opsSeats" type="number" min="0" max="200" value="10"></label>'+
     '<label>예시 월 단가(원)<input id="opsUnitPrice" type="number" min="0" max="1000000" step="1000" value="30000"></label>'+
@@ -979,9 +993,11 @@ function toolflowPlanningPanel(requests){
 }
 function toolflowFormatCost(scenario){
   const won=value=>Number(value).toLocaleString('ko-KR')+'원';
+  const decision=toolflowPlanningDecision(scenario);
   return '신규 도입 '+won(scenario.newCost)+' / 기존 좌석 활용 '+won(scenario.reuseCost)+
     ' / 예상 비용 차이 '+won(scenario.estimatedAvoided)+
-    ' · 예시 예산 '+won(scenario.budget)+' ('+(scenario.withinBudget?'예산 이내':'예산 초과')+')';
+    ' · 예시 예산 '+won(scenario.budget)+' ('+(scenario.withinBudget?'예산 이내':'예산 초과')+')'+
+    ' · 검토 권고: '+decision.label+' — '+decision.reason;
 }
 function toolflowCompareCost(){
   if(drawerMode!=='admin') return;
@@ -1008,8 +1024,13 @@ function toolflowRenderChecklist(){
   const state=checklistStateByRole[role]||{};
   const done=TOOLFLOW_ONBOARDING_ITEMS.filter(item=>state[item.id]).length;
   const label=roles[role]?.label||'직무 확인 필요';
+  const license=toolflowRoleLicenseSummary(role,requestState);
+  const licenseGuidance=license.unmapped
+    ? '직무 확인 후 필수 라이선스 신청 현황을 안내합니다.'
+    : '필수 라이선스 '+license.ready+'/'+license.total+'건 준비로 표시(기본 제공 가정 또는 체험상 지급 완료) · 미완료 '+license.remaining+'건. 신청·지급 상태는 라이선스 목록과 신청현황에서 확인하세요.';
   node.innerHTML='<p class="ops-disclaimer">온보딩 절차 설계 사례 · 실제 장비 지급, 계정 생성, 부서별 업무 완료를 뜻하지 않습니다.</p>'+
     '<p><b>'+escapeHTML(label)+'</b> 준비 항목 '+done+'/'+TOOLFLOW_ONBOARDING_ITEMS.length+'건 표시 완료</p>'+
+    '<p class="ops-license-readiness"><b>라이선스 준비 현황:</b> '+escapeHTML(licenseGuidance)+'</p>'+
     '<div class="ops-checklist">'+TOOLFLOW_ONBOARDING_ITEMS.map(item=>
       '<label class="ops-checklist-item"><input type="checkbox" data-demo-check="'+item.id+'"'+(state[item.id]?' checked':'')+'>'+
       '<span><b>'+escapeHTML(item.name)+'</b><small>'+escapeHTML(item.stage+' · '+item.owner)+'</small></span></label>'
@@ -1030,6 +1051,7 @@ function toolflowToggleChecklist(id, checked){
 // Opt-in reviewer-only extension: leave the default admin queue and screenshots unchanged.
 let toolflowOpsMode = false;
 function toolflowOpenOpsReviewer(){
+  if(!reviewerMode) return; // Reviewer mode is only a demo UI control, not authorization.
   toolflowOpsMode = true;
   document.getElementById('onboardingHelp')?.close();
   closeMoreMenu();

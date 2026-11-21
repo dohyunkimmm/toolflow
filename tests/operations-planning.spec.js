@@ -40,10 +40,15 @@ test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있
   await item.locator('.ops-review summary').click();
   await item.locator('.ops-priority').selectOption('우선');
   await item.locator('.ops-team').selectOption('GA팀');
+  await item.locator('.ops-assignee-role').selectOption('IT 라이선스 담당');
   await item.locator('.ops-review-note').fill('부서별 도구 중복 및 검토 필요');
   await item.getByRole('button',{name:'검토 정보 저장'}).click();
-  await page.locator('.request-item').filter({hasText:'Microsoft Office'}).locator('.ops-review summary').click();
-  await expect(page.locator('.ops-review-note')).toHaveValue('부서별 도구 중복 및 검토 필요');
+  const saved=page.locator('.request-item').filter({hasText:'Microsoft Office'}).locator('.ops-review');
+  await expect(saved).toHaveAttribute('open','');
+  await expect(saved.getByRole('button',{name:'검토 정보 저장'})).toBeFocused();
+  await expect(saved.locator('.ops-review-note')).toHaveValue('부서별 도구 중복 및 검토 필요');
+  await expect(saved).toContainText('우선순위·담당 역할 변경은 실제 배정이나 에스컬레이션 알림');
+  await expect(saved.locator('.ops-assignee-role')).toHaveValue('IT 라이선스 담당');
   await page.locator('.ops-planning summary').first().click();
   await page.locator('#opsSeats').fill('12');
   await page.locator('#opsUnitPrice').fill('20000');
@@ -52,6 +57,8 @@ test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있
   await page.getByRole('button',{name:'대안 비용 다시 계산'}).click();
   await expect(page.locator('#opsCostResult')).toContainText('200,000원');
   await expect(page.locator('#opsCostResult')).toContainText('40,000원');
+  await expect(page.locator('#opsCostResult')).toContainText('기존 좌석 활용 우선 검토');
+  await expect(page.locator('.ops-guidance')).toContainText('기한 준수율 판단을 보류합니다.');
   await page.reload();
   await page.getByRole('button',{name:'도움말',exact:true}).click();
   await page.getByRole('button',{name:'IT 운영·기획 검토'}).click();
@@ -59,6 +66,7 @@ test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있
   await restored.locator('.ops-review summary').click();
   await expect(restored.locator('.ops-priority')).toHaveValue('우선');
   await expect(restored.locator('.ops-team')).toHaveValue('GA팀');
+  await expect(restored.locator('.ops-assignee-role')).toHaveValue('IT 라이선스 담당');
   await expect(restored.locator('.ops-review-note')).toHaveValue('부서별 도구 중복 및 검토 필요');
 });
 
@@ -68,6 +76,7 @@ test('입사 준비 체크리스트는 직군별로 분리해 저장하며 초�
   await page.locator('#gaChecklist summary').click();
   await page.locator('[data-demo-check="device"]').check();
   await expect(page.locator('#gaChecklistBody')).toContainText('1/6건 표시 완료');
+  await expect(page.locator('.ops-license-readiness')).toContainText('필수 라이선스');
   await page.getByRole('button',{name:'도움말 닫기'}).click();
   await page.getByRole('combobox',{name:'직군 선택'}).selectOption('design');
   await page.getByRole('button',{name:'도움말',exact:true}).click();
@@ -87,4 +96,28 @@ test('입사 준비 체크리스트는 직군별로 분리해 저장하며 초�
   }
   await page.getByRole('button',{name:'도움말',exact:true}).click();
   await expect(page.locator('[data-demo-check="device"]')).not.toBeChecked();
+});
+
+
+test('일반 사용자 도움말에는 관리자 계획·온보딩 체험 메뉴가 노출되지 않는다',async ({page})=>{
+  await page.goto('/');
+  await page.getByRole('button',{name:'Google SSO로 시작하기'}).click();
+  await expect(page.locator('#loginScreen')).toBeHidden();
+  await page.getByRole('button',{name:'도움말',exact:true}).click();
+  await expect(page.getByRole('button',{name:'IT 운영·기획 검토'})).toBeHidden();
+  await expect(page.locator('#gaChecklist')).toBeHidden();
+});
+
+test('예시 비용 재검토는 예산 초과 시 판단 근거를 제공한다',async ({page})=>{
+  await login(page);
+  await page.getByRole('button',{name:'도움말',exact:true}).click();
+  await page.getByRole('button',{name:'IT 운영·기획 검토'}).click();
+  await page.locator('.ops-planning > summary').click();
+  await page.locator('#opsSeats').fill('10');
+  await page.locator('#opsUnitPrice').fill('30000');
+  await page.locator('#opsReused').fill('0');
+  await page.locator('#opsBudget').fill('100000');
+  await page.getByRole('button',{name:'대안 비용 다시 계산'}).click();
+  await expect(page.locator('#opsCostResult')).toContainText('예산 초과 · 대안 재검토');
+  await expect(page.locator('#opsCostResult')).toContainText('대체 도구');
 });
