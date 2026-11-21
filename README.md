@@ -46,6 +46,8 @@ Google SSO, Google Workspace 조직 정보, Jira Service Management 티켓, SaaS
 - **기록:** GitHub Actions에서 자동 검증 결과와 릴리스 근거를 확인할 수 있습니다. 공개 정적 자산은 SHA-256으로 비교하고, 서버 함수는 응답 계약으로 별도 확인합니다.
 - **GitHub 검증 기록(2026-11-02):** `main` 커밋 `78b7eb039e86a5a68b95ab8090e0d9416584e245`에서 [E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/41364607991) 및 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/41364607885)가 성공했습니다. 당시 E2E의 Production Smoke·배포 무결성 검사도 통과했습니다. 이는 해당 실행 시점의 증빙이며, 후속 커밋·배포의 최신 상태는 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 별도로 확인해야 합니다. Documentation sync는 대표 문서 정합성 검사로 Notion 자동 업데이트를 의미하지 않습니다.
 
+- **검증 기록(2026-11-21):** `main` 커밋 `2362efa9e2fe17e6f7d4965ff56f2a058c15b9b0`에서 [E2E 실행](https://github.com/dohyunkimmm/toolflow/actions/runs/44916007241)의 Chromium 기능 테스트 248개 통과·8개 건너뜀, 운영 데스크톱·모바일 Smoke 8개 통과, 공개 자산 SHA-256 156/156 일치를 확인했습니다. 이는 해당 커밋의 자동 검사 결과이며 실제 기업 운영 성과·도입 비용 절감·Gemini 추천 품질 검증이 아닙니다.
+
 ```bash
 npm ci
 npm run quality
