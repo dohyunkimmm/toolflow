@@ -1021,7 +1021,7 @@ function toolflowRenderChecklist(){
   const license=toolflowRoleLicenseSummary(role,requestState);
   const licenseGuidance=license.unmapped
     ? '직무 확인 후 필수 라이선스 신청 현황을 안내합니다.'
-    : '필수 라이선스 '+license.ready+'/'+license.total+'건 사용 가능 가정·지급 완료 · 미완료 '+license.remaining+'건. 신청·지급 상태는 라이선스 목록과 신청현황에서 확인하세요.';
+    : '필수 라이선스 '+license.ready+'/'+license.total+'건 준비로 표시(기본 제공 가정 또는 체험상 지급 완료) · 미완료 '+license.remaining+'건. 신청·지급 상태는 라이선스 목록과 신청현황에서 확인하세요.';
   node.innerHTML='<p class="ops-disclaimer">온보딩 절차 설계 사례 · 실제 장비 지급, 계정 생성, 부서별 업무 완료를 뜻하지 않습니다.</p>'+
     '<p><b>'+escapeHTML(label)+'</b> 준비 항목 '+done+'/'+TOOLFLOW_ONBOARDING_ITEMS.length+'건 표시 완료</p>'+
     '<p class="ops-license-readiness"><b>라이선스 준비 현황:</b> '+escapeHTML(licenseGuidance)+'</p>'+
