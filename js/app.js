@@ -1031,6 +1031,7 @@ function toolflowToggleChecklist(id, checked){
 let toolflowOpsMode = false;
 function toolflowOpenOpsReviewer(){
   toolflowOpsMode = true;
+  document.getElementById('onboardingHelp')?.close();
   closeMoreMenu();
   openDrawer('admin');
 }
