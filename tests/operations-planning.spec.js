@@ -34,7 +34,7 @@ test('완료 시각을 새로고침 이후에도 유지하고 SLA 판정에 사�
 test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있다',async ({page})=>{
   await login(page);
   await createOfficeRequest(page);
-  await page.locator('#moreBtn').click();
+  await page.getByRole('button',{name:'도움말',exact:true}).click();
   await page.getByRole('button',{name:'IT 운영·기획 검토'}).click();
   const item=page.locator('.request-item').filter({hasText:'Microsoft Office'});
   await item.locator('.ops-review summary').click();
@@ -53,7 +53,7 @@ test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있
   await expect(page.locator('#opsCostResult')).toContainText('200,000원');
   await expect(page.locator('#opsCostResult')).toContainText('40,000원');
   await page.reload();
-  await page.locator('#moreBtn').click();
+  await page.getByRole('button',{name:'도움말',exact:true}).click();
   await page.getByRole('button',{name:'IT 운영·기획 검토'}).click();
   const restored=page.locator('.request-item').filter({hasText:'Microsoft Office'});
   await restored.locator('.ops-review summary').click();
@@ -79,8 +79,12 @@ test('입사 준비 체크리스트는 직군별로 분리해 저장하며 초�
   await page.locator('#gaChecklist summary').click();
   await expect(page.locator('[data-demo-check="device"]')).toBeChecked();
   await page.getByRole('button',{name:'도움말 닫기'}).click();
-  await page.locator('#moreBtn').click();
-  await page.locator('#moreMenu [data-action="reset-demo-close-more"]').click();
+  if(await page.locator('#resetBtn').isVisible()){
+    await page.locator('#resetBtn').click();
+  } else {
+    await page.locator('#moreBtn').click();
+    await page.locator('#moreMenu [data-action="reset-demo-close-more"]').click();
+  }
   await page.getByRole('button',{name:'도움말',exact:true}).click();
   await expect(page.locator('[data-demo-check="device"]')).not.toBeChecked();
 });
