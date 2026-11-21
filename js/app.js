@@ -924,16 +924,20 @@ function toolflowReviewerControls(req){
   const policy=toolflowPolicyFor(req);
   const priority=TOOLFLOW_PRIORITY_LEVELS.includes(req.priority)?req.priority:'일반';
   const team=TOOLFLOW_REVIEW_TEAMS.includes(req.reviewTeam)?req.reviewTeam:'IT팀';
+  const assignedRole=TOOLFLOW_ASSIGNEE_ROLES.includes(req.assignedRole)?req.assignedRole:'미배정';
   const ticket=escapeHTML(req.ticket);
   return '<details class="ops-review" data-ticket="'+ticket+'"><summary>요청 검토 기준·담당 부서</summary>'+
     '<p class="ops-disclaimer">프로토타입 검토 정보 · 정책 '+escapeHTML(policy.version)+'</p>'+
     '<p>승인 경로: '+escapeHTML(policy.route)+'</p>'+
-    '<p>처리 기준: '+escapeHTML(getSlaHealth(req)?.label||'확인 필요')+' · 우선순위 변경은 SLA를 자동으로 변경하지 않습니다.</p>'+
+    '<p>처리 기준: '+escapeHTML(getSlaHealth(req)?.label||'확인 필요')+' · 처리 담당 역할: '+escapeHTML(assignedRole)+' (체험)</p>'+
+    '<p class="ops-disclaimer">우선순위·담당 역할 변경은 실제 배정이나 에스컬레이션 알림, SLA 기한을 자동으로 변경하지 않습니다.</p>'+
     '<p>추가 확인: '+escapeHTML(policy.flags.join(' · ')||'기본 신청 조건')+'</p>'+
     '<div class="ops-fields"><label>우선순위<select class="ops-priority" aria-label="처리 우선순위">'+
       TOOLFLOW_PRIORITY_LEVELS.map(v=>'<option'+(priority===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label>'+
     '<label>협의 담당부서<select class="ops-team" aria-label="협의 담당부서">'+
-      TOOLFLOW_REVIEW_TEAMS.map(v=>'<option'+(team===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label></div>'+
+      TOOLFLOW_REVIEW_TEAMS.map(v=>'<option'+(team===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label>'+
+    '<label>처리 담당 역할<select class="ops-assignee-role" aria-label="처리 담당 역할">'+
+      TOOLFLOW_ASSIGNEE_ROLES.map(v=>'<option'+(assignedRole===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label></div>'+
     '<label>검토 판단 근거<textarea class="ops-review-note" aria-label="검토 판단 근거" maxlength="200" rows="2" placeholder="업무 필요성·권한·비용 확인 사항">'+escapeHTML(req.reviewNote||'')+'</textarea></label>'+
     '<div class="request-actions"><button type="button" class="btn-secondary" data-action="save-ops-review" data-value="'+ticket+'">검토 정보 저장</button></div></details>';
 }
@@ -944,14 +948,16 @@ function toolflowSaveReviewerControls(ticket){
   if(!req||!panel) return;
   const priority=panel.querySelector('.ops-priority')?.value;
   const team=panel.querySelector('.ops-team')?.value;
-  if(!TOOLFLOW_PRIORITY_LEVELS.includes(priority)||!TOOLFLOW_REVIEW_TEAMS.includes(team)) return;
+  const assignedRole=panel.querySelector('.ops-assignee-role')?.value;
+  if(!TOOLFLOW_PRIORITY_LEVELS.includes(priority)||!TOOLFLOW_REVIEW_TEAMS.includes(team)||!TOOLFLOW_ASSIGNEE_ROLES.includes(assignedRole)) return;
   const note=(panel.querySelector('.ops-review-note')?.value||'').trim().slice(0,200);
-  const changed=req.priority!==priority || req.reviewTeam!==team || req.reviewNote!==note;
+  const changed=req.priority!==priority || req.reviewTeam!==team || req.assignedRole!==assignedRole || req.reviewNote!==note;
   req.priority=priority;
   req.reviewTeam=team;
+  req.assignedRole=assignedRole;
   req.reviewNote=note;
   req.policyVersion=TOOLFLOW_POLICY_VERSION;
-  if(changed) req.history.push({actor:'IT 검토자 (체험)',label:'처리 우선순위·담당부서·검토 근거 갱신',at:timeLabel()});
+  if(changed) req.history.push({actor:'IT 검토자 (체험)',label:'처리 우선순위·담당부서·담당 역할·검토 근거 갱신',at:timeLabel()});
   saveSession();
   renderDrawer();
   // Re-rendering the drawer replaces the save button: retain keyboard focus.
