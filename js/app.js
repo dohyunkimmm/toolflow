@@ -127,7 +127,7 @@ function getSlaHealth(req){
   if(req.status === 'rejected') return {label:'사용자 보완 대기', cls:'sla-health-paused'};
   const due = requestDueDate(req);
   if(req.status === 'completed'){
-    if(!due || !req.completedAt) return {label:'SLA 충족', cls:'sla-health-done'};
+    if(!due || !req.completedAt) return {label:'SLA 판정 보류', cls:'sla-health-warn'};
     const late = businessDayDistance(due,new Date(req.completedAt));
     return late > 0
       ? {label:`SLA 초과 · D+${late}`, cls:'sla-health-over'}
