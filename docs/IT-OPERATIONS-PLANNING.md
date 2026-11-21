@@ -1,6 +1,6 @@
 # ToolFlow | IT 운영·기획·온보딩 통합 고도화
 
-> 포트폴리오용 프로토타입의 **설계 기준 및 검증 추적표**입니다. 실제 ITSM, SSO, HRIS, SaaS 발급, 인사 정보, 자산·비용 시스템과 연동되지 않습니다. 리뷰어 모드(\`?review=1\`)의 역할 전환은 인증·인가가 아닙니다. 정책·SLA·단가·예산은 조직별 운영 규정과 무관한 시나리오 값입니다.
+> 포트폴리오용 프로토타입의 **설계 기준 및 검증 추적표**입니다. 실제 ITSM, SSO, HRIS, SaaS 발급, 인사 정보, 자산·비용 시스템과 연동되지 않습니다. 리뷰어 모드(`?review=1`)의 역할 전환은 인증·인가가 아닙니다. 정책·SLA·단가·예산은 조직별 운영 규정과 무관한 시나리오 값입니다.
 
 ## 1. 목표와 범위
 
@@ -8,8 +8,8 @@
 
 | 단계 | 요구사항 ID | 확인 대상 | 현재 구현 |
 | --- | --- | --- | --- |
-| 1 공통 | OPS-01 | 숫자·문자열 완료 시각의 세션 복원과 SLA 일관성 | \`js/state.js\`의 \`sanitizeRequestRecord\`, \`js/app.js\`의 \`getSlaHealth\` |
-| 1 공통 | OPS-02 | 버전이 있는 정책 판단과 허용 입력값 | \`js/product-readiness.js\`의 \`toolflowPolicyFor\` |
+| 1 공통 | OPS-01 | 숫자·문자열 완료 시각의 세션 복원과 SLA 일관성 | `js/state.js`의 `sanitizeRequestRecord`, `js/app.js`의 `getSlaHealth` |
+| 1 공통 | OPS-02 | 버전이 있는 정책 판단과 허용 입력값 | `js/product-readiness.js`의 `toolflowPolicyFor` |
 | 2 IT | OPS-03 | 요청 우선순위·협의 담당부서·검토 근거 기록 | 관리자 체험 → 각 요청의 ‘요청 검토 기준·담당 부서’ |
 | 2 IT | OPS-04 | 직무 외 도구·고권한·비용 확인 예외 표시 | 정책 조건 안내 및 신청 이력 |
 | 3 IT기획 | OPS-05 | 신청 건수·완료·예외·재신청·기한 준수율 집계 | 관리자 체험 → ‘IT 운영 정책·예산·성과 검토’ |
@@ -30,7 +30,7 @@
 
 - 기한 준수율 = **완료 시각과 처리 기한이 모두 존재하는 완료 요청** 중 기한 내 완료 건수 / 측정 가능한 완료 요청 수.
 - 누락된 완료 시각·기한은 분모에서 제외하고, 집계 건수를 함께 표시한다. 통계는 현재 선택 직무의 브라우저 세션 요청에 한한다.
-- 예산 비교는 사용자가 입력하는 **예시 좌석 수·월 단가·재활용 좌석·월 예산**을 사용하며, \`(신규 좌석 수 - 재활용 좌석 수) × 예시 단가\`로 계산한다.
+- 예산 비교는 사용자가 입력하는 **예시 좌석 수·월 단가·재활용 좌석·월 예산**을 사용하며, `(신규 좌석 수 - 재활용 좌석 수) × 예시 단가`로 계산한다.
 - 비용 차이는 모델 내 비교 결과이며 계약 단가, 지출 실적, 실현 절감액, TCO/ROI 또는 실제 조직의 효율 개선을 의미하지 않는다.
 - 브라우저의 데모 SLA는 주말만 제외한 영업일을 사용한다. 공휴일·담당자 수·인건비 등은 모델에 포함하지 않는다.
 
@@ -48,14 +48,14 @@
 
 | 요구사항 | 자동 검증 |
 | --- | --- |
-| OPS-01 | \`scripts/tests/ops-planning.test.cjs\` (timestamp), \`tests/operations-planning.spec.js\` (reload + SLA) |
-| OPS-02·OPS-04 | \`scripts/tests/ops-planning.test.cjs\` (정책 예외·라우팅) |
-| OPS-03 | \`tests/operations-planning.spec.js\` (IT 검토 정보·세션 복원) |
-| OPS-05 | \`scripts/tests/ops-planning.test.cjs\` (측정 대상·지표 분모) |
+| OPS-01 | `scripts/tests/ops-planning.test.cjs` (timestamp), `tests/operations-planning.spec.js` (reload + SLA) |
+| OPS-02·OPS-04 | `scripts/tests/ops-planning.test.cjs` (정책 예외·라우팅) |
+| OPS-03 | `tests/operations-planning.spec.js` (IT 검토 정보·세션 복원) |
+| OPS-05 | `scripts/tests/ops-planning.test.cjs` (측정 대상·지표 분모) |
 | OPS-06 | Node 정책 단위 테스트 + Playwright 비용 비교 |
 | OPS-07 | 본 문서/관리자 화면 추진안 일치 여부(수동 검토 필요) |
 | OPS-08 | Playwright 직무 분리·초기화 테스트 |
-| OPS-09 | \`npm run quality\`, \`npm run test:e2e\`, 기존 접근성·시각·보안·무결성 QA |
+| OPS-09 | `npm run quality`, `npm run test:e2e`, 기존 접근성·시각·보안·무결성 QA |
 
 ## 6. 한계 및 후속 과제
 
