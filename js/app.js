@@ -927,7 +927,8 @@ function toolflowReviewerControls(req){
   const ticket=escapeHTML(req.ticket);
   return '<details class="ops-review" data-ticket="'+ticket+'"><summary>요청 검토 기준·담당 부서</summary>'+
     '<p class="ops-disclaimer">프로토타입 검토 정보 · 정책 '+escapeHTML(policy.version)+'</p>'+
-    '<p>승인 경로: '+escapeHTML(policy.route)+'</p>'+\n    '<p>처리 기준: '+escapeHTML(getSlaHealth(req)?.label||'확인 필요')+' · 우선순위 변경은 SLA를 자동으로 변경하지 않습니다.</p>'+
+    '<p>승인 경로: '+escapeHTML(policy.route)+'</p>'+
+    '<p>처리 기준: '+escapeHTML(getSlaHealth(req)?.label||'확인 필요')+' · 우선순위 변경은 SLA를 자동으로 변경하지 않습니다.</p>'+
     '<p>추가 확인: '+escapeHTML(policy.flags.join(' · ')||'기본 신청 조건')+'</p>'+
     '<div class="ops-fields"><label>우선순위<select class="ops-priority" aria-label="처리 우선순위">'+
       TOOLFLOW_PRIORITY_LEVELS.map(v=>'<option'+(priority===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label>'+
@@ -970,7 +971,8 @@ function toolflowPlanningPanel(requests){
     '<div class="ops-metrics"><p>전체 요청 <b>'+stats.total+'</b>건</p><p>완료 <b>'+stats.completed+'</b>건</p>'+
     '<p>기한 내 완료율 <b>'+rate+'</b></p><p>예외 요청 <b>'+stats.exception+'</b>건</p>'+
     '<p>재신청 포함 요청 <b>'+stats.reapplication+'</b>건</p></div>'+
-    '<p class="ops-disclaimer">처리 지표는 현재 브라우저 세션의 사례 요청에 한정하며, 완료 시각이 있는 요청만 준수율 분모에 포함합니다.</p>'+\n    '<p class="ops-guidance"><b>지표 해석·개선 후보:</b> '+escapeHTML(toolflowMetricGuidance(stats))+'</p>'+
+    '<p class="ops-disclaimer">처리 지표는 현재 브라우저 세션의 사례 요청에 한정하며, 완료 시각이 있는 요청만 준수율 분모에 포함합니다.</p>'+
+    '<p class="ops-guidance"><b>지표 해석·개선 후보:</b> '+escapeHTML(toolflowMetricGuidance(stats))+'</p>'+
     '<div class="ops-fields">'+
     '<label>예시 신규 좌석 수<input id="opsSeats" type="number" min="0" max="200" value="10"></label>'+
     '<label>예시 월 단가(원)<input id="opsUnitPrice" type="number" min="0" max="1000000" step="1000" value="30000"></label>'+
@@ -1021,7 +1023,8 @@ function toolflowRenderChecklist(){
     ? '직무 확인 후 필수 라이선스 신청 현황을 안내합니다.'
     : '필수 라이선스 '+license.ready+'/'+license.total+'건 사용 가능 가정·지급 완료 · 미완료 '+license.remaining+'건. 신청·지급 상태는 라이선스 목록과 신청현황에서 확인하세요.';
   node.innerHTML='<p class="ops-disclaimer">온보딩 절차 설계 사례 · 실제 장비 지급, 계정 생성, 부서별 업무 완료를 뜻하지 않습니다.</p>'+
-    '<p><b>'+escapeHTML(label)+'</b> 준비 항목 '+done+'/'+TOOLFLOW_ONBOARDING_ITEMS.length+'건 표시 완료</p>'+\n    '<p class="ops-license-readiness"><b>라이선스 준비 현황:</b> '+escapeHTML(licenseGuidance)+'</p>'+
+    '<p><b>'+escapeHTML(label)+'</b> 준비 항목 '+done+'/'+TOOLFLOW_ONBOARDING_ITEMS.length+'건 표시 완료</p>'+
+    '<p class="ops-license-readiness"><b>라이선스 준비 현황:</b> '+escapeHTML(licenseGuidance)+'</p>'+
     '<div class="ops-checklist">'+TOOLFLOW_ONBOARDING_ITEMS.map(item=>
       '<label class="ops-checklist-item"><input type="checkbox" data-demo-check="'+item.id+'"'+(state[item.id]?' checked':'')+'>'+
       '<span><b>'+escapeHTML(item.name)+'</b><small>'+escapeHTML(item.stage+' · '+item.owner)+'</small></span></label>'
