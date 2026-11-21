@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const policySandbox = {
-  findLicenseByName:name=>name==='Adobe Creative Cloud' ? {name} : null,
+  findLicenseByName:name=>name==='Adobe Creative Cloud' ? {name,audience:'디자인 직군'} : null,
   businessDayDistance:(from,to)=>Math.round((to.getTime()-from.getTime())/86400000)
 };
 vm.createContext(policySandbox);
@@ -32,6 +32,8 @@ test('approval route and exception policy are auditable without real entitlement
   assert.ok(result.flags.includes('비용 부담 부서 확인'));
   const fallback=toolflowPolicyFor({name:'목록 외 도구',baseStatus:'request'});
   assert.ok(fallback.flags.includes('직무·도구 별도 확인'));
+  const offRole=toolflowPolicyFor({name:'Adobe Creative Cloud',roleLabel:'경영지원·총무',baseStatus:'approval',budget:'IT 예산',scope:'조회 권한'});
+  assert.ok(offRole.flags.includes('직무·도구 별도 확인'));
 });
 
 test('quality metric denominator excludes unfinished and unknown completion times',()=>{
