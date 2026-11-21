@@ -18,6 +18,18 @@
 - **IT 운영·기획·GA 검토(리뷰어 모드):** 요청별 우선순위·협의 부서·처리 담당 역할·검토 근거, 정책 예외·SLA 지표 해석, 예시 예산·좌석 대안의 판단 근거, 부서별 체크리스트와 직무별 필수 라이선스 준비 상태 비교. [요구사항·검증 기준](docs/IT-OPERATIONS-PLANNING.md)에서 가정과 실제 연동 범위를 구분
 - **접근성·반응형:** 키보드 조작, 스크린 리더 대응, 데스크톱·모바일 경험. 직군 검색·필터와 카드의 좌측 정렬, 모바일 검토자 헤더, 최소 터치 영역은 [카탈로그 디자인 기준](docs/CATALOG-DESIGN.md)에 따라 점검합니다.
 
+## 직무별 대표 시나리오
+
+동일한 가상 라이선스 신청 포털에서 **직무별 판단 기준**을 구분합니다. 화면 조작 순서·정상/예외 사례·자동 테스트 근거는 [직무별 대표 시나리오](docs/ROLE_SCENARIOS.md)에서 확인할 수 있습니다.
+
+| 관점 | 대표 흐름 | 확인할 역량 |
+| --- | --- | --- |
+| IT Support | 신청 → 검토 담당 역할·사유 기록 → 승인·반려·재신청·이력 추적 | IT 서비스 요청·처리 관리 |
+| IT기획/ISP·PM | 정책·예외 확인 → 예시 라이선스 좌석·예산 대안 비교 → SLA·KPI 해석 | IT 운영 정책·비용·성과 기반 의사결정 |
+| GA | IT·GA·HR 입사 준비 체크리스트 → 직무별 필수 라이선스 상태 확인 | 온보딩 절차 표준화·업무 인계 기준 |
+
+세 시나리오는 **개인 프로토타입의 가상 사례**입니다. 비용 차이는 모델 계산이며 실제 비용 절감이나 조직 KPI 달성 실적이 아닙니다.
+
 ## 실제 연동 범위
 
 이 프로젝트는 **가상 데이터 기반 인터랙티브 프로토타입**입니다.
@@ -33,6 +45,8 @@ Google SSO, Google Workspace 조직 정보, Jira Service Management 티켓, SaaS
 - **배포·검증 절차:** `main` → Vercel Production. SHA-256 무결성·브라우저 Smoke 결과는 대상 배포의 별도 검증 기록을 기준으로 판단
 - **기록:** GitHub Actions에서 자동 검증 결과와 릴리스 근거를 확인할 수 있습니다. 공개 정적 자산은 SHA-256으로 비교하고, 서버 함수는 응답 계약으로 별도 확인합니다.
 - **GitHub 검증 기록(2026-11-02):** `main` 커밋 `78b7eb039e86a5a68b95ab8090e0d9416584e245`에서 [E2E 13/13](https://github.com/dohyunkimmm/toolflow/actions/runs/41364607991) 및 [Documentation sync](https://github.com/dohyunkimmm/toolflow/actions/runs/41364607885)가 성공했습니다. 당시 E2E의 Production Smoke·배포 무결성 검사도 통과했습니다. 이는 해당 실행 시점의 증빙이며, 후속 커밋·배포의 최신 상태는 [main CI](https://github.com/dohyunkimmm/toolflow/actions/workflows/e2e.yml?query=branch%3Amain)에서 별도로 확인해야 합니다. Documentation sync는 대표 문서 정합성 검사로 Notion 자동 업데이트를 의미하지 않습니다.
+
+- **검증 기록(2026-11-21):** `main` 커밋 `2362efa9e2fe17e6f7d4965ff56f2a058c15b9b0`에서 [E2E 실행](https://github.com/dohyunkimmm/toolflow/actions/runs/44916007241)의 Chromium 기능 테스트 248개 통과·8개 건너뜀, 운영 데스크톱·모바일 Smoke 8개 통과, 공개 자산 SHA-256 156/156 일치를 확인했습니다. 이는 해당 커밋의 자동 검사 결과이며 실제 기업 운영 성과·도입 비용 절감·Gemini 추천 품질 검증이 아닙니다.
 
 ```bash
 npm ci
