@@ -61,7 +61,14 @@ function sanitizeRequestRecord(name,value,role){
     period:typeof value.period === 'string' ? value.period.slice(0,80) : '',
     budget:typeof value.budget === 'string' ? value.budget.slice(0,80) : '',
     rejectionReason:typeof value.rejectionReason === 'string' ? value.rejectionReason.slice(0,200) : '',
-    completedAt:typeof value.completedAt === 'string' ? value.completedAt : '',
+    // Preserve timestamps from completed requests across session reloads.
+    completedAt:Number.isFinite(value.completedAt) && value.completedAt >= 0
+      ? value.completedAt
+      : (typeof value.completedAt === 'string' && Number.isFinite(Date.parse(value.completedAt)) ? value.completedAt : ''),
+    priority:['일반','우선'].includes(value.priority) ? value.priority : '일반',
+    reviewTeam:['IT팀','GA팀','HR팀'].includes(value.reviewTeam) ? value.reviewTeam : 'IT팀',
+    reviewNote:typeof value.reviewNote === 'string' ? value.reviewNote.slice(0,200) : '',
+    policyVersion:typeof value.policyVersion === 'string' ? value.policyVersion.slice(0,40) : '',
     roleLabel:typeof value.roleLabel === 'string' && value.roleLabel.trim()
       ? value.roleLabel.slice(0,120)
       : (roles[role]?.label || '직무 확인 필요'),
