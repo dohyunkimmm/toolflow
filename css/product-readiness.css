@@ -135,3 +135,17 @@ body:not(.login-open) .request-modal .modal-actions{position:sticky;bottom:0;bac
 .ops-checklist-item span{display:grid;gap:2px;font-size:13px;}
 .ops-checklist-item small{font-size:12px;color:#657387;}
 @media(max-width:480px){.ops-fields{grid-template-columns:1fr;}}
+
+/* Decision and readiness summaries are explanatory, not operational status. */
+.ops-guidance,.ops-license-readiness{
+  padding:9px 11px;
+  border-left:3px solid #697b98;
+  border-radius:5px;
+  background:#f6f8fb;
+  color:#29384d;
+  font-size:13px;
+  line-height:1.6;
+}
+@media(forced-colors:active){
+  .ops-guidance,.ops-license-readiness{border:1px solid CanvasText;background:Canvas;color:CanvasText;}
+}
