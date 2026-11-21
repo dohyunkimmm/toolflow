@@ -329,6 +329,7 @@ function submitSupportRequest(){
 
 function resetDemo(){
   if(typeof cancelAiRecommendation === 'function') cancelAiRecommendation();
+  checklistStateByRole = {}; // clear all reviewer onboarding scenario selections
   trackEvent('Demo Reset',{role:currentRole});
   requestStateByRole = {};
   cancelledHistoryByRole = {};
