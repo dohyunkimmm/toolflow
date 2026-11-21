@@ -1,6 +1,7 @@
 'use strict';
 
 let requestStateByRole = {};
+let checklistStateByRole = {}; // reviewer-only onboarding scenario, not real HR/asset state
 let cancelledHistoryByRole = {};  // 역할별 취소 요청 이력
 let cancelledTicketsByRole = {};  // 역할별 취소 요청 번호
 let requestState = {};
@@ -119,6 +120,7 @@ function sanitizeTicketStore(store){
 }
 function resetRuntimeState(){
   requestStateByRole = {};
+  checklistStateByRole = {};
   cancelledHistoryByRole = {};
   cancelledTicketsByRole = {};
   ticketSeq = 1041;
@@ -147,6 +149,7 @@ function saveSession(){
     sessionStorage.setItem(SESSION_KEY, JSON.stringify({
       schemaVersion:SESSION_SCHEMA_VERSION,
       requestStateByRole,
+      checklistStateByRole,
       cancelledHistoryByRole,
       cancelledTicketsByRole,
       ticketSeq,
@@ -170,6 +173,17 @@ function restoreSession(){
     }
 
     currentRole = isKnownRole(saved.currentRole) ? saved.currentRole : 'office';
+    checklistStateByRole = {};
+    const allowedChecklist = new Set(['device','account','license','workplace','hrguide','followup']);
+    if(isPlainObject(saved.checklistStateByRole)){
+      for(const [role,items] of Object.entries(saved.checklistStateByRole)){
+        if(!isKnownRole(role) || !isPlainObject(items)) continue;
+        checklistStateByRole[role] = {};
+        for(const [id,done] of Object.entries(items)){
+          if(allowedChecklist.has(id) && done === true) checklistStateByRole[role][id] = true;
+        }
+      }
+    }
     if(saved.requestStateByRole && isPlainObject(saved.requestStateByRole)){
       requestStateByRole = sanitizeRequestStore(saved.requestStateByRole);
       cancelledHistoryByRole = sanitizeHistoryStore(saved.cancelledHistoryByRole);
