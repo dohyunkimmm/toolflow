@@ -989,3 +989,37 @@ function toolflowCompareCost(){
   const output=document.getElementById('opsCostResult');
   if(output) output.textContent=toolflowFormatCost(result);
 }
+
+
+const TOOLFLOW_ONBOARDING_ITEMS = Object.freeze([
+  {id:'device',stage:'입사 전',owner:'IT팀',name:'업무 단말 준비 일정 확인'},
+  {id:'workplace',stage:'입사 전',owner:'GA팀',name:'근무 공간·출입 안내 확인'},
+  {id:'account',stage:'입사일',owner:'IT팀',name:'계정 접근·로그인 안내 확인'},
+  {id:'license',stage:'입사일',owner:'IT팀',name:'직무별 필수 라이선스 신청 현황 확인'},
+  {id:'hrguide',stage:'입사 후',owner:'HR팀',name:'인사 서류·교육 안내 확인'},
+  {id:'followup',stage:'입사 후',owner:'GA팀',name:'미완료 준비 항목 담당자 확인'}
+]);
+function toolflowRenderChecklist(){
+  const node=document.getElementById('gaChecklistBody');
+  if(!node) return;
+  const role=currentRole;
+  const state=checklistStateByRole[role]||{};
+  const done=TOOLFLOW_ONBOARDING_ITEMS.filter(item=>state[item.id]).length;
+  const label=roles[role]?.label||'직무 확인 필요';
+  node.innerHTML='<p class="ops-disclaimer">온보딩 절차 설계 사례 · 실제 장비 지급, 계정 생성, 부서별 업무 완료를 뜻하지 않습니다.</p>'+
+    '<p><b>'+escapeHTML(label)+'</b> 준비 항목 '+done+'/'+TOOLFLOW_ONBOARDING_ITEMS.length+'건 표시 완료</p>'+
+    '<div class="ops-checklist">'+TOOLFLOW_ONBOARDING_ITEMS.map(item=>
+      '<label class="ops-checklist-item"><input type="checkbox" data-demo-check="'+item.id+'"'+(state[item.id]?' checked':'')+'>'+
+      '<span><b>'+escapeHTML(item.name)+'</b><small>'+escapeHTML(item.stage+' · '+item.owner)+'</small></span></label>'
+    ).join('')+'</div>';
+}
+function toolflowToggleChecklist(id, checked){
+  if(!TOOLFLOW_ONBOARDING_ITEMS.some(item=>item.id===id)) return;
+  const role=currentRole;
+  if(!checklistStateByRole[role]) checklistStateByRole[role]={};
+  if(checked) checklistStateByRole[role][id]=true;
+  else delete checklistStateByRole[role][id];
+  saveSession();
+  toolflowRenderChecklist();
+  document.querySelector('[data-demo-check="'+id+'"]')?.focus({preventScroll:true});
+}
