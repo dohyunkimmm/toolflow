@@ -64,11 +64,12 @@ test('session normalization preserves numeric completedAt and limits reviewer fi
     '\n;globalThis.normalize = sanitizeRequestRecord;',sandbox);
   const record=sandbox.normalize('Microsoft Office',{
     ticket:'ITSM-1042',status:'completed',completedAt:Date.parse('2026-11-20T10:00:00+09:00'),
-    priority:'unexpected',reviewTeam:'outside-team',reviewNote:'x'.repeat(300),history:[]
+    priority:'unexpected',reviewTeam:'outside-team',assignedRole:'not-valid',reviewNote:'x'.repeat(300),history:[]
   },'office');
   assert.equal(record.completedAt,Date.parse('2026-11-20T10:00:00+09:00'));
   assert.equal(record.priority,'일반');
   assert.equal(record.reviewTeam,'IT팀');
+  assert.equal(record.assignedRole,'미배정');
   assert.equal(record.reviewNote.length,200);
 });
 
