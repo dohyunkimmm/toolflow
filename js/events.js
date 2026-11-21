@@ -40,6 +40,7 @@ const actionHandlers = {
   'reset-demo': () => resetDemo(),
   'reset-demo-close-more': () => { resetDemo(); closeMoreMenu(); },
   'toggle-more': event => toggleMoreMenu(event),
+  'open-ops-reviewer': () => toolflowOpenOpsReviewer(),
   'fake-login': () => { activatePostLoginStyles(); fakeLogin(); },
   'support-other': () => openSupportRequest('other'),
   'support-role': () => openSupportRequest('role'),
