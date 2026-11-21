@@ -34,7 +34,8 @@ test('완료 시각을 새로고침 이후에도 유지하고 SLA 판정에 사�
 test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있다',async ({page})=>{
   await login(page);
   await createOfficeRequest(page);
-  await page.locator('#adminBtn').click();
+  await page.locator('#moreBtn').click();
+  await page.getByRole('button',{name:'IT 운영·기획 검토'}).click();
   const item=page.locator('.request-item').filter({hasText:'Microsoft Office'});
   await item.locator('.ops-review summary').click();
   await item.locator('.ops-priority').selectOption('우선');
@@ -52,7 +53,8 @@ test('IT 요청 검토 근거가 기록되고 비용 대안을 비교할 수 있
   await expect(page.locator('#opsCostResult')).toContainText('200,000원');
   await expect(page.locator('#opsCostResult')).toContainText('40,000원');
   await page.reload();
-  await page.locator('#adminBtn').click();
+  await page.locator('#moreBtn').click();
+  await page.getByRole('button',{name:'IT 운영·기획 검토'}).click();
   const restored=page.locator('.request-item').filter({hasText:'Microsoft Office'});
   await restored.locator('.ops-review summary').click();
   await expect(restored.locator('.ops-priority')).toHaveValue('우선');
