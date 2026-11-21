@@ -25,6 +25,7 @@ const FILTER_GROUPS = {
   done:new Set(['auto','completed'])
 };
 const REQUEST_STATUSES = new Set(['pending','approved','rejected','completed']);
+const TOOLFLOW_ASSIGNEE_ROLES = Object.freeze(['미배정','IT 서비스데스크 담당','IT 라이선스 담당','GA 온보딩 담당','HR 인사 담당']);
 let currentRole = 'office';
 
 function isKnownRole(value){
@@ -68,6 +69,7 @@ function sanitizeRequestRecord(name,value,role){
       : (typeof value.completedAt === 'string' && Number.isFinite(Date.parse(value.completedAt)) ? value.completedAt : ''),
     priority:['일반','우선'].includes(value.priority) ? value.priority : '일반',
     reviewTeam:['IT팀','GA팀','HR팀'].includes(value.reviewTeam) ? value.reviewTeam : 'IT팀',
+    assignedRole:TOOLFLOW_ASSIGNEE_ROLES.includes(value.assignedRole) ? value.assignedRole : '미배정',
     reviewNote:typeof value.reviewNote === 'string' ? value.reviewNote.slice(0,200) : '',
     policyVersion:typeof value.policyVersion === 'string' ? value.policyVersion.slice(0,40) : '',
     roleLabel:typeof value.roleLabel === 'string' && value.roleLabel.trim()
