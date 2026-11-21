@@ -330,6 +330,7 @@ function submitSupportRequest(){
 function resetDemo(){
   if(typeof cancelAiRecommendation === 'function') cancelAiRecommendation();
   checklistStateByRole = {}; // clear all reviewer onboarding scenario selections
+  toolflowOpsMode = false;
   trackEvent('Demo Reset',{role:currentRole});
   requestStateByRole = {};
   cancelledHistoryByRole = {};
@@ -749,7 +750,7 @@ function renderDrawer(){
   const body = document.getElementById('drawerBody');
   const adminSummary = drawerMode === 'admin' ? renderAdminSummary(allRequests) : '';
   const adminDemoNote = drawerMode === 'admin' ? `<div class="admin-demo-note"><b>Interactive Prototype</b> · IT 관리자 역할 미리보기</div>` : '';
-  const adminHeader = adminSummary + adminDemoNote + (drawerMode === 'admin' ? toolflowPlanningPanel(allRequests) : '');
+  const adminHeader = adminSummary + adminDemoNote + (drawerMode === 'admin' && toolflowOpsMode ? toolflowPlanningPanel(allRequests) : '');
   document.getElementById('drawerTitle').textContent = drawerMode === 'admin' ? '관리자 체험' : '신청현황';
   if(!allRequests.length){
     const hadHistory = Object.keys(cancelledHistory).length > 0;
@@ -784,7 +785,7 @@ function renderDrawer(){
       <div class="request-item-title">${req.name}<span class="ticket-key mono">${req.ticket}</span></div>
       <div class="request-item-meta">${drawerMode === 'admin' ? `요청자 · <b>홍길동</b> (${escapeHTML(req.roleLabel || '경영지원·총무')} · 신규입사자)<br>` : ''}담당 · ${req.owner}<br>상태 · <b>${stateLabel}</b><br><span class="request-sla">${drawerMode==='admin'?slaHealthHTML(req):''}<span class="sla-target">${req.status==='completed'?'처리 이력은 아래에서 확인하세요':req.status==='rejected'?'보완 후 재신청 시 예정일을 다시 안내합니다':'처리 예정 '+req.expected}${drawerMode==='admin'?' · 기준 '+sla.short:''}</span></span><br>신청일 · ${req.createdAt}</div>
       ${req.note ? `<div class="request-note-view"><b>${req.status === 'rejected' ? '직전 신청 사유' : '신청 사유'}</b><br>${escapeHTML(req.note)}</div>` : ''}
-      ${adminDecisionHTML(req)}${drawerMode === 'admin' ? toolflowReviewerControls(req) : ''}${reason}${history}${adminActions}${userActions}
+      ${adminDecisionHTML(req)}${drawerMode === 'admin' && toolflowOpsMode ? toolflowReviewerControls(req) : ''}${reason}${history}${adminActions}${userActions}
     </div>`;
   }).join('');
 }
@@ -1023,4 +1024,13 @@ function toolflowToggleChecklist(id, checked){
   saveSession();
   toolflowRenderChecklist();
   document.querySelector('[data-demo-check="'+id+'"]')?.focus({preventScroll:true});
+}
+
+
+// Opt-in reviewer-only extension: leave the default admin queue and screenshots unchanged.
+let toolflowOpsMode = false;
+function toolflowOpenOpsReviewer(){
+  toolflowOpsMode = true;
+  closeMoreMenu();
+  openDrawer('admin');
 }
