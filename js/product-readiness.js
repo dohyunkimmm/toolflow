@@ -75,7 +75,10 @@ const TOOLFLOW_REVIEW_TEAMS = Object.freeze(['IT팀','GA팀','HR팀']);
 const TOOLFLOW_PRIORITY_LEVELS = Object.freeze(['일반','우선']);
 function toolflowPolicyFor(req){
   const flags = [];
-  if(!findLicenseByName(req.name) || req.roleLabel === '직무 확인 필요') flags.push('직무·도구 별도 확인');
+  const tool=findLicenseByName(req.name);
+  const wrongRole=tool?.audience && tool.audience !== '전사 구성원' &&
+    req.roleLabel && tool.audience !== req.roleLabel + ' 직군';
+  if(!tool || wrongRole || req.roleLabel === '직무 확인 필요') flags.push('직무·도구 별도 확인');
   if(String(req.scope || '').includes('관리 권한')) flags.push('고권한 추가 검토');
   if(req.baseStatus === 'approval' && !String(req.budget || '').trim()) flags.push('비용 부담 부서 확인');
   return {
