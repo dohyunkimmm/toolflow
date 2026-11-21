@@ -109,3 +109,41 @@ function toolflowCostScenario({seats=10,unitPrice=30000,reused=3,budget=300000}=
   return {seats:n,unitPrice:unit,reused:reuse,budget:cap,newCost,reuseCost,
     estimatedAvoided:newCost-reuseCost,withinBudget:reuseCost<=cap};
 }
+
+
+// Prototype decision aids: recommendations are hypothetical, not realized results.
+function toolflowPlanningDecision(scenario){
+  if(scenario.seats === 0) return {
+    label:'수요 확인 필요',
+    reason:'필요 좌석이 0개입니다. 신규 도입 판단에 앞서 실제 사용 목적과 수요를 확인하는 시나리오입니다.'
+  };
+  if(!scenario.withinBudget) return {
+    label:'예산 초과 · 대안 재검토',
+    reason:'좌석 재활용을 반영해도 예시 월 예산을 초과합니다. 필요 수량·기간·대체 도구를 비교해 보세요.'
+  };
+  if(scenario.reused > 0) return {
+    label:'기존 좌석 활용 우선 검토',
+    reason:'예시 예산 내에서 기존 좌석을 재활용할 수 있습니다. 실제 계약·사용 현황 확인 전까지 구매나 절감 효과는 확정하지 않습니다.'
+  };
+  return {
+    label:'신규 도입 조건 검토',
+    reason:'예시 예산 범위에 있지만 대체 도구·승인 조건·사용 기간·권한 범위 검증이 필요합니다.'
+  };
+}
+function toolflowMetricGuidance(stats){
+  if(stats.total === 0) return '요청 데이터가 없어 운영 지표를 해석할 수 없습니다. 시연 요청을 생성한 뒤 확인하세요.';
+  const notes=[];
+  if(stats.measurable === 0) notes.push('완료 시각이 있는 요청이 없어 기한 준수율 판단을 보류합니다.');
+  else if(stats.rate < 90) notes.push('시나리오 예시 목표(90%) 미달: 기한 초과 사례와 업무 절차를 점검하세요.');
+  else notes.push('측정 가능한 완료 건의 예시 목표(90%) 이상입니다. 측정 건수와 기간을 함께 확인하세요.');
+  if(stats.exception > 0) notes.push('예외 요청 '+stats.exception+'건: 승인 기준과 안내 문구를 검토하세요.');
+  if(stats.reapplication > 0) notes.push('재신청 이력 '+stats.reapplication+'건: 필수 입력값과 보완 안내를 점검하세요.');
+  return notes.join(' ');
+}
+function toolflowRoleLicenseSummary(roleName,roleRequests){
+  const role=roles[roleName];
+  if(!role || role.exception) return {total:0,ready:0,remaining:0,unmapped:true};
+  const required=[...commonLicenses,...(role.cards||[])].filter(item=>requirementFor(item)==='필수');
+  const ready=required.filter(item=>item.status==='auto' || roleRequests?.[item.name]?.status==='completed').length;
+  return {total:required.length,ready,remaining:required.length-ready,unmapped:false};
+}
