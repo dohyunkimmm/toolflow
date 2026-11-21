@@ -79,7 +79,8 @@ test('입사 준비 체크리스트는 직군별로 분리해 저장하며 초�
   await page.locator('#gaChecklist summary').click();
   await expect(page.locator('[data-demo-check="device"]')).toBeChecked();
   await page.getByRole('button',{name:'도움말 닫기'}).click();
-  await page.getByRole('button',{name:'체험 초기화'}).click();
+  await page.locator('#moreBtn').click();
+  await page.locator('#moreMenu [data-action="reset-demo-close-more"]').click();
   await page.getByRole('button',{name:'도움말',exact:true}).click();
   await expect(page.locator('[data-demo-check="device"]')).not.toBeChecked();
 });
