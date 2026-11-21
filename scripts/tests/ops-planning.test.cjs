@@ -6,12 +6,17 @@ const vm = require('node:vm');
 
 const policySandbox = {
   findLicenseByName:name=>name==='Adobe Creative Cloud' ? {name,audience:'디자인 직군'} : null,
-  businessDayDistance:(from,to)=>Math.round((to.getTime()-from.getTime())/86400000)
+  businessDayDistance:(from,to)=>Math.round((to.getTime()-from.getTime())/86400000),
+  commonLicenses:[{name:'공통 도구',mono:'GS',status:'auto'}],
+  roles:{office:{cards:[
+    {name:'필수 도구',mono:'HG',status:'request'},
+    {name:'선택 도구',mono:'NT',status:'request'}
+  ]}}
 };
 vm.createContext(policySandbox);
 vm.runInContext(fs.readFileSync('js/product-readiness.js','utf8') +
-  '\n;globalThis.policyChecks = {toolflowPolicyFor,toolflowCostScenario,toolflowServiceMetrics};',policySandbox);
-const {toolflowPolicyFor,toolflowCostScenario,toolflowServiceMetrics}=policySandbox.policyChecks;
+  '\n;globalThis.policyChecks = {toolflowPolicyFor,toolflowCostScenario,toolflowServiceMetrics,toolflowPlanningDecision,toolflowMetricGuidance,toolflowRoleLicenseSummary};',policySandbox);
+const {toolflowPolicyFor,toolflowCostScenario,toolflowServiceMetrics,toolflowPlanningDecision,toolflowMetricGuidance,toolflowRoleLicenseSummary}=policySandbox.policyChecks;
 
 test('cost comparison uses explicitly illustrative values and bounds reuse to seat count',()=>{
   const scenario=toolflowCostScenario({seats:10,unitPrice:30000,reused:3,budget:300000});
@@ -65,4 +70,37 @@ test('session normalization preserves numeric completedAt and limits reviewer fi
   assert.equal(record.priority,'일반');
   assert.equal(record.reviewTeam,'IT팀');
   assert.equal(record.reviewNote.length,200);
+});
+
+
+test('planning guidance translates illustrative costs into decision reasons without claiming ROI',()=>{
+  const within=toolflowPlanningDecision(toolflowCostScenario({seats:10,unitPrice:30000,reused:3,budget:300000}));
+  assert.match(within.label,/기존 좌석 활용/);
+  assert.match(within.reason,/실제 계약/);
+  const over=toolflowPlanningDecision(toolflowCostScenario({seats:10,unitPrice:30000,reused:0,budget:100000}));
+  assert.match(over.label,/예산 초과/);
+  assert.match(over.reason,/대체 도구/);
+  const zero=toolflowPlanningDecision(toolflowCostScenario({seats:0,unitPrice:30000,reused:0,budget:0}));
+  assert.match(zero.label,/수요 확인/);
+});
+
+test('KPI guidance distinguishes missing denominators and policy-review candidates',()=>{
+  assert.match(toolflowMetricGuidance({total:0,measurable:0}),/요청 데이터가 없어/);
+  assert.match(toolflowMetricGuidance({total:2,measurable:0,exception:1,reapplication:1}),/판단을 보류/);
+  const note=toolflowMetricGuidance({total:5,measurable:3,rate:67,exception:1,reapplication:1});
+  assert.match(note,/예시 목표\(90%\) 미달/);
+  assert.match(note,/예외 요청 1건/);
+  assert.match(note,/재신청 이력 1건/);
+});
+
+test('GA readiness derives from required catalog states, not manually checked tasks',()=>{
+  const waiting=toolflowRoleLicenseSummary('office',{});
+  assert.equal(waiting.total,2);
+  assert.equal(waiting.ready,1);
+  assert.equal(waiting.remaining,1);
+  const fulfilled=toolflowRoleLicenseSummary('office',{'필수 도구':{status:'completed'}});
+  assert.equal(fulfilled.ready,2);
+  assert.equal(fulfilled.remaining,0);
+  const missingRole=toolflowRoleLicenseSummary('not-a-role',{});
+  assert.equal(missingRole.unmapped,true);
 });
