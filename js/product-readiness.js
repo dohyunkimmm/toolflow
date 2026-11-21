@@ -66,3 +66,46 @@ function nextDemoAction(){
   const ready = roles[currentRole].cards.find(item=>['auto','completed'].includes(getEffectiveStatus(item)));
   if(ready) showActionGuideModal(ready);
 }
+
+
+// Shared policy/finance/quality examples for reviewer mode only.
+// These decisions do not authenticate users or provision SaaS licenses.
+const TOOLFLOW_POLICY_VERSION = '2026.11-review.1';
+const TOOLFLOW_REVIEW_TEAMS = Object.freeze(['IT팀','GA팀','HR팀']);
+const TOOLFLOW_PRIORITY_LEVELS = Object.freeze(['일반','우선']);
+function toolflowPolicyFor(req){
+  const flags = [];
+  const tool=findLicenseByName(req.name);
+  const wrongRole=tool?.audience && tool.audience !== '전사 구성원' &&
+    req.roleLabel && tool.audience !== req.roleLabel + ' 직군';
+  if(!tool || wrongRole || req.roleLabel === '직무 확인 필요') flags.push('직무·도구 별도 확인');
+  if(String(req.scope || '').includes('관리 권한')) flags.push('고권한 추가 검토');
+  if(req.baseStatus === 'approval' && !String(req.budget || '').trim()) flags.push('비용 부담 부서 확인');
+  return {
+    version:TOOLFLOW_POLICY_VERSION,
+    route:req.baseStatus === 'approval' ? 'IT 사전 검토 → 관리자 승인' : 'IT 검토',
+    flags
+  };
+}
+function toolflowServiceMetrics(requests){
+  const all = Array.isArray(requests) ? requests : [];
+  const completed = all.filter(req=>req.status === 'completed');
+  const dated = completed.filter(req=>Number.isFinite(new Date(req.dueDate).getTime()) &&
+    Number.isFinite(new Date(req.completedAt).getTime()) && !!req.completedAt);
+  const within = dated.filter(req=>businessDayDistance(new Date(req.dueDate),new Date(req.completedAt)) <= 0).length;
+  const exception = all.filter(req=>!findLicenseByName(req.name) || req.roleLabel === '직무 확인 필요').length;
+  const reapplication = all.filter(req=>(req.history || []).some(entry=>String(entry.label || '').includes('재신청 접수'))).length;
+  return {total:all.length, completed:completed.length, measurable:dated.length,
+    onTime:within, exception, reapplication,
+    rate:dated.length ? Math.round(within/dated.length*100) : null};
+}
+function toolflowCostScenario({seats=10,unitPrice=30000,reused=3,budget=300000}={}){
+  const n = Math.min(200,Math.max(0,Math.trunc(Number(seats)||0)));
+  const unit = Math.min(1000000,Math.max(0,Math.trunc(Number(unitPrice)||0)));
+  const reuse = Math.min(n,Math.max(0,Math.trunc(Number(reused)||0)));
+  const cap = Math.min(200000000,Math.max(0,Math.trunc(Number(budget)||0)));
+  const newCost = n*unit;
+  const reuseCost = (n-reuse)*unit;
+  return {seats:n,unitPrice:unit,reused:reuse,budget:cap,newCost,reuseCost,
+    estimatedAvoided:newCost-reuseCost,withinBudget:reuseCost<=cap};
+}

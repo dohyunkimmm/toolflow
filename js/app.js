@@ -127,7 +127,7 @@ function getSlaHealth(req){
   if(req.status === 'rejected') return {label:'사용자 보완 대기', cls:'sla-health-paused'};
   const due = requestDueDate(req);
   if(req.status === 'completed'){
-    if(!due || !req.completedAt) return {label:'SLA 충족', cls:'sla-health-done'};
+    if(!due || !req.completedAt) return {label:'SLA 판정 보류', cls:'sla-health-warn'};
     const late = businessDayDistance(due,new Date(req.completedAt));
     return late > 0
       ? {label:`SLA 초과 · D+${late}`, cls:'sla-health-over'}
@@ -329,6 +329,8 @@ function submitSupportRequest(){
 
 function resetDemo(){
   if(typeof cancelAiRecommendation === 'function') cancelAiRecommendation();
+  checklistStateByRole = {}; // clear all reviewer onboarding scenario selections
+  toolflowOpsMode = false;
   trackEvent('Demo Reset',{role:currentRole});
   requestStateByRole = {};
   cancelledHistoryByRole = {};
@@ -748,7 +750,7 @@ function renderDrawer(){
   const body = document.getElementById('drawerBody');
   const adminSummary = drawerMode === 'admin' ? renderAdminSummary(allRequests) : '';
   const adminDemoNote = drawerMode === 'admin' ? `<div class="admin-demo-note"><b>Interactive Prototype</b> · IT 관리자 역할 미리보기</div>` : '';
-  const adminHeader = adminSummary + adminDemoNote;
+  const adminHeader = adminSummary + adminDemoNote + (drawerMode === 'admin' && toolflowOpsMode ? toolflowPlanningPanel(allRequests) : '');
   document.getElementById('drawerTitle').textContent = drawerMode === 'admin' ? '관리자 체험' : '신청현황';
   if(!allRequests.length){
     const hadHistory = Object.keys(cancelledHistory).length > 0;
@@ -783,7 +785,7 @@ function renderDrawer(){
       <div class="request-item-title">${req.name}<span class="ticket-key mono">${req.ticket}</span></div>
       <div class="request-item-meta">${drawerMode === 'admin' ? `요청자 · <b>홍길동</b> (${escapeHTML(req.roleLabel || '경영지원·총무')} · 신규입사자)<br>` : ''}담당 · ${req.owner}<br>상태 · <b>${stateLabel}</b><br><span class="request-sla">${drawerMode==='admin'?slaHealthHTML(req):''}<span class="sla-target">${req.status==='completed'?'처리 이력은 아래에서 확인하세요':req.status==='rejected'?'보완 후 재신청 시 예정일을 다시 안내합니다':'처리 예정 '+req.expected}${drawerMode==='admin'?' · 기준 '+sla.short:''}</span></span><br>신청일 · ${req.createdAt}</div>
       ${req.note ? `<div class="request-note-view"><b>${req.status === 'rejected' ? '직전 신청 사유' : '신청 사유'}</b><br>${escapeHTML(req.note)}</div>` : ''}
-      ${adminDecisionHTML(req)}${reason}${history}${adminActions}${userActions}
+      ${adminDecisionHTML(req)}${drawerMode === 'admin' && toolflowOpsMode ? toolflowReviewerControls(req) : ''}${reason}${history}${adminActions}${userActions}
     </div>`;
   }).join('');
 }
@@ -914,3 +916,122 @@ syncPageInert();
 if(loggedIn) requestAnimationFrame(()=>document.getElementById('mainContent')?.focus({preventScroll:true}));
 else requestAnimationFrame(()=>document.querySelector('.login-card')?.focus({preventScroll:true}));
 // sessionStorage에 체험 상태를 유지하고, 초기화 버튼으로 명시적으로 리셋한다.
+
+
+// Reviewer-only extension: policy and planning scenarios use session data and illustrative costs.
+// They do not authorize real approvals or connect to ITSM, SSO, HRIS, or license providers.
+function toolflowReviewerControls(req){
+  const policy=toolflowPolicyFor(req);
+  const priority=TOOLFLOW_PRIORITY_LEVELS.includes(req.priority)?req.priority:'일반';
+  const team=TOOLFLOW_REVIEW_TEAMS.includes(req.reviewTeam)?req.reviewTeam:'IT팀';
+  const ticket=escapeHTML(req.ticket);
+  return '<details class="ops-review" data-ticket="'+ticket+'"><summary>요청 검토 기준·담당 부서</summary>'+
+    '<p class="ops-disclaimer">프로토타입 검토 정보 · 정책 '+escapeHTML(policy.version)+'</p>'+
+    '<p>승인 경로: '+escapeHTML(policy.route)+'</p>'+
+    '<p>추가 확인: '+escapeHTML(policy.flags.join(' · ')||'기본 신청 조건')+'</p>'+
+    '<div class="ops-fields"><label>우선순위<select class="ops-priority" aria-label="처리 우선순위">'+
+      TOOLFLOW_PRIORITY_LEVELS.map(v=>'<option'+(priority===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label>'+
+    '<label>협의 담당부서<select class="ops-team" aria-label="협의 담당부서">'+
+      TOOLFLOW_REVIEW_TEAMS.map(v=>'<option'+(team===v?' selected':'')+'>'+v+'</option>').join('')+'</select></label></div>'+
+    '<label>검토 판단 근거<textarea class="ops-review-note" aria-label="검토 판단 근거" maxlength="200" rows="2" placeholder="업무 필요성·권한·비용 확인 사항">'+escapeHTML(req.reviewNote||'')+'</textarea></label>'+
+    '<div class="request-actions"><button type="button" class="btn-secondary" data-action="save-ops-review" data-value="'+ticket+'">검토 정보 저장</button></div></details>';
+}
+function toolflowSaveReviewerControls(ticket){
+  if(drawerMode!=='admin') return;
+  const req=Object.values(requestState).find(item=>item.ticket===ticket);
+  const panel=[...document.querySelectorAll('.ops-review')].find(el=>el.dataset.ticket===ticket);
+  if(!req||!panel) return;
+  const priority=panel.querySelector('.ops-priority')?.value;
+  const team=panel.querySelector('.ops-team')?.value;
+  if(!TOOLFLOW_PRIORITY_LEVELS.includes(priority)||!TOOLFLOW_REVIEW_TEAMS.includes(team)) return;
+  const note=(panel.querySelector('.ops-review-note')?.value||'').trim().slice(0,200);
+  const changed=req.priority!==priority || req.reviewTeam!==team || req.reviewNote!==note;
+  req.priority=priority;
+  req.reviewTeam=team;
+  req.reviewNote=note;
+  req.policyVersion=TOOLFLOW_POLICY_VERSION;
+  if(changed) req.history.push({actor:'IT 검토자 (체험)',label:'처리 우선순위·담당부서·검토 근거 갱신',at:timeLabel()});
+  saveSession();
+  renderDrawer();
+}
+function toolflowPlanningPanel(requests){
+  const stats=toolflowServiceMetrics(requests);
+  const sample=toolflowCostScenario();
+  const rate=stats.rate===null?'산출 대상 없음':stats.rate+'% ('+stats.onTime+'/'+stats.measurable+'건)';
+  return '<details class="ops-planning"><summary>IT 운영 정책·예산·성과 검토 (시나리오)</summary>'+
+    '<p class="ops-disclaimer">IT기획 검토용 · 실제 조직 정책·비용·성과 데이터가 아닙니다.</p>'+
+    '<p><b>정책 '+escapeHTML(TOOLFLOW_POLICY_VERSION)+'</b> · 직무별 도구 분류 → IT 검토 → 관리자 승인(승인 대상) · 고권한/직무 외 요청 별도 확인</p>'+
+    '<div class="ops-metrics"><p>전체 요청 <b>'+stats.total+'</b>건</p><p>완료 <b>'+stats.completed+'</b>건</p>'+
+    '<p>기한 내 완료율 <b>'+rate+'</b></p><p>예외 요청 <b>'+stats.exception+'</b>건</p>'+
+    '<p>재신청 포함 요청 <b>'+stats.reapplication+'</b>건</p></div>'+
+    '<p class="ops-disclaimer">처리 지표는 현재 브라우저 세션의 사례 요청에 한정하며, 완료 시각이 있는 요청만 준수율 분모에 포함합니다.</p>'+
+    '<div class="ops-fields">'+
+    '<label>예시 신규 좌석 수<input id="opsSeats" type="number" min="0" max="200" value="10"></label>'+
+    '<label>예시 월 단가(원)<input id="opsUnitPrice" type="number" min="0" max="1000000" step="1000" value="30000"></label>'+
+    '<label>기존 좌석 재활용 수<input id="opsReused" type="number" min="0" max="200" value="3"></label>'+
+    '<label>예시 월 예산(원)<input id="opsBudget" type="number" min="0" max="200000000" step="1000" value="300000"></label></div>'+
+    '<div id="opsCostResult" role="status" aria-live="polite">'+toolflowFormatCost(sample)+'</div>'+
+    '<div class="request-actions"><button type="button" class="btn-secondary" data-action="compare-ops-cost">대안 비용 다시 계산</button></div>'+
+    '<details><summary>IT 개선 과제·단계별 추진안</summary><ol>'+
+    '<li>공통 정책·상태 정합성 검증</li><li>승인 기준·담당 부서·예외 통제</li>'+
+    '<li>라이선스 비용·SLA 지표 비교</li><li>온보딩 준비 항목·검증 결과 연결</li></ol></details>'+
+    '</details>';
+}
+function toolflowFormatCost(scenario){
+  const won=value=>Number(value).toLocaleString('ko-KR')+'원';
+  return '신규 도입 '+won(scenario.newCost)+' / 기존 좌석 활용 '+won(scenario.reuseCost)+
+    ' / 예상 비용 차이 '+won(scenario.estimatedAvoided)+
+    ' · 예시 예산 '+won(scenario.budget)+' ('+(scenario.withinBudget?'예산 이내':'예산 초과')+')';
+}
+function toolflowCompareCost(){
+  if(drawerMode!=='admin') return;
+  const num=id=>Number(document.getElementById(id)?.value||0);
+  const result=toolflowCostScenario({seats:num('opsSeats'),unitPrice:num('opsUnitPrice'),
+    reused:num('opsReused'),budget:num('opsBudget')});
+  const output=document.getElementById('opsCostResult');
+  if(output) output.textContent=toolflowFormatCost(result);
+}
+
+
+const TOOLFLOW_ONBOARDING_ITEMS = Object.freeze([
+  {id:'device',stage:'입사 전',owner:'IT팀',name:'업무 단말 준비 일정 확인'},
+  {id:'workplace',stage:'입사 전',owner:'GA팀',name:'근무 공간·출입 안내 확인'},
+  {id:'account',stage:'입사일',owner:'IT팀',name:'계정 접근·로그인 안내 확인'},
+  {id:'license',stage:'입사일',owner:'IT팀',name:'직무별 필수 라이선스 신청 현황 확인'},
+  {id:'hrguide',stage:'입사 후',owner:'HR팀',name:'인사 서류·교육 안내 확인'},
+  {id:'followup',stage:'입사 후',owner:'GA팀',name:'미완료 준비 항목 담당자 확인'}
+]);
+function toolflowRenderChecklist(){
+  const node=document.getElementById('gaChecklistBody');
+  if(!node) return;
+  const role=currentRole;
+  const state=checklistStateByRole[role]||{};
+  const done=TOOLFLOW_ONBOARDING_ITEMS.filter(item=>state[item.id]).length;
+  const label=roles[role]?.label||'직무 확인 필요';
+  node.innerHTML='<p class="ops-disclaimer">온보딩 절차 설계 사례 · 실제 장비 지급, 계정 생성, 부서별 업무 완료를 뜻하지 않습니다.</p>'+
+    '<p><b>'+escapeHTML(label)+'</b> 준비 항목 '+done+'/'+TOOLFLOW_ONBOARDING_ITEMS.length+'건 표시 완료</p>'+
+    '<div class="ops-checklist">'+TOOLFLOW_ONBOARDING_ITEMS.map(item=>
+      '<label class="ops-checklist-item"><input type="checkbox" data-demo-check="'+item.id+'"'+(state[item.id]?' checked':'')+'>'+
+      '<span><b>'+escapeHTML(item.name)+'</b><small>'+escapeHTML(item.stage+' · '+item.owner)+'</small></span></label>'
+    ).join('')+'</div>';
+}
+function toolflowToggleChecklist(id, checked){
+  if(!TOOLFLOW_ONBOARDING_ITEMS.some(item=>item.id===id)) return;
+  const role=currentRole;
+  if(!checklistStateByRole[role]) checklistStateByRole[role]={};
+  if(checked) checklistStateByRole[role][id]=true;
+  else delete checklistStateByRole[role][id];
+  saveSession();
+  toolflowRenderChecklist();
+  document.querySelector('[data-demo-check="'+id+'"]')?.focus({preventScroll:true});
+}
+
+
+// Opt-in reviewer-only extension: leave the default admin queue and screenshots unchanged.
+let toolflowOpsMode = false;
+function toolflowOpenOpsReviewer(){
+  toolflowOpsMode = true;
+  document.getElementById('onboardingHelp')?.close();
+  closeMoreMenu();
+  openDrawer('admin');
+}

@@ -33,13 +33,14 @@ const actionHandlers = {
     syncPageInert();
     document.querySelector('.login-card')?.focus({preventScroll:true});
   },
-  'open-onboarding-help': () => document.getElementById('onboardingHelp')?.showModal(),
+  'open-onboarding-help': () => { toolflowRenderChecklist(); document.getElementById('onboardingHelp')?.showModal(); },
   'close-onboarding-help': () => document.getElementById('onboardingHelp')?.close(),
   'open-user-drawer': () => openDrawer('user'),
   'open-admin-drawer': () => openDrawer('admin'),
   'reset-demo': () => resetDemo(),
   'reset-demo-close-more': () => { resetDemo(); closeMoreMenu(); },
   'toggle-more': event => toggleMoreMenu(event),
+  'open-ops-reviewer': () => toolflowOpenOpsReviewer(),
   'fake-login': () => { activatePostLoginStyles(); fakeLogin(); },
   'support-other': () => openSupportRequest('other'),
   'support-role': () => openSupportRequest('role'),
@@ -49,6 +50,8 @@ const actionHandlers = {
   'hide-action': () => hideActionModal(),
   'submit-support': () => submitSupportRequest(),
   'toggle-admin-filter': (_event, value) => toggleAdminFilter(value),
+  'save-ops-review': (_event, value) => toolflowSaveReviewerControls(value),
+  'compare-ops-cost': () => toolflowCompareCost(),
   'demo-next': () => { document.getElementById('onboardingHelp')?.close(); nextDemoAction(); },
   'guide-support': (_event,value) => { hideActionModal(); openSupportRequest('other'); const field=document.getElementById('supportRequestNote'); if(field) field.value=value+' 설치·접속 지원 요청'; },
   'license-action': (_event, value) => openLicenseAction(value),
@@ -69,6 +72,13 @@ document.addEventListener('click', event => {
 
   const filter = event.target.closest('#filterTabs .filter-chip[data-filter]');
   if(filter) setFilter(filter.dataset.filter);
+});
+
+document.addEventListener('change', event => {
+  const item=event.target.closest('[data-demo-check]');
+  if(item && document.getElementById('gaChecklistBody')?.contains(item)){
+    toolflowToggleChecklist(item.dataset.demoCheck, item.checked);
+  }
 });
 
 document.getElementById('requestBackdrop')?.addEventListener('click', backdropClose);

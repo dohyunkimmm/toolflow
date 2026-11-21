@@ -1,6 +1,7 @@
 'use strict';
 
 let requestStateByRole = {};
+let checklistStateByRole = {}; // reviewer-only onboarding scenario, not real HR/asset state
 let cancelledHistoryByRole = {};  // 역할별 취소 요청 이력
 let cancelledTicketsByRole = {};  // 역할별 취소 요청 번호
 let requestState = {};
@@ -61,7 +62,14 @@ function sanitizeRequestRecord(name,value,role){
     period:typeof value.period === 'string' ? value.period.slice(0,80) : '',
     budget:typeof value.budget === 'string' ? value.budget.slice(0,80) : '',
     rejectionReason:typeof value.rejectionReason === 'string' ? value.rejectionReason.slice(0,200) : '',
-    completedAt:typeof value.completedAt === 'string' ? value.completedAt : '',
+    // Preserve timestamps from completed requests across session reloads.
+    completedAt:Number.isFinite(value.completedAt) && value.completedAt >= 0
+      ? value.completedAt
+      : (typeof value.completedAt === 'string' && Number.isFinite(Date.parse(value.completedAt)) ? value.completedAt : ''),
+    priority:['일반','우선'].includes(value.priority) ? value.priority : '일반',
+    reviewTeam:['IT팀','GA팀','HR팀'].includes(value.reviewTeam) ? value.reviewTeam : 'IT팀',
+    reviewNote:typeof value.reviewNote === 'string' ? value.reviewNote.slice(0,200) : '',
+    policyVersion:typeof value.policyVersion === 'string' ? value.policyVersion.slice(0,40) : '',
     roleLabel:typeof value.roleLabel === 'string' && value.roleLabel.trim()
       ? value.roleLabel.slice(0,120)
       : (roles[role]?.label || '직무 확인 필요'),
@@ -112,6 +120,7 @@ function sanitizeTicketStore(store){
 }
 function resetRuntimeState(){
   requestStateByRole = {};
+  checklistStateByRole = {};
   cancelledHistoryByRole = {};
   cancelledTicketsByRole = {};
   ticketSeq = 1041;
@@ -140,6 +149,7 @@ function saveSession(){
     sessionStorage.setItem(SESSION_KEY, JSON.stringify({
       schemaVersion:SESSION_SCHEMA_VERSION,
       requestStateByRole,
+      checklistStateByRole,
       cancelledHistoryByRole,
       cancelledTicketsByRole,
       ticketSeq,
@@ -163,6 +173,17 @@ function restoreSession(){
     }
 
     currentRole = isKnownRole(saved.currentRole) ? saved.currentRole : 'office';
+    checklistStateByRole = {};
+    const allowedChecklist = new Set(['device','account','license','workplace','hrguide','followup']);
+    if(isPlainObject(saved.checklistStateByRole)){
+      for(const [role,items] of Object.entries(saved.checklistStateByRole)){
+        if(!isKnownRole(role) || !isPlainObject(items)) continue;
+        checklistStateByRole[role] = {};
+        for(const [id,done] of Object.entries(items)){
+          if(allowedChecklist.has(id) && done === true) checklistStateByRole[role][id] = true;
+        }
+      }
+    }
     if(saved.requestStateByRole && isPlainObject(saved.requestStateByRole)){
       requestStateByRole = sanitizeRequestStore(saved.requestStateByRole);
       cancelledHistoryByRole = sanitizeHistoryStore(saved.cancelledHistoryByRole);

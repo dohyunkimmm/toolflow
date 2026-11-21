@@ -74,3 +74,64 @@ body:not(.login-open) .request-modal .modal-actions{position:sticky;bottom:0;bac
 .ai-starter-tool{display:inline-block;padding:7px 11px;border:1px solid #cbd1dc;border-radius:999px;background:#f6f7f9;color:#202124;font-size:12px;font-weight:600;line-height:1.45;}
 .ai-modal-optional{font-weight:400;color:#5f6368;}
 @media(forced-colors:active){.ai-starter-tool{border-color:CanvasText;}}
+
+
+/* Reviewer-only IT governance / onboarding scenarios. Not connected to live systems. */
+.ops-planning,.ops-review,.ops-planning details,#gaChecklist{
+  border:1px solid var(--border, #dde4ef);
+  border-radius:12px;
+  padding:12px;
+  margin:12px 0;
+  background:var(--surface, #fff);
+}
+.ops-planning summary,.ops-review summary,#gaChecklist summary{
+  cursor:pointer;
+  font-weight:650;
+  line-height:1.5;
+}
+.ops-planning p,.ops-review p,#gaChecklist p{
+  margin:9px 0;
+  line-height:1.55;
+}
+.ops-disclaimer{
+  font-size:12px;
+  color:var(--text-secondary, #596577);
+}
+.ops-fields{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:10px;
+  margin:10px 0;
+}
+.ops-fields label,.ops-review > label{
+  display:grid;
+  gap:5px;
+  font-size:13px;
+  font-weight:550;
+}
+.ops-fields input,.ops-fields select,.ops-review textarea{
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  padding:9px;
+  border:1px solid var(--border, #bfc9d8);
+  border-radius:8px;
+  background:#fff;
+  color:#1e293b;
+  font:inherit;
+}
+.ops-fields input:focus-visible,.ops-fields select:focus-visible,
+.ops-review textarea:focus-visible,.ops-checklist-item input:focus-visible{
+  outline:2px solid #2459c2;
+  outline-offset:2px;
+}
+.ops-metrics{display:flex;flex-wrap:wrap;gap:8px 15px;}
+.ops-metrics p{margin:0;}
+#opsCostResult{padding:10px 0;font-size:13px;line-height:1.65;}
+.ops-checklist{display:grid;gap:7px;margin:10px 0;}
+.ops-checklist-item{display:flex;gap:10px;align-items:flex-start;padding:9px;border:1px solid #e5eaf1;border-radius:9px;cursor:pointer;}
+.ops-checklist-item input{margin-top:4px;flex-shrink:0;}
+.ops-checklist-item span{display:grid;gap:2px;font-size:13px;}
+.ops-checklist-item small{font-size:12px;color:#657387;}
+@media(max-width:480px){.ops-fields{grid-template-columns:1fr;}}
