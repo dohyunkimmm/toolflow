@@ -20,9 +20,9 @@ for(const file of runtimeFiles){
 }
 
 const readme = read('README.md');
-const expectedNavigation = '[Demo](https://toolflow-dohyunkimmm.vercel.app/) · [Case Study](https://app.notion.com/p/08d21460c934838cb66601b681e85d8c)';
+const expectedNavigation = '[Demo](https://toolflow-dohyunkimmm.vercel.app/)';
 const readmeNavigation = readme.split('\n').find(line => line.startsWith('[Demo](')) || '';
-if(readmeNavigation !== expectedNavigation) fail('README must link to the Demo and external Case Study, without a redundant GitHub self-link');
+if(readmeNavigation !== expectedNavigation) fail('README must link to the Demo without an unverified Case Study or redundant GitHub self-link');
 if(!read('index.html').includes('<link href="https://toolflow-dohyunkimmm.vercel.app/" rel="canonical"/>')) fail('SEO canonical URL must match the ToolFlow production domain');
 const catalogHtml = read('index.html');
 if(/id="(?:workTypeFilter|requirementFilter|catalogSort)"/.test(catalogHtml)) fail('Removed employee catalog dropdown has returned');
